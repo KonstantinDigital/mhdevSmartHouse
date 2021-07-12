@@ -1,11 +1,15 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<p>You on site</p>
-<a href="{% url 'logout' %}">LogOut</a>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>SmartHouse</title>
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    </head>
+    <body onload="draw()">
+        <p>Smart House</p>
+        <canvas id="appLayout" width="500" height="500"></canvas>
+        <a href="{% url 'logout' %}">Log out</a>
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
 </html>
