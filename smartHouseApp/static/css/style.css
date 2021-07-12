@@ -1,3 +1,15 @@
 body {
     background-color: lightgrey;
 }
+
+h1 {
+    text-align: center;
+}
+
+.containerCanvas {
+    text-align: center;
+}
+
+#appLayout {
+    border: 1px solid black;
+}
