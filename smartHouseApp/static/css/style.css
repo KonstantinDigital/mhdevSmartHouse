@@ -7,9 +7,300 @@ h1 {
 }
 
 .containerCanvas {
+    position: relative;
     text-align: center;
+    width: 1500px;
+    height: 700px;
 }
 
 #appLayout {
     border: 1px solid black;
+}
+
+#light1on {
+    position: absolute;
+    margin: 0;
+    top: 75px;
+    left: 75px;
+}
+
+#light2on {
+    position: absolute;
+    margin: 0;
+    top: 75px;
+    left: 375px;
+}
+
+#light3on {
+    position: absolute;
+    margin: 0;
+    top: 75px;
+    left: 1125px;
+}
+
+#light4on {
+    position: absolute;
+    margin: 0;
+    top: 225px;
+    left: 75px;
+}
+
+#light5on {
+    position: absolute;
+    margin: 0;
+    top: 375px;
+    left: 75px;
+}
+
+#light6on {
+    position: absolute;
+    margin: 0;
+    top: 275px;
+    left: 575px;
+}
+
+#light1handMode {
+    position: absolute;
+    /*opacity: 0;*/
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 100px;
+    left: 85px;
+}
+
+#light1owmMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 130px;
+    left: 70px;
+}
+
+#light1sheduleMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 130px;
+    left: 100px;
+}
+
+#light2handMode {
+    position: absolute;
+    /*opacity: 0;*/
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 100px;
+    left: 385px;
+}
+
+#light2owmMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 130px;
+    left: 370px;
+}
+
+#light2sheduleMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 130px;
+    left: 400px;
+}
+
+#light3handMode {
+    position: absolute;
+    /*opacity: 0;*/
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 100px;
+    left: 1135px;
+}
+
+#light3owmMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 130px;
+    left: 1120px;
+}
+
+#light3sheduleMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 130px;
+    left: 1150px;
+}
+
+#light4handMode {
+    position: absolute;
+    /*opacity: 0;*/
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 250px;
+    left: 85px;
+}
+
+#light4owmMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 280px;
+    left: 70px;
+}
+
+#light4sheduleMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 280px;
+    left: 100px;
+}
+
+#light5handMode {
+    position: absolute;
+    /*opacity: 0;*/
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 400px;
+    left: 85px;
+}
+
+#light5owmMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 430px;
+    left: 70px;
+}
+
+#light5sheduleMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 430px;
+    left: 100px;
+}
+
+#light6handMode {
+    position: absolute;
+    /*opacity: 0;*/
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 300px;
+    left: 585px;
+}
+
+#light6owmMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 330px;
+    left: 570px;
+}
+
+#light6sheduleMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 330px;
+    left: 600px;
+}
+
+#temp1now {
+    position: absolute;
+    margin: 0;
+    top: 75px;
+    left: 275px;
+}
+
+#temp2now {
+    position: absolute;
+    margin: 0;
+    top: 75px;
+    left: 475px;
+}
+
+#temp3now {
+    position: absolute;
+    margin: 0;
+    top: 75px;
+    left: 1225px;
+}
+
+#temp4now {
+    position: absolute;
+    margin: 0;
+    top: 225px;
+    left: 275px;
+}
+
+#temp5now {
+    position: absolute;
+    margin: 0;
+    top: 375px;
+    left: 475px;
+}
+
+#temp6now {
+    position: absolute;
+    margin: 0;
+    top: 275px;
+    left: 1025px;
+}
+
+#tempSP {
+    position: absolute;
+    margin: 0;
+    width: 50px;
+    height: 30px;
+    top: 540px;
+    left: 466px;
+}
+
+#conditHandMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 470px;
+    left: 475px;
+}
+
+#conditSpMode {
+    position: absolute;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    top: 500px;
+    left: 475px;
+}
+
+#conditOn {
+    position: absolute;
+    margin: 0;
+    width: 50px;
+    height: 30px;
+    top: 430px;
+    left: 466px;
 }

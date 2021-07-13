@@ -46,22 +46,48 @@ function draw() {
         //ванная - пространство комнаты
         ctx.fillStyle = 'rgb(255, 0, 0, 0.2)';
         ctx.fillRect(50, 50, 300, 150);
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(200,125,7+7*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
+
 
         //туалет - пространство комнаты
         ctx.fillStyle = 'rgb(0, 123, 123, 0.2)';
         ctx.fillRect(50, 200, 300, 150);
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(200,275,7+7*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
 
         //кухня - пространство комнаты
         ctx.fillStyle = 'rgb(0, 255, 0, 0.2)';
         ctx.fillRect(50, 350, 500, 300);
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(300,500,14+14*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
 
         //зал - пространство комнаты
         ctx.fillStyle = 'rgb(0, 0, 255, 0.2)';
         ctx.fillRect(550, 250, 550, 400);
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(825,450,19+19*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
 
         //детская - пространство комнаты
         ctx.fillStyle = 'rgb(123, 0, 123, 0.2)';
         ctx.fillRect(1100, 50, 350, 600);
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(1275,350,17+17*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
 
         //прихожая - пространство комнаты
         ctx.beginPath();
@@ -74,6 +100,11 @@ function draw() {
         ctx.closePath();
         ctx.fillStyle = 'rgb(123, 123, 0, 0.2)';
         ctx.fill();
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(725,150,9+9*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
     }
 }
 
