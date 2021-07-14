@@ -61,6 +61,12 @@
             </canvas>
         </div>
         <div>
+            {{ perms.smartHouseApp }}
+            {% if perms.smartHouseApp.can_set_temperature %}
+                <h2>CAN SET TEMPERATURE</h2>
+            {% endif %}
+        </div>
+        <div>
             <a href="{% url 'logout' %}">
                 Log out
             </a>
