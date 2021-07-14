@@ -71,9 +71,17 @@ h1 {
     left: 575px;
 }
 
+.light1Mode {
+    height: 68px;
+    position: absolute;
+    margin: 0;
+    top: 100px;
+    left: 66px;
+}
+
 #light1handMode {
     position: absolute;
-    /*opacity: 0;*/
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -83,6 +91,7 @@ h1 {
 
 #light1owmMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -92,6 +101,7 @@ h1 {
 
 #light1sheduleMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -99,9 +109,17 @@ h1 {
     left: 100px;
 }
 
+.light2Mode {
+    height: 68px;
+    position: absolute;
+    margin: 0;
+    top: 100px;
+    left: 366px;
+}
+
 #light2handMode {
     position: absolute;
-    /*opacity: 0;*/
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -111,6 +129,7 @@ h1 {
 
 #light2owmMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -120,6 +139,7 @@ h1 {
 
 #light2sheduleMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -127,9 +147,17 @@ h1 {
     left: 400px;
 }
 
+.light3Mode {
+    height: 68px;
+    position: absolute;
+    margin: 0;
+    top: 100px;
+    left: 1116px;
+}
+
 #light3handMode {
     position: absolute;
-    /*opacity: 0;*/
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -139,6 +167,7 @@ h1 {
 
 #light3owmMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -148,6 +177,7 @@ h1 {
 
 #light3sheduleMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -155,9 +185,17 @@ h1 {
     left: 1150px;
 }
 
+.light4Mode {
+    height: 68px;
+    position: absolute;
+    margin: 0;
+    top: 250px;
+    left: 66px;
+}
+
 #light4handMode {
     position: absolute;
-    /*opacity: 0;*/
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -167,6 +205,7 @@ h1 {
 
 #light4owmMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -176,6 +215,7 @@ h1 {
 
 #light4sheduleMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -183,9 +223,17 @@ h1 {
     left: 100px;
 }
 
+.light5Mode {
+    height: 68px;
+    position: absolute;
+    margin: 0;
+    top: 400px;
+    left: 66px;
+}
+
 #light5handMode {
     position: absolute;
-    /*opacity: 0;*/
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -195,6 +243,7 @@ h1 {
 
 #light5owmMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -204,6 +253,7 @@ h1 {
 
 #light5sheduleMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -211,9 +261,17 @@ h1 {
     left: 100px;
 }
 
+.light6Mode {
+    height: 68px;
+    position: absolute;
+    margin: 0;
+    top: 300px;
+    left: 566px;
+}
+
 #light6handMode {
     position: absolute;
-    /*opacity: 0;*/
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -223,6 +281,7 @@ h1 {
 
 #light6owmMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
@@ -232,6 +291,7 @@ h1 {
 
 #light6sheduleMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
     width: 30px;
     height: 30px;
