@@ -133,6 +133,9 @@ $("#light1handMode").hover(function () {
 })
 
 $("body").on("click", "#light1handMode", function () {
+    let lightSwitcher = document.getElementById("light1on");
+    lightSwitcher.removeAttribute("disabled");
+    lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
     light1modes = "static/images/lightModeHand.png";
@@ -147,6 +150,9 @@ $("#light1owmMode").hover(function () {
 })
 
 $("body").on("click", "#light1owmMode", function () {
+    let lightSwitcher = document.getElementById("light1on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
     light1modes = "static/images/lightModeOWM.png";
@@ -161,6 +167,9 @@ $("#light1sheduleMode").hover(function () {
 })
 
 $("body").on("click", "#light1sheduleMode", function () {
+    let lightSwitcher = document.getElementById("light1on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
     light1modes = "static/images/lightModeShedule.png";
@@ -178,6 +187,9 @@ $("#light2handMode").hover(function () {
 })
 
 $("body").on("click", "#light2handMode", function () {
+    let lightSwitcher = document.getElementById("light2on");
+    lightSwitcher.removeAttribute("disabled");
+    lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light2modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
     light2modes = "static/images/lightModeHand.png";
@@ -192,6 +204,9 @@ $("#light2owmMode").hover(function () {
 })
 
 $("body").on("click", "#light2owmMode", function () {
+    let lightSwitcher = document.getElementById("light2on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light2modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
     light2modes = "static/images/lightModeOWM.png";
@@ -206,6 +221,9 @@ $("#light2sheduleMode").hover(function () {
 })
 
 $("body").on("click", "#light2sheduleMode", function () {
+    let lightSwitcher = document.getElementById("light2on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light2modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
     light2modes = "static/images/lightModeShedule.png";
@@ -223,6 +241,9 @@ $("#light3handMode").hover(function () {
 })
 
 $("body").on("click", "#light3handMode", function () {
+    let lightSwitcher = document.getElementById("light3on");
+    lightSwitcher.removeAttribute("disabled");
+    lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light3modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
     light3modes = "static/images/lightModeHand.png";
@@ -237,6 +258,9 @@ $("#light3owmMode").hover(function () {
 })
 
 $("body").on("click", "#light3owmMode", function () {
+    let lightSwitcher = document.getElementById("light3on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light3modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
     light3modes = "static/images/lightModeOWM.png";
@@ -251,6 +275,9 @@ $("#light3sheduleMode").hover(function () {
 })
 
 $("body").on("click", "#light3sheduleMode", function () {
+    let lightSwitcher = document.getElementById("light3on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light3modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
     light3modes = "static/images/lightModeShedule.png";
@@ -268,6 +295,9 @@ $("#light4handMode").hover(function () {
 })
 
 $("body").on("click", "#light4handMode", function () {
+    let lightSwitcher = document.getElementById("light4on");
+    lightSwitcher.removeAttribute("disabled");
+    lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light4modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
     light4modes = "static/images/lightModeHand.png";
@@ -282,6 +312,9 @@ $("#light4owmMode").hover(function () {
 })
 
 $("body").on("click", "#light4owmMode", function () {
+    let lightSwitcher = document.getElementById("light4on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light4modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
     light4modes = "static/images/lightModeOWM.png";
@@ -296,6 +329,9 @@ $("#light4sheduleMode").hover(function () {
 })
 
 $("body").on("click", "#light4sheduleMode", function () {
+    let lightSwitcher = document.getElementById("light4on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light4modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
     light4modes = "static/images/lightModeShedule.png";
@@ -313,6 +349,9 @@ $("#light5handMode").hover(function () {
 })
 
 $("body").on("click", "#light5handMode", function () {
+    let lightSwitcher = document.getElementById("light5on");
+    lightSwitcher.removeAttribute("disabled");
+    lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light5modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
     light5modes = "static/images/lightModeHand.png";
@@ -327,6 +366,9 @@ $("#light5owmMode").hover(function () {
 })
 
 $("body").on("click", "#light5owmMode", function () {
+    let lightSwitcher = document.getElementById("light5on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light5modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
     light5modes = "static/images/lightModeOWM.png";
@@ -341,6 +383,9 @@ $("#light5sheduleMode").hover(function () {
 })
 
 $("body").on("click", "#light5sheduleMode", function () {
+    let lightSwitcher = document.getElementById("light5on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light5modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
     light5modes = "static/images/lightModeShedule.png";
@@ -358,6 +403,9 @@ $("#light6handMode").hover(function () {
 })
 
 $("body").on("click", "#light6handMode", function () {
+    let lightSwitcher = document.getElementById("light6on");
+    lightSwitcher.removeAttribute("disabled");
+    lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light6modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
     light6modes = "static/images/lightModeHand.png";
@@ -372,6 +420,9 @@ $("#light6owmMode").hover(function () {
 })
 
 $("body").on("click", "#light6owmMode", function () {
+    let lightSwitcher = document.getElementById("light6on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light6modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
     light6modes = "static/images/lightModeOWM.png";
@@ -386,6 +437,9 @@ $("#light6sheduleMode").hover(function () {
 })
 
 $("body").on("click", "#light6sheduleMode", function () {
+    let lightSwitcher = document.getElementById("light6on");
+    lightSwitcher.setAttribute("disabled", "True");
+    lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light6modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
     light6modes = "static/images/lightModeShedule.png";

@@ -20,55 +20,59 @@ h1 {
 #light1on {
     position: absolute;
     margin: 0;
-    width: 50px;
-    height: 25px;
-    top: 75px;
-    left: 75px;
+    width: 40px;
+    height: 40px;
+    top: 60px;
+    left: 80px;
 }
 
 #light2on {
     position: absolute;
     margin: 0;
-    width: 50px;
-    height: 25px;
-    top: 75px;
-    left: 375px;
+    width: 40px;
+    height: 40px;
+    top: 60px;
+    left: 380px;
 }
 
 #light3on {
     position: absolute;
     margin: 0;
-    width: 50px;
-    height: 25px;
-    top: 75px;
-    left: 1125px;
+    width: 40px;
+    height: 40px;
+    top: 60px;
+    left: 1130px;
 }
 
 #light4on {
     position: absolute;
     margin: 0;
-    width: 50px;
-    height: 25px;
-    top: 225px;
-    left: 75px;
+    width: 40px;
+    height: 40px;
+    top: 210px;
+    left: 80px;
 }
 
 #light5on {
     position: absolute;
     margin: 0;
-    width: 50px;
-    height: 25px;
-    top: 375px;
-    left: 75px;
+    width: 40px;
+    height: 40px;
+    top: 360px;
+    left: 80px;
 }
 
 #light6on {
     position: absolute;
     margin: 0;
-    width: 50px;
-    height: 25px;
-    top: 275px;
-    left: 575px;
+    width: 40px;
+    height: 40px;
+    top: 260px;
+    left: 580px;
+}
+
+.switchOpacity {
+    opacity: 0.5;
 }
 
 .light1Mode {
