@@ -12,23 +12,24 @@
             <h1>Smart House</h1>
         </div>
         <div class="containerCanvas">
-
-            <button id="conditOn">вкл&#176;</button>
-            <select id="tempSP">
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22" selected>22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-            </select>
-            <input id="conditHandMode" type="radio" name="conditMode" checked>
-            <input id="conditSpMode" type="radio" name="conditMode">
+            {% if perms.smartHouseApp.can_set_temperature %}
+                <button id="conditOn">вкл&#176;</button>
+                <select id="tempSP">
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22" selected>22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                </select>
+                <input id="conditHandMode" type="radio" name="conditMode" checked>
+                <input id="conditSpMode" type="radio" name="conditMode">
+            {% endif %}
 
             <p id="temp1now">25&#176;C</p>
             <p id="temp2now">25&#176;C</p>
@@ -77,11 +78,7 @@
             <canvas id="appLayout" width="1500" height="700">
             </canvas>
         </div>
-        <div>
-            {% if perms.smartHouseApp.can_set_temperature %}
-                <h2>CAN SET TEMPERATURE</h2>
-            {% endif %}
-        </div>
+
         <div>
             <a href="{% url 'logout' %}">
                 Log out
