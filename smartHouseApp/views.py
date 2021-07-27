@@ -53,7 +53,15 @@ class ModbusRegister(Thread):
         self.read_flag = False
         self.get_data = [0, ]
         self.mask = 0
-        self.write_mask = 0
+        if self.memory_type == "holding_registers":
+            self.cmd_light1_on = False
+            self.cmd_light2_on = False
+            self.cmd_light3_on = False
+            self.cmd_light4_on = False
+            self.cmd_light5_on = False
+            self.cmd_light6_on = False
+            self.cmd_conditioner_on = False
+            self.cmd_music_on = False
 
     def run(self):
         self.master.set_timeout(0.3)
@@ -88,15 +96,48 @@ class ModbusRegister(Thread):
     def reading_register(self):
         if self.memory_type == "input_registers":
             self.get_data = self.master.execute(self.device, self.m_defines.READ_INPUT_REGISTERS, self.register, 1)
+            self.mask = self.get_data[0]
         elif self.memory_type == "holding_registers":
             self.get_data = self.master.execute(self.device, self.m_defines.READ_HOLDING_REGISTERS, self.register, 1)
-        self.mask = self.get_data[0]
-        # mask_arr = []
-        # str_mask = str(mask[2:])
-        # for i in range(len(str_mask)):
-        #     mask_arr.append(int(str_mask[i]))
-        # while len(mask_arr) < 16:
-        #     mask_arr.insert(0, 0)
+            self.mask = self.get_data[0]
+            mask_arr = []
+            str_mask = str(self.mask[2:])
+            for i in range(len(str_mask)):
+                mask_arr.append(int(str_mask[i]))
+            while len(mask_arr) < 16:
+                mask_arr.insert(0, 0)
+            if mask_arr[15] == 0:
+                self.cmd_light1_on = False
+            else:
+                self.cmd_light1_on = True
+            if mask_arr[14] == 0:
+                self.cmd_light2_on = False
+            else:
+                self.cmd_light2_on = True
+            if mask_arr[13] == 0:
+                self.cmd_light3_on = False
+            else:
+                self.cmd_light3_on = True
+            if mask_arr[12] == 0:
+                self.cmd_light4_on = False
+            else:
+                self.cmd_light4_on = True
+            if mask_arr[11] == 0:
+                self.cmd_light5_on = False
+            else:
+                self.cmd_light5_on = True
+            if mask_arr[10] == 0:
+                self.cmd_light6_on = False
+            else:
+                self.cmd_light6_on = True
+            if mask_arr[9] == 0:
+                self.cmd_conditioner_on = False
+            else:
+                self.cmd_conditioner_on = True
+            if mask_arr[8] == 0:
+                self.cmd_music_on = False
+            else:
+                self.cmd_music_on = True
 
     def start_write_register(self):
         if not modbus_master.programm_stopped:
@@ -108,40 +149,25 @@ class ModbusRegister(Thread):
         with modbus_master.b_semaphore:
             try:
                 modbus_master.r_lock.acquire()
-                if self._0bit_var.get() == 1:
-                    self.write_mask += 1
-                if self._1bit_var.get() == 1:
-                    self.write_mask += 2
-                if self._2bit_var.get() == 1:
-                    self.write_mask += 4
-                if self._3bit_var.get() == 1:
-                    self.write_mask += 8
-                if self._4bit_var.get() == 1:
-                    self.write_mask += 16
-                if self._5bit_var.get() == 1:
-                    self.write_mask += 32
-                if self._6bit_var.get() == 1:
-                    self.write_mask += 64
-                if self._7bit_var.get() == 1:
-                    self.write_mask += 128
-                if self._8bit_var.get() == 1:
-                    self.write_mask += 256
-                if self._9bit_var.get() == 1:
-                    self.write_mask += 512
-                if self._10bit_var.get() == 1:
-                    self.write_mask += 1024
-                if self._11bit_var.get() == 1:
-                    self.write_mask += 2048
-                if self._12bit_var.get() == 1:
-                    self.write_mask += 4096
-                if self._13bit_var.get() == 1:
-                    self.write_mask += 8192
-                if self._14bit_var.get() == 1:
-                    self.write_mask += 16384
-                if self._15bit_var.get() == 1:
-                    self.write_mask += 32768
+                write_mask = 0
+                if self.cmd_light1_on:
+                    write_mask += 1
+                if self.cmd_light2_on:
+                    write_mask += 2
+                if self.cmd_light3_on:
+                    write_mask += 4
+                if self.cmd_light4_on:
+                    write_mask += 8
+                if self.cmd_light5_on:
+                    write_mask += 16
+                if self.cmd_light6_on:
+                    write_mask += 32
+                if self.cmd_conditioner_on:
+                    write_mask += 64
+                if self.cmd_music_on:
+                    write_mask += 128
                 self.master.execute(int(self.device), self.m_defines.WRITE_SINGLE_REGISTER, int(self.register),
-                                    output_value=self.write_mask)
+                                    output_value=write_mask)
             except Exception as e:
                 print("Error: " + str(e))
             finally:
