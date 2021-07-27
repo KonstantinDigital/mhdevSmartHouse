@@ -36,7 +36,7 @@ class ModbusConnect:
                 return True
             return False
         except Exception as e:
-            print(e)
+            print("Error def connect_modbus: " + str(e))
             self.attempt += 1
             time.sleep(1)
             self.connect_modbus()
@@ -86,7 +86,7 @@ class ModbusRegister(Thread):
                 modbus_master.r_lock.acquire()
                 self.reading_register()
             except Exception as e:
-                print("Error: " + str(e))
+                print("Error def read_register: " + str(e))
             finally:
                 if not self.read_flag:
                     self.read_flag = True
@@ -99,9 +99,10 @@ class ModbusRegister(Thread):
             self.mask = self.get_data[0]
         elif self.memory_type == "holding_registers":
             self.get_data = self.master.execute(self.device, self.m_defines.READ_HOLDING_REGISTERS, self.register, 1)
+
             self.mask = self.get_data[0]
             mask_arr = []
-            str_mask = str(self.mask[2:])
+            str_mask = str(bin(self.get_data[0])[2:])
             for i in range(len(str_mask)):
                 mask_arr.append(int(str_mask[i]))
             while len(mask_arr) < 16:
@@ -166,10 +167,10 @@ class ModbusRegister(Thread):
                     write_mask += 64
                 if self.cmd_music_on:
                     write_mask += 128
-                self.master.execute(int(self.device), self.m_defines.WRITE_SINGLE_REGISTER, int(self.register),
+                self.master.execute(self.device, self.m_defines.WRITE_SINGLE_REGISTER, self.register,
                                     output_value=write_mask)
             except Exception as e:
-                print("Error: " + str(e))
+                print("Error def write_register: " + str(e))
             finally:
                 modbus_master.in_queue -= 1
                 modbus_master.r_lock.release()
@@ -202,6 +203,24 @@ def create_registers():
     for obj in obj_lst:
         obj.setDaemon(True)
         obj.start()
+    # test_func = Thread(target=test_function, args=[obj_lst], daemon=True)
+    # test_func.start()
+
+
+# def test_function(obj_lst):
+#     for obj in obj_lst:
+#         print(obj.mask)
+    # print(obj.cmd_light1_on)
+    # print(obj.cmd_light2_on)
+    # print(obj.cmd_light3_on)
+    # print(obj.cmd_light4_on)
+    # print(obj.cmd_light5_on)
+    # print(obj.cmd_light6_on)
+    # print(obj.cmd_conditioner_on)
+    # print(obj.cmd_music_on)
+    # print(obj.mask)
+    # time.sleep(2)
+    # test_function(obj_lst)
 
 
 modbus_master = ModbusConnect()
