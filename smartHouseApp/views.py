@@ -53,6 +53,7 @@ class ModbusRegister(Thread):
         self.read_flag = False
         self.get_data = [0, ]
         self.mask = 0
+        self.write_mask = 0
 
     def run(self):
         self.master.set_timeout(0.3)
@@ -99,69 +100,54 @@ class ModbusRegister(Thread):
 
     def start_write_register(self):
         if not modbus_master.programm_stopped:
-            if self.radio_write.get() == 0:
-                self.active_state()
-                root.q.put(Thread(target=self.write_register, daemon=True))
-                root.in_queue += 1
-                root.q.get().start()
-            else:
-                self.disable_state()
-                root.q.put(Thread(target=self.write_register, daemon=True))
-                root.in_queue += 1
-                root.q.get().start()
-                self.label_frame.after(850, self.start_write_register)
+            modbus_master.q.put(Thread(target=self.write_register, daemon=True))
+            modbus_master.in_queue += 1
+            modbus_master.q.get().start()
 
     def write_register(self):
-        with root.b_semaphore:
+        with modbus_master.b_semaphore:
             try:
-                root.r_lock.acquire()
-                if not self.read_flag:
-                    self.mask_label.configure(text="Mask int: ")
-                    self.mask_label.grid(row=14, column=0, sticky=tk.W)
-                    self.mask_value.grid(row=14, column=1, sticky=tk.W)
-                    self.reading_register()
-                    self.read_flag = True
-                write_mask = 0
+                modbus_master.r_lock.acquire()
                 if self._0bit_var.get() == 1:
-                    write_mask += 1
+                    self.write_mask += 1
                 if self._1bit_var.get() == 1:
-                    write_mask += 2
+                    self.write_mask += 2
                 if self._2bit_var.get() == 1:
-                    write_mask += 4
+                    self.write_mask += 4
                 if self._3bit_var.get() == 1:
-                    write_mask += 8
+                    self.write_mask += 8
                 if self._4bit_var.get() == 1:
-                    write_mask += 16
+                    self.write_mask += 16
                 if self._5bit_var.get() == 1:
-                    write_mask += 32
+                    self.write_mask += 32
                 if self._6bit_var.get() == 1:
-                    write_mask += 64
+                    self.write_mask += 64
                 if self._7bit_var.get() == 1:
-                    write_mask += 128
+                    self.write_mask += 128
                 if self._8bit_var.get() == 1:
-                    write_mask += 256
+                    self.write_mask += 256
                 if self._9bit_var.get() == 1:
-                    write_mask += 512
+                    self.write_mask += 512
                 if self._10bit_var.get() == 1:
-                    write_mask += 1024
+                    self.write_mask += 1024
                 if self._11bit_var.get() == 1:
-                    write_mask += 2048
+                    self.write_mask += 2048
                 if self._12bit_var.get() == 1:
-                    write_mask += 4096
+                    self.write_mask += 4096
                 if self._13bit_var.get() == 1:
-                    write_mask += 8192
+                    self.write_mask += 8192
                 if self._14bit_var.get() == 1:
-                    write_mask += 16384
+                    self.write_mask += 16384
                 if self._15bit_var.get() == 1:
-                    write_mask += 32768
+                    self.write_mask += 32768
                 self.master.execute(int(self.device), self.m_defines.WRITE_SINGLE_REGISTER, int(self.register),
-                                    output_value=write_mask)
-                self.mask_value_text.set(str(write_mask))
+                                    output_value=self.write_mask)
             except Exception as e:
                 print("Error: " + str(e))
             finally:
-                root.in_queue -= 1
-                root.r_lock.release()
+                modbus_master.in_queue -= 1
+                modbus_master.r_lock.release()
+                self.start_read_register()
 
 
 # Create your views here.
