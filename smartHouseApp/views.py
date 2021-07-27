@@ -189,38 +189,46 @@ def index(request):
 
 
 def create_registers():
-    switches = ModbusRegister(0, "holding_registers")
-    switches_state = ModbusRegister(1, "input_registers")
-    temperature1 = ModbusRegister(2, "input_registers")
-    temperature2 = ModbusRegister(3, "input_registers")
-    temperature3 = ModbusRegister(4, "input_registers")
-    temperature4 = ModbusRegister(5, "input_registers")
-    temperature5 = ModbusRegister(6, "input_registers")
-    temperature6 = ModbusRegister(7, "input_registers")
-    music_volume = ModbusRegister(8, "input_registers")
+    switches = ModbusRegister(512, "holding_registers")
+    switches_state = ModbusRegister(513, "input_registers")
+    temperature1 = ModbusRegister(514, "input_registers")
+    temperature2 = ModbusRegister(515, "input_registers")
+    temperature3 = ModbusRegister(516, "input_registers")
+    temperature4 = ModbusRegister(517, "input_registers")
+    temperature5 = ModbusRegister(518, "input_registers")
+    temperature6 = ModbusRegister(519, "input_registers")
+    music_volume = ModbusRegister(520, "input_registers")
     obj_lst = [switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5,
                temperature6, music_volume]
     for obj in obj_lst:
         obj.setDaemon(True)
         obj.start()
-    # test_func = Thread(target=test_function, args=[obj_lst], daemon=True)
-    # test_func.start()
+    test_func = Thread(target=test_function, args=[switches, switches_state, temperature1, temperature2, temperature3,
+                                                   temperature4, temperature5, temperature6, music_volume], daemon=True)
+    test_func.start()
 
 
-# def test_function(obj_lst):
-#     for obj in obj_lst:
-#         print(obj.mask)
-    # print(obj.cmd_light1_on)
-    # print(obj.cmd_light2_on)
-    # print(obj.cmd_light3_on)
-    # print(obj.cmd_light4_on)
-    # print(obj.cmd_light5_on)
-    # print(obj.cmd_light6_on)
-    # print(obj.cmd_conditioner_on)
-    # print(obj.cmd_music_on)
-    # print(obj.mask)
-    # time.sleep(2)
-    # test_function(obj_lst)
+def test_function(switches, switches_state, temperature1, temperature2, temperature3,
+                  temperature4, temperature5, temperature6, music_volume):
+    print(switches.cmd_light1_on)
+    print(switches.cmd_light2_on)
+    print(switches.cmd_light3_on)
+    print(switches.cmd_light4_on)
+    print(switches.cmd_light5_on)
+    print(switches.cmd_light6_on)
+    print(switches.cmd_conditioner_on)
+    print(switches.cmd_music_on)
+    print(switches_state.mask)
+    print(temperature1.mask)
+    print(temperature2.mask)
+    print(temperature3.mask)
+    print(temperature4.mask)
+    print(temperature5.mask)
+    print(temperature6.mask)
+    print(music_volume.mask)
+    time.sleep(2)
+    test_function(switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5,
+                  temperature6, music_volume)
 
 
 modbus_master = ModbusConnect()
