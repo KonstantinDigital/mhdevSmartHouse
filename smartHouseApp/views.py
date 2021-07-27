@@ -38,7 +38,7 @@ class ModbusConnect:
         except Exception as e:
             print(e)
             self.attempt += 1
-            time.sleep(0.5)
+            time.sleep(1)
             self.connect_modbus()
 
 
@@ -51,20 +51,25 @@ class ModbusRegister(Thread):
         self.master = mb_rtu.RtuMaster(modbus_master.ser)
         self.m_defines = mb_cst
         self.read_flag = False
+        self.get_data = [0, ]
         self.mask = 0
 
     def run(self):
         self.master.set_timeout(0.3)
-        # if self.memory_type == 0:
         self.start_read_register()
 
     def start_read_register(self):
         if not modbus_master.programm_stopped:
-            modbus_master.q.put(Thread(target=self.read_register, daemon=True))
-            modbus_master.in_queue += 1
-            modbus_master.q.get().start()
-            time.sleep(0.85)
-            self.start_read_register()
+            if self.memory_type == "input_registers":
+                modbus_master.q.put(Thread(target=self.read_register, daemon=True))
+                modbus_master.in_queue += 1
+                modbus_master.q.get().start()
+                time.sleep(0.85)
+                self.start_read_register()
+            elif self.memory_type == "holding_registers":
+                modbus_master.q.put(Thread(target=self.read_register, daemon=True))
+                modbus_master.in_queue += 1
+                modbus_master.q.get().start()
 
     def read_register(self):
         with modbus_master.b_semaphore:
@@ -80,13 +85,11 @@ class ModbusRegister(Thread):
                 modbus_master.r_lock.release()
 
     def reading_register(self):
-        if self.memory_type == 0:
-            get_data = self.master.execute(self.device, self.m_defines.READ_INPUT_REGISTERS,
-                                           self.register, 1)
-        else:
-            get_data = self.master.execute(self.device, self.m_defines.READ_HOLDING_REGISTERS,
-                                           self.register, 1)
-        self.mask = get_data[0]
+        if self.memory_type == "input_registers":
+            self.get_data = self.master.execute(self.device, self.m_defines.READ_INPUT_REGISTERS, self.register, 1)
+        elif self.memory_type == "holding_registers":
+            self.get_data = self.master.execute(self.device, self.m_defines.READ_HOLDING_REGISTERS, self.register, 1)
+        self.mask = self.get_data[0]
         # mask_arr = []
         # str_mask = str(mask[2:])
         # for i in range(len(str_mask)):
@@ -107,59 +110,46 @@ def index(request):
 
 
 def create_registers():
-    switches = ModbusRegister(0, 0)
-    switches.setDaemon(True)
-    switches.start()
-    switches_state = ModbusRegister(1, 0)
-    switches_state.setDaemon(True)
-    switches_state.start()
-    temperature1 = ModbusRegister(2, 0)
-    temperature1.setDaemon(True)
-    temperature1.start()
-    temperature2 = ModbusRegister(3, 0)
-    temperature2.setDaemon(True)
-    temperature2.start()
-    temperature3 = ModbusRegister(4, 0)
-    temperature3.setDaemon(True)
-    temperature3.start()
-    temperature4 = ModbusRegister(5, 0)
-    temperature4.setDaemon(True)
-    temperature4.start()
-    temperature5 = ModbusRegister(6, 0)
-    temperature5.setDaemon(True)
-    temperature5.start()
-    temperature6 = ModbusRegister(7, 0)
-    temperature6.setDaemon(True)
-    temperature6.start()
-    music_volume = ModbusRegister(8, 0)
-    music_volume.setDaemon(True)
-    music_volume.start()
-    test_func = Thread(target=test_function, args=[switches, switches_state, temperature1, temperature2, temperature3,
-                                                   temperature4, temperature5, temperature6, music_volume])
-    test_func.setDaemon(True)
-    test_func.start()
+    switches = ModbusRegister(0, "holding_registers")
+    switches_state = ModbusRegister(1, "input_registers")
+    temperature1 = ModbusRegister(2, "input_registers")
+    temperature2 = ModbusRegister(3, "input_registers")
+    temperature3 = ModbusRegister(4, "input_registers")
+    temperature4 = ModbusRegister(5, "input_registers")
+    temperature5 = ModbusRegister(6, "input_registers")
+    temperature6 = ModbusRegister(7, "input_registers")
+    music_volume = ModbusRegister(8, "input_registers")
+    obj_lst = [switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5,
+               temperature6, music_volume]
+    for obj in obj_lst:
+        obj.setDaemon(True)
+        obj.start()
+    # test_func = Thread(target=test_function, args=[switches, switches_state, temperature1, temperature2, temperature3,
+    #                                                temperature4, temperature5, temperature6, music_volume])
+    # test_func.setDaemon(True)
+    # test_func.start()
 
 
-def test_function(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9):
-    print(obj1.mask)
-    time.sleep(0.5)
-    print(obj2.mask)
-    time.sleep(0.5)
-    print(obj3.mask)
-    time.sleep(0.5)
-    print(obj4.mask)
-    time.sleep(0.5)
-    print(obj5.mask)
-    time.sleep(0.5)
-    print(obj6.mask)
-    time.sleep(0.5)
-    print(obj7.mask)
-    time.sleep(0.5)
-    print(obj8.mask)
-    time.sleep(0.5)
-    print(obj9.mask)
-    time.sleep(0.5)
-    test_function(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9)
+# def test_function(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9):
+#     print(obj1.mask)
+#     time.sleep(0.5)
+#     print(obj2.mask)
+#     time.sleep(0.5)
+#     print(obj3.mask)
+#     time.sleep(0.5)
+#     print(obj4.mask)
+#     time.sleep(0.5)
+#     print(obj5.mask)
+#     time.sleep(0.5)
+#     print(obj6.mask)
+#     time.sleep(0.5)
+#     print(obj7.mask)
+#     time.sleep(0.5)
+#     print(obj8.mask)
+#     time.sleep(0.5)
+#     print(obj9.mask)
+#     time.sleep(0.5)
+#     test_function(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9)
 
 
 modbus_master = ModbusConnect()
