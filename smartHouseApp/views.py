@@ -97,6 +97,72 @@ class ModbusRegister(Thread):
         # while len(mask_arr) < 16:
         #     mask_arr.insert(0, 0)
 
+    def start_write_register(self):
+        if not modbus_master.programm_stopped:
+            if self.radio_write.get() == 0:
+                self.active_state()
+                root.q.put(Thread(target=self.write_register, daemon=True))
+                root.in_queue += 1
+                root.q.get().start()
+            else:
+                self.disable_state()
+                root.q.put(Thread(target=self.write_register, daemon=True))
+                root.in_queue += 1
+                root.q.get().start()
+                self.label_frame.after(850, self.start_write_register)
+
+    def write_register(self):
+        with root.b_semaphore:
+            try:
+                root.r_lock.acquire()
+                if not self.read_flag:
+                    self.mask_label.configure(text="Mask int: ")
+                    self.mask_label.grid(row=14, column=0, sticky=tk.W)
+                    self.mask_value.grid(row=14, column=1, sticky=tk.W)
+                    self.reading_register()
+                    self.read_flag = True
+                write_mask = 0
+                if self._0bit_var.get() == 1:
+                    write_mask += 1
+                if self._1bit_var.get() == 1:
+                    write_mask += 2
+                if self._2bit_var.get() == 1:
+                    write_mask += 4
+                if self._3bit_var.get() == 1:
+                    write_mask += 8
+                if self._4bit_var.get() == 1:
+                    write_mask += 16
+                if self._5bit_var.get() == 1:
+                    write_mask += 32
+                if self._6bit_var.get() == 1:
+                    write_mask += 64
+                if self._7bit_var.get() == 1:
+                    write_mask += 128
+                if self._8bit_var.get() == 1:
+                    write_mask += 256
+                if self._9bit_var.get() == 1:
+                    write_mask += 512
+                if self._10bit_var.get() == 1:
+                    write_mask += 1024
+                if self._11bit_var.get() == 1:
+                    write_mask += 2048
+                if self._12bit_var.get() == 1:
+                    write_mask += 4096
+                if self._13bit_var.get() == 1:
+                    write_mask += 8192
+                if self._14bit_var.get() == 1:
+                    write_mask += 16384
+                if self._15bit_var.get() == 1:
+                    write_mask += 32768
+                self.master.execute(int(self.device), self.m_defines.WRITE_SINGLE_REGISTER, int(self.register),
+                                    output_value=write_mask)
+                self.mask_value_text.set(str(write_mask))
+            except Exception as e:
+                print("Error: " + str(e))
+            finally:
+                root.in_queue -= 1
+                root.r_lock.release()
+
 
 # Create your views here.
 @login_required(login_url="/login/")
