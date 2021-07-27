@@ -202,32 +202,6 @@ def create_registers():
     for obj in obj_lst:
         obj.setDaemon(True)
         obj.start()
-    # test_func = Thread(target=test_function, args=[switches, switches_state, temperature1, temperature2, temperature3,
-    #                                                temperature4, temperature5, temperature6, music_volume])
-    # test_func.setDaemon(True)
-    # test_func.start()
-
-
-# def test_function(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9):
-#     print(obj1.mask)
-#     time.sleep(0.5)
-#     print(obj2.mask)
-#     time.sleep(0.5)
-#     print(obj3.mask)
-#     time.sleep(0.5)
-#     print(obj4.mask)
-#     time.sleep(0.5)
-#     print(obj5.mask)
-#     time.sleep(0.5)
-#     print(obj6.mask)
-#     time.sleep(0.5)
-#     print(obj7.mask)
-#     time.sleep(0.5)
-#     print(obj8.mask)
-#     time.sleep(0.5)
-#     print(obj9.mask)
-#     time.sleep(0.5)
-#     test_function(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9)
 
 
 modbus_master = ModbusConnect()
