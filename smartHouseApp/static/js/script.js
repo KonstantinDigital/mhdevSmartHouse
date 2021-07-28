@@ -118,9 +118,7 @@ function draw() {
         }
     }
 }
-jQuery("button").click(function(){
-    canvas.changeColor(jQuery(this).attr('data-rgba'));
-});
+
 function roundedRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x, y + radius);
