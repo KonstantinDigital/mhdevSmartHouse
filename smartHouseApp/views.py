@@ -185,6 +185,7 @@ def index(request):
         create_registers()
     else:
         print("Connection false")
+    print(change_room_color(35))
     return render(request, "index.html")
 
 
@@ -231,7 +232,19 @@ def test_function(switches, switches_state, temperature1, temperature2, temperat
                   temperature6, music_volume)
 
 
+def change_room_color(temp):
+    if temp < 16:
+        temp = 16
+    if temp > 30:
+        temp = 30
+    return room_color[temp]
+
+
 modbus_master = ModbusConnect()
+
+room_color = {16: "32, 0, 255", 17: "0, 0, 255", 18: "0, 57, 255", 19: "0, 96, 255", 20: "0, 121, 255",
+              21: "0, 153, 255", 22: "0, 185, 255", 23: "0, 204, 255", 24: "0, 255, 242", 25: "255, 249, 0",
+              26: "255, 217, 0", 27: "255, 198, 0", 28: "255, 115, 0", 29: "255, 70, 0", 30: "255, 0, 0"}
 """
 +16 = 32, 0, 255
 +17 = 0, 0, 255
