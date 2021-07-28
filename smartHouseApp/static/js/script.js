@@ -105,9 +105,22 @@ function draw() {
             ctx.arc(725,150,9+9*i,0,Math.PI*2,true);
             ctx.fill();
         }
+
+        changeColor = function(rgba) {
+            ctx.clearRect(550, 250, 550, 400);
+            ctx.fillStyle = 'rgb(' + rgba + ')';
+            ctx.fillRect(550, 250, 550, 400);
+            for (i=0;i<10;i++){
+                ctx.beginPath();
+                ctx.arc(825,450,19+19*i,0,Math.PI*2,true);
+                ctx.fill();
+            }
+        }
     }
 }
-
+jQuery("button").click(function(){
+    canvas.changeColor(jQuery(this).attr('data-rgba'));
+});
 function roundedRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x, y + radius);
