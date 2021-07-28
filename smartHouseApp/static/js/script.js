@@ -73,7 +73,7 @@ function draw() {
 
         //зал - пространство комнаты
         ctx.fillStyle = 'rgb(0, 0, 255, 0.2)';
-        ctx.fillRect(550, 250, 550, 400);
+        ctx.fillRect(553, 253, 544, 394);
         for (i=0;i<10;i++){
             ctx.beginPath();
             ctx.arc(825,450,19+19*i,0,Math.PI*2,true);
@@ -107,16 +107,36 @@ function draw() {
         }
 
         changeColor = function(rgba) {
-            ctx.clearRect(550, 250, 550, 400);
+            ctx.clearRect(553, 253, 544, 394);
             ctx.fillStyle = 'rgb(' + rgba + ')';
-            ctx.fillRect(550, 250, 550, 400);
+            ctx.fillRect(553, 253, 544, 394);
             for (i=0;i<10;i++){
                 ctx.beginPath();
                 ctx.arc(825,450,19+19*i,0,Math.PI*2,true);
                 ctx.fill();
             }
         }
+
+        dataReload();
+
     }
+}
+
+function dataReload() {
+    $.ajax({
+        url: "getNewData",
+        method: "GET",
+        cache: false,
+        dataType: "html",
+        data: {},
+        success: function(data) {
+            let parseData = JSON.parse(data);
+            let newColor = parseData["room_color"];
+            console.log(newColor);
+            changeColor(newColor);
+            setTimeout(dataReload, 5000);
+        }
+    })
 }
 
 function roundedRect(ctx, x, y, width, height, radius) {

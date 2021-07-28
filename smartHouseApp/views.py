@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 import serial
@@ -185,11 +186,12 @@ def index(request):
         create_registers()
     else:
         print("Connection false")
-    print(change_room_color(35))
     return render(request, "index.html")
 
 
 def create_registers():
+    global switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5, \
+        temperature6, music_volume
     switches = ModbusRegister(512, "holding_registers")
     switches_state = ModbusRegister(513, "input_registers")
     temperature1 = ModbusRegister(514, "input_registers")
@@ -204,32 +206,29 @@ def create_registers():
     for obj in obj_lst:
         obj.setDaemon(True)
         obj.start()
-    test_func = Thread(target=test_function, args=[switches, switches_state, temperature1, temperature2, temperature3,
-                                                   temperature4, temperature5, temperature6, music_volume], daemon=True)
-    test_func.start()
+    # test_func = Thread(target=test_function, daemon=True)
+    # test_func.start()
 
 
-def test_function(switches, switches_state, temperature1, temperature2, temperature3,
-                  temperature4, temperature5, temperature6, music_volume):
-    print(switches.cmd_light1_on)
-    print(switches.cmd_light2_on)
-    print(switches.cmd_light3_on)
-    print(switches.cmd_light4_on)
-    print(switches.cmd_light5_on)
-    print(switches.cmd_light6_on)
-    print(switches.cmd_conditioner_on)
-    print(switches.cmd_music_on)
-    print(switches_state.mask)
-    print(temperature1.mask)
-    print(temperature2.mask)
-    print(temperature3.mask)
-    print(temperature4.mask)
-    print(temperature5.mask)
-    print(temperature6.mask)
-    print(music_volume.mask)
-    time.sleep(2)
-    test_function(switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5,
-                  temperature6, music_volume)
+# def test_function():
+#     print(switches.cmd_light1_on)
+#     print(switches.cmd_light2_on)
+#     print(switches.cmd_light3_on)
+#     print(switches.cmd_light4_on)
+#     print(switches.cmd_light5_on)
+#     print(switches.cmd_light6_on)
+#     print(switches.cmd_conditioner_on)
+#     print(switches.cmd_music_on)
+#     print(switches_state.mask)
+#     print(temperature1.mask)
+#     print(temperature2.mask)
+#     print(temperature3.mask)
+#     print(temperature4.mask)
+#     print(temperature5.mask)
+#     print(temperature6.mask)
+#     print(music_volume.mask)
+#     time.sleep(2)
+#     test_function()
 
 
 def change_room_color(temp):
@@ -240,11 +239,30 @@ def change_room_color(temp):
     return room_color[temp]
 
 
+def get_data(request):
+    print(change_room_color(temperature4.mask))
+    context = {
+        "room_color": change_room_color(temperature4.mask)
+    }
+    return JsonResponse(context)
+
+
 modbus_master = ModbusConnect()
 
-room_color = {16: "32, 0, 255", 17: "0, 0, 255", 18: "0, 57, 255", 19: "0, 96, 255", 20: "0, 121, 255",
-              21: "0, 153, 255", 22: "0, 185, 255", 23: "0, 204, 255", 24: "0, 255, 242", 25: "255, 249, 0",
-              26: "255, 217, 0", 27: "255, 198, 0", 28: "255, 115, 0", 29: "255, 70, 0", 30: "255, 0, 0"}
+# switches = object
+# switches_state = object
+# temperature1 = object
+# temperature2 = object
+# temperature3 = object
+# temperature4 = object
+# temperature5 = object
+# temperature6 = object
+# music_volume = object
+
+room_color = {16: "32, 0, 255, 0.2", 17: "0, 0, 255, 0.2", 18: "0, 57, 255, 0.2", 19: "0, 96, 255, 0.2",
+              20: "0, 121, 255, 0.2", 21: "0, 153, 255, 0.2", 22: "0, 185, 255, 0.2", 23: "0, 204, 255, 0.2",
+              24: "0, 255, 242, 0.2", 25: "255, 249, 0, 0.2", 26: "255, 217, 0, 0.2", 27: "255, 198, 0, 0.2",
+              28: "255, 115, 0, 0.2", 29: "255, 70, 0, 0.2", 30: "255, 0, 0, 0.2"}
 """
 +16 = 32, 0, 255
 +17 = 0, 0, 255
