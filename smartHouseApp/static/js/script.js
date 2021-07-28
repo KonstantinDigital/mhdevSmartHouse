@@ -1,3 +1,4 @@
+
 function draw() {
     var canvas = document.getElementById('appLayout');
     if (appLayout.getContext) {
@@ -29,6 +30,8 @@ function draw() {
         ctx.moveTo(600, 250);
         ctx.lineTo(550, 250);
         ctx.lineTo(550, 650);
+//        ctx.moveTo(550, 250);
+//        ctx.lineTo(350, 250);
         ctx.moveTo(550, 350);
         ctx.lineTo(500, 350);
         ctx.moveTo(400, 350);
@@ -43,36 +46,63 @@ function draw() {
         ctx.lineTo(50, 200);
         ctx.stroke();
 
-        //ванная - пространство комнаты
-        ctx.fillStyle = 'rgb(255, 0, 0, 0.2)';
-        ctx.fillRect(50, 50, 300, 150);
+        //ванная - пространство комнаты 1
+        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillRect(53, 53, 294, 144);
         for (i=0;i<10;i++){
             ctx.beginPath();
             ctx.arc(200,125,7+7*i,0,Math.PI*2,true);
             ctx.fill();
         }
 
+        //прихожая - пространство комнаты 2
+//        ctx.beginPath();
+//        ctx.moveTo(350, 50);
+//        ctx.lineTo(1100, 50);
+//        ctx.lineTo(1100, 250);
+//        ctx.lineTo(550, 250);
+//        ctx.lineTo(550, 350);
+//        ctx.lineTo(350, 350);
+//        ctx.closePath();
+        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+//        ctx.fill();
+        ctx.fillRect(353, 53, 744, 194);
+        ctx.fillRect(353, 247, 195, 100);
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(725,150,9+9*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
 
-        //туалет - пространство комнаты
-        ctx.fillStyle = 'rgb(0, 123, 123, 0.2)';
-        ctx.fillRect(50, 200, 300, 150);
+        //детская - пространство комнаты 3
+        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillRect(1103, 53, 344, 594);
+        for (i=0;i<10;i++){
+            ctx.beginPath();
+            ctx.arc(1275,350,17+17*i,0,Math.PI*2,true);
+            ctx.fill();
+        }
+
+        //туалет - пространство комнаты 4
+        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillRect(53, 203, 294, 144);
         for (i=0;i<10;i++){
             ctx.beginPath();
             ctx.arc(200,275,7+7*i,0,Math.PI*2,true);
             ctx.fill();
         }
 
-        //кухня - пространство комнаты
-        ctx.fillStyle = 'rgb(0, 255, 0, 0.2)';
-        ctx.fillRect(50, 350, 500, 300);
+        //кухня - пространство комнаты 5
+        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillRect(53, 353, 494, 294);
         for (i=0;i<10;i++){
             ctx.beginPath();
             ctx.arc(300,500,14+14*i,0,Math.PI*2,true);
             ctx.fill();
         }
 
-        //зал - пространство комнаты
-        ctx.fillStyle = 'rgb(0, 0, 255, 0.2)';
+        //зал - пространство комнаты 6
+        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
         ctx.fillRect(553, 253, 544, 394);
         for (i=0;i<10;i++){
             ctx.beginPath();
@@ -80,33 +110,64 @@ function draw() {
             ctx.fill();
         }
 
-        //детская - пространство комнаты
-        ctx.fillStyle = 'rgb(123, 0, 123, 0.2)';
-        ctx.fillRect(1100, 50, 350, 600);
-        for (i=0;i<10;i++){
-            ctx.beginPath();
-            ctx.arc(1275,350,17+17*i,0,Math.PI*2,true);
-            ctx.fill();
+        change1Color = function(rgba) {
+            ctx.clearRect(53, 53, 294, 144);
+            ctx.fillStyle = 'rgb(' + rgba + ')';
+            ctx.fillRect(53, 53, 294, 144);
+            for (i=0;i<10;i++){
+                ctx.beginPath();
+                ctx.arc(200,125,7+7*i,0,Math.PI*2,true);
+                ctx.fill();
+            }
         }
 
-        //прихожая - пространство комнаты
-        ctx.beginPath();
-        ctx.moveTo(350, 50);
-        ctx.lineTo(1100, 50);
-        ctx.lineTo(1100, 250);
-        ctx.lineTo(550, 250);
-        ctx.lineTo(550, 350);
-        ctx.lineTo(350, 350);
-        ctx.closePath();
-        ctx.fillStyle = 'rgb(123, 123, 0, 0.2)';
-        ctx.fill();
-        for (i=0;i<10;i++){
-            ctx.beginPath();
-            ctx.arc(725,150,9+9*i,0,Math.PI*2,true);
-            ctx.fill();
+        change2Color = function(rgba) {
+            ctx.clearRect(353, 53, 744, 194);
+            ctx.clearRect(353, 247, 195, 100);
+            ctx.fillStyle = 'rgb(' + rgba + ')';
+            ctx.fillRect(353, 53, 744, 194);
+            ctx.fillRect(353, 247, 195, 100);
+            for (i=0;i<10;i++){
+                ctx.beginPath();
+                ctx.arc(725,150,9+9*i,0,Math.PI*2,true);
+                ctx.fill();
+            }
         }
 
-        changeColor = function(rgba) {
+        change3Color = function(rgba) {
+            ctx.clearRect(1103, 53, 344, 594);
+            ctx.fillStyle = 'rgb(' + rgba + ')';
+            ctx.fillRect(1103, 53, 344, 594);
+            for (i=0;i<10;i++){
+                ctx.beginPath();
+                ctx.arc(1275,350,17+17*i,0,Math.PI*2,true);
+                ctx.fill();
+            }
+        }
+
+        change4Color = function(rgba) {
+            ctx.clearRect(53, 203, 294, 144);
+            ctx.fillStyle = 'rgb(' + rgba + ')';
+            ctx.fillRect(53, 203, 294, 144);
+            for (i=0;i<10;i++){
+                ctx.beginPath();
+                ctx.arc(200,275,7+7*i,0,Math.PI*2,true);
+                ctx.fill();
+            }
+        }
+
+        change5Color = function(rgba) {
+            ctx.clearRect(53, 353, 494, 294);
+            ctx.fillStyle = 'rgb(' + rgba + ')';
+            ctx.fillRect(53, 353, 494, 294);
+            for (i=0;i<10;i++){
+                ctx.beginPath();
+                ctx.arc(300,500,14+14*i,0,Math.PI*2,true);
+                ctx.fill();
+            }
+        }
+
+        change6Color = function(rgba) {
             ctx.clearRect(553, 253, 544, 394);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(553, 253, 544, 394);
@@ -122,6 +183,13 @@ function draw() {
     }
 }
 
+let old1Color = "32, 0, 255, 0.2";
+let old2Color = "32, 0, 255, 0.2";
+let old3Color = "32, 0, 255, 0.2";
+let old4Color = "32, 0, 255, 0.2";
+let old5Color = "32, 0, 255, 0.2";
+let old6Color = "32, 0, 255, 0.2";
+
 function dataReload() {
     $.ajax({
         url: "getNewData",
@@ -131,9 +199,49 @@ function dataReload() {
         data: {},
         success: function(data) {
             let parseData = JSON.parse(data);
-            let newColor = parseData["room_color"];
-            console.log(newColor);
-            changeColor(newColor);
+            let new1Color = parseData["room1_color"];
+            let new2Color = parseData["room2_color"];
+            let new3Color = parseData["room3_color"];
+            let new4Color = parseData["room4_color"];
+            let new5Color = parseData["room5_color"];
+            let new6Color = parseData["room6_color"];
+
+            if (new1Color != old1Color) {
+                console.log("new1Color");
+                change1Color(new1Color);
+            }
+            old1Color = new1Color;
+
+            if (new2Color != old2Color) {
+                console.log("new2Color");
+                change2Color(new2Color);
+            }
+            old2Color = new2Color;
+
+            if (new3Color != old3Color) {
+                console.log("new3Color");
+                change3Color(new3Color);
+            }
+            old3Color = new3Color;
+
+            if (new4Color != old4Color) {
+                console.log("new4Color");
+                change4Color(new4Color);
+            }
+            old4Color = new4Color;
+
+            if (new5Color != old5Color) {
+                console.log("new5Color");
+                change5Color(new5Color);
+            }
+            old5Color = new5Color;
+
+            if (new6Color != old6Color) {
+                console.log("new6Color");
+                change6Color(new6Color);
+            }
+            old6Color = new6Color;
+
             setTimeout(dataReload, 5000);
         }
     })

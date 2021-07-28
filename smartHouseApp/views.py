@@ -240,9 +240,13 @@ def change_room_color(temp):
 
 
 def get_data(request):
-    print(change_room_color(temperature4.mask))
     context = {
-        "room_color": change_room_color(temperature4.mask)
+        "room1_color": change_room_color(temperature1.mask),
+        "room2_color": change_room_color(temperature2.mask),
+        "room3_color": change_room_color(temperature3.mask),
+        "room4_color": change_room_color(temperature4.mask),
+        "room5_color": change_room_color(temperature5.mask),
+        "room6_color": change_room_color(temperature6.mask),
     }
     return JsonResponse(context)
 
