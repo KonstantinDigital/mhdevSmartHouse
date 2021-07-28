@@ -190,6 +190,13 @@ let old4Color = "32, 0, 255, 0.2";
 let old5Color = "32, 0, 255, 0.2";
 let old6Color = "32, 0, 255, 0.2";
 
+let old1temperature = 15;
+let old2temperature = 15;
+let old3temperature = 15;
+let old4temperature = 15;
+let old5temperature = 15;
+let old6temperature = 15;
+
 function dataReload() {
     $.ajax({
         url: "getNewData",
@@ -205,6 +212,13 @@ function dataReload() {
             let new4Color = parseData["room4_color"];
             let new5Color = parseData["room5_color"];
             let new6Color = parseData["room6_color"];
+
+            let new1temperature = parseData["temperature1"];
+            let new2temperature = parseData["temperature2"];
+            let new3temperature = parseData["temperature3"];
+            let new4temperature = parseData["temperature4"];
+            let new5temperature = parseData["temperature5"];
+            let new6temperature = parseData["temperature6"];
 
             if (new1Color != old1Color) {
                 console.log("new1Color");
@@ -242,6 +256,24 @@ function dataReload() {
             }
             old6Color = new6Color;
 
+            if (new1temperature != old1temperature) changeTemperature(new1temperature, 1);
+            old1temperature = new1temperature;
+
+            if (new2temperature != old2temperature) changeTemperature(new2temperature, 2);
+            old2temperature = new2temperature;
+
+            if (new3temperature != old3temperature) changeTemperature(new3temperature, 3);
+            old3temperature = new3temperature;
+
+            if (new4temperature != old4temperature) changeTemperature(new4temperature, 4);
+            old4temperature = new4temperature;
+
+            if (new5temperature != old5temperature) changeTemperature(new5temperature, 5);
+            old5temperature = new5temperature;
+
+            if (new6temperature != old6temperature) changeTemperature(new6temperature, 6);
+            old6temperature = new6temperature;
+
             setTimeout(dataReload, 5000);
         }
     })
@@ -259,6 +291,11 @@ function roundedRect(ctx, x, y, width, height, radius) {
   ctx.lineTo(x + radius, y);
   ctx.arcTo(x, y, x, y + radius, radius);
   ctx.stroke();
+}
+
+function changeTemperature(temp, room) {
+    let tempInRoom = document.getElementById("temp" + room + "now");
+    tempInRoom.innerHTML = String(temp) + "&#176;C";
 }
 
 let light1modes = "static/images/lightModeHand.png";

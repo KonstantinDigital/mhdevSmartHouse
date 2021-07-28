@@ -247,6 +247,12 @@ def get_data(request):
         "room4_color": change_room_color(temperature4.mask),
         "room5_color": change_room_color(temperature5.mask),
         "room6_color": change_room_color(temperature6.mask),
+        "temperature1": temperature1.mask,
+        "temperature2": temperature2.mask,
+        "temperature3": temperature3.mask,
+        "temperature4": temperature4.mask,
+        "temperature5": temperature5.mask,
+        "temperature6": temperature6.mask,
     }
     return JsonResponse(context)
 
