@@ -190,12 +190,12 @@ let old4Color = "32, 0, 255, 0.2";
 let old5Color = "32, 0, 255, 0.2";
 let old6Color = "32, 0, 255, 0.2";
 
-let old1temperature = 15;
-let old2temperature = 15;
-let old3temperature = 15;
-let old4temperature = 15;
-let old5temperature = 15;
-let old6temperature = 15;
+let old1temperature = 16;
+let old2temperature = 16;
+let old3temperature = 16;
+let old4temperature = 16;
+let old5temperature = 16;
+let old6temperature = 16;
 
 function dataReload() {
     $.ajax({

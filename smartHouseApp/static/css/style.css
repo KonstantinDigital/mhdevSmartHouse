@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: lightblue;
 }
 
 h1 {
@@ -8,6 +8,7 @@ h1 {
 
 .containerCanvas {
     position: relative;
+    background-color: white;
     text-align: center;
     width: 1500px;
     height: 700px;
