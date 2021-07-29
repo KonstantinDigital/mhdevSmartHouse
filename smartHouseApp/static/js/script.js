@@ -1,11 +1,50 @@
 
+let old1lightState = false;
+let old2lightState = false;
+let old3lightState = false;
+let old4lightState = false;
+let old5lightState = false;
+let old6lightState = false;
+
+let old1Color = "32, 0, 255, 0.2";
+let old2Color = "32, 0, 255, 0.2";
+let old3Color = "32, 0, 255, 0.2";
+let old4Color = "32, 0, 255, 0.2";
+let old5Color = "32, 0, 255, 0.2";
+let old6Color = "32, 0, 255, 0.2";
+
+let old1temperature = 16;
+let old2temperature = 16;
+let old3temperature = 16;
+let old4temperature = 16;
+let old5temperature = 16;
+let old6temperature = 16;
+
+let light1switch = false;
+let light2switch = false;
+let light3switch = false;
+let light4switch = false;
+let light5switch = false;
+let light6switch = false;
+
+let lastPressedButton = 0;
+
+let light1modes = "static/images/lightModeHand.png";
+let light2modes = "static/images/lightModeHand.png";
+let light3modes = "static/images/lightModeHand.png";
+let light4modes = "static/images/lightModeHand.png";
+let light5modes = "static/images/lightModeHand.png";
+let light6modes = "static/images/lightModeHand.png";
+
+let timerId = setTimeout(dataReload, 10000);
+
 function draw() {
     var canvas = document.getElementById('appLayout');
     if (appLayout.getContext) {
         var ctx = appLayout.getContext('2d');
 
         //всё пространство
-        ctx.fillStyle = 'rgb(50, 50, 50, 0.5)';
+        ctx.fillStyle = 'LightSkyBlue';
         ctx.fillRect(0, 0, 1500, 700);
 
         //освобождаем место для план-схемы
@@ -154,35 +193,14 @@ function draw() {
     }
 }
 
-let old1lightState = false;
-let old2lightState = false;
-let old3lightState = false;
-let old4lightState = false;
-let old5lightState = false;
-let old6lightState = false;
-
-let old1Color = "32, 0, 255, 0.2";
-let old2Color = "32, 0, 255, 0.2";
-let old3Color = "32, 0, 255, 0.2";
-let old4Color = "32, 0, 255, 0.2";
-let old5Color = "32, 0, 255, 0.2";
-let old6Color = "32, 0, 255, 0.2";
-
-let old1temperature = 16;
-let old2temperature = 16;
-let old3temperature = 16;
-let old4temperature = 16;
-let old5temperature = 16;
-let old6temperature = 16;
-
-let light1switch = false;
-let light2switch = false;
-let light3switch = false;
-let light4switch = false;
-let light5switch = false;
-let light6switch = false;
-
-let lastPressedButton = 0;
+function lightImgSwitcher(room, state){
+    let lightSwitcher = document.getElementById("light" + room + "on");
+    if (state == true) {
+        lightSwitcher.setAttribute("src", "static/images/lightOff.png");
+    } else {
+        lightSwitcher.setAttribute("src", "static/images/lightOn.png");
+    }
+}
 
 function onClick1LightButton() {
     if (light1switch == false) {
@@ -191,6 +209,7 @@ function onClick1LightButton() {
     else {
         light1switch = false;
     }
+    lightImgSwitcher(1, light1switch);
     lastPressedButton = 1;
     changeLightButtonState();
 }
@@ -202,6 +221,7 @@ function onClick2LightButton() {
     else {
         light2switch = false;
     }
+    lightImgSwitcher(2, light2switch);
     lastPressedButton = 2;
     changeLightButtonState();
 }
@@ -213,6 +233,7 @@ function onClick3LightButton() {
     else {
         light3switch = false;
     }
+    lightImgSwitcher(3, light3switch);
     lastPressedButton = 3;
     changeLightButtonState();
 }
@@ -224,6 +245,7 @@ function onClick4LightButton() {
     else {
         light4switch = false;
     }
+    lightImgSwitcher(4, light4switch);
     lastPressedButton = 4;
     changeLightButtonState();
 }
@@ -235,6 +257,7 @@ function onClick5LightButton() {
     else {
         light5switch = false;
     }
+    lightImgSwitcher(5, light5switch);
     lastPressedButton = 5;
     changeLightButtonState();
 }
@@ -246,6 +269,7 @@ function onClick6LightButton() {
     else {
         light6switch = false;
     }
+    lightImgSwitcher(6, light6switch);
     lastPressedButton = 6;
     changeLightButtonState();
 }
@@ -298,6 +322,8 @@ function dataReload() {
         dataType: "html",
         data: {},
         success: function(data) {
+            clearTimeout(timerId);
+
             let parseData = JSON.parse(data);
             let new1Color = parseData["room1_color"];
             let new2Color = parseData["room2_color"];
@@ -321,7 +347,6 @@ function dataReload() {
             let new6lightState = parseData["light6_state"];
 
             if ((new1Color != old1Color) || (new1lightState != old1lightState)) {
-                console.log("new1Color");
                 change1Color(new1Color, new1lightState);
             }
             old1Color = new1Color;
@@ -329,7 +354,6 @@ function dataReload() {
             light1switch = new1lightState;
 
             if ((new2Color != old2Color) || (new2lightState != old2lightState)) {
-                console.log("new2Color");
                 change2Color(new2Color, new2lightState);
             }
             old2Color = new2Color;
@@ -337,7 +361,6 @@ function dataReload() {
             light2switch = new2lightState;
 
             if ((new3Color != old3Color) || (new3lightState != old3lightState)) {
-                console.log("new3Color");
                 change3Color(new3Color, new3lightState);
             }
             old3Color = new3Color;
@@ -345,7 +368,6 @@ function dataReload() {
             light3switch = new3lightState;
 
             if ((new4Color != old4Color) || (new4lightState != old4lightState)) {
-                console.log("new4Color");
                 change4Color(new4Color, new4lightState);
             }
             old4Color = new4Color;
@@ -353,7 +375,6 @@ function dataReload() {
             light4switch = new4lightState;
 
             if ((new5Color != old5Color) || (new5lightState != old5lightState)) {
-                console.log("new5Color");
                 change5Color(new5Color, new5lightState);
             }
             old5Color = new5Color;
@@ -361,7 +382,6 @@ function dataReload() {
             light5switch = new5lightState;
 
             if ((new6Color != old6Color) || (new6lightState != old6lightState)) {
-                console.log("new6Color");
                 change6Color(new6Color, new6lightState);
             }
             old6Color = new6Color;
@@ -386,7 +406,13 @@ function dataReload() {
             if (new6temperature != old6temperature) changeTemperature(new6temperature, 6);
             old6temperature = new6temperature;
 
-            setTimeout(dataReload, 5000);
+            let lightSwitchArray = [light1switch, light2switch, light3switch, light4switch, light5switch, light6switch];
+
+            for(let i=0; i<6; i++){
+                lightImgSwitcher(i+1, lightSwitchArray[i]);
+            }
+
+            timerId = setTimeout(dataReload, 10000);
         }
     })
 }
@@ -410,7 +436,6 @@ function changeTemperature(temp, room) {
     tempInRoom.innerHTML = String(temp) + "&#176;C";
 }
 
-let light1modes = "static/images/lightModeHand.png";
 
 $("#light1handMode").hover(function () {
     let img = document.getElementById("light1modeId");
@@ -422,6 +447,11 @@ $("#light1handMode").hover(function () {
 
 $("body").on("click", "#light1handMode", function () {
     let lightSwitcher = document.getElementById("light1on");
+    if (light1switch == true) {
+        lightSwitcher.setAttribute("src", "static/images/lightOff.png");
+    } else {
+        lightSwitcher.setAttribute("src", "static/images/lightOn.png");
+    }
     lightSwitcher.removeAttribute("disabled");
     lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light1modeId");
@@ -463,8 +493,6 @@ $("body").on("click", "#light1sheduleMode", function () {
     light1modes = "static/images/lightModeShedule.png";
     })
 
-
-let light2modes = "static/images/lightModeHand.png";
 
 $("#light2handMode").hover(function () {
     let img = document.getElementById("light2modeId");
@@ -518,8 +546,6 @@ $("body").on("click", "#light2sheduleMode", function () {
     })
 
 
-let light3modes = "static/images/lightModeHand.png";
-
 $("#light3handMode").hover(function () {
     let img = document.getElementById("light3modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
@@ -571,8 +597,6 @@ $("body").on("click", "#light3sheduleMode", function () {
     light3modes = "static/images/lightModeShedule.png";
     })
 
-
-let light4modes = "static/images/lightModeHand.png";
 
 $("#light4handMode").hover(function () {
     let img = document.getElementById("light4modeId");
@@ -626,8 +650,6 @@ $("body").on("click", "#light4sheduleMode", function () {
     })
 
 
-let light5modes = "static/images/lightModeHand.png";
-
 $("#light5handMode").hover(function () {
     let img = document.getElementById("light5modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
@@ -679,8 +701,6 @@ $("body").on("click", "#light5sheduleMode", function () {
     light5modes = "static/images/lightModeShedule.png";
     })
 
-
-let light6modes = "static/images/lightModeHand.png";
 
 $("#light6handMode").hover(function () {
     let img = document.getElementById("light6modeId");

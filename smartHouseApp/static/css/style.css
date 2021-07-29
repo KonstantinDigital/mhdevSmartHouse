@@ -1,13 +1,27 @@
+{% load static %}
 body {
-    background-color: lightblue;
+    height: 97vh;
+    background: linear-gradient(to bottom, DeepSkyBlue, DarkBlue);
 }
 
 h1 {
-    text-align: center;
+    font-size: 120px;
+    font-family: "Accuratist";
+    font-weight: bolder;
+    text-shadow: 3px 3px 10px white, 0 0 1em white;
+    color: Indigo;
+    margin: 20px 30px 30px 530px;
+}
+
+.log_href {
+    font-size: 20px;
+    color: LightSlateGray;
 }
 
 .containerCanvas {
     position: relative;
+    margin: 30px 50px 30px 50px;
+    box-shadow: 0 0 70px rgba(0, 0, 0, 1);
     background-color: white;
     text-align: center;
     width: 1500px;
@@ -380,4 +394,18 @@ h1 {
     height: 25px;
     top: 445px;
     left: 466px;
+}
+/* подключаю дизайнерские шрифты */
+@font-face {
+  font-family: "Accuratist";
+  src: url("../fonts/Accuratist.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Measure";
+  src: url("../fonts/Measure.ttf");
+  font-style: normal;
+  font-weight: normal;
 }

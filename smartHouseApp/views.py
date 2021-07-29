@@ -365,7 +365,6 @@ def write_switches(request):
         "room5_color": change_room_color(temperature5.mask),
         "room6_color": change_room_color(temperature6.mask),
     }
-
     return JsonResponse(context)
 
 
