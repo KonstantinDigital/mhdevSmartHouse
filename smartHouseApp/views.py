@@ -317,15 +317,16 @@ def get_data(request):
 
 
 def write_switches(request):
-    switches.cmd_light1_on = request.GET["light1switch"]
-    switches.cmd_light2_on = request.GET["light1switch"]
-    switches.cmd_light3_on = request.GET["light1switch"]
-    switches.cmd_light4_on = request.GET["light1switch"]
-    switches.cmd_light5_on = request.GET["light1switch"]
-    switches.cmd_light6_on = request.GET["light1switch"]
-    switches.start_write_register()
+    switches.cmd_light1_on = bool(request.GET["light1switch"])
+    print("!!!!!", switches.cmd_light1_on)
+    switches.cmd_light2_on = bool(request.GET["light2switch"])
+    switches.cmd_light3_on = bool(request.GET["light3switch"])
+    switches.cmd_light4_on = bool(request.GET["light4switch"])
+    switches.cmd_light5_on = bool(request.GET["light5switch"])
+    switches.cmd_light6_on = bool(request.GET["light6switch"])
+    # switches.start_write_register()
     context = {
-        "data": "write_register"
+        "data": switches.cmd_light1_on
     }
     return JsonResponse(context)
 

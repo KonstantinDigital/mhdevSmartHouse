@@ -182,6 +182,18 @@ let light4switch = false;
 let light5switch = false;
 let light6switch = false;
 
+function onClickLightButton() {
+    if (light1switch == false) {
+        console.log("IF");
+        light1switch = true;
+    }
+    else {
+        console.log("ELSE");
+        light1switch = false;
+    }
+    changeLightButtonState();
+}
+
 function changeLightButtonState() {
     $.ajax({
         url: "writeSwitchClick",
@@ -232,7 +244,7 @@ function dataReload() {
             }
             old1Color = new1Color;
             old1lightState = new1lightState;
-            light1switch = new1lightState;
+//            light1switch = new1lightState;
 
             if ((new2Color != old2Color) || (new2lightState != old2lightState)) {
                 console.log("new2Color");
