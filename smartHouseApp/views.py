@@ -13,7 +13,7 @@ class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
-        self.com_number = 3
+        self.com_number = 7
         self.ser.port = "COM{}".format(self.com_number)
         self.ser.baudrate = 19200
         # инициализация переменных для очереди
@@ -187,6 +187,59 @@ def index(request):
     else:
         print("Connection false")
     return render(request, "index.html")
+
+
+def state_of_light(request):
+    context = {
+        "light1_state": state_mask_converting(switches_state.mask, 1),
+        "light2_state": state_mask_converting(switches_state.mask, 2),
+        "light3_state": state_mask_converting(switches_state.mask, 3),
+        "light4_state": state_mask_converting(switches_state.mask, 4),
+        "light5_state": state_mask_converting(switches_state.mask, 5),
+        "light6_state": state_mask_converting(switches_state.mask, 6)
+    }
+    return JsonResponse(context)
+
+
+def state_mask_converting(mask, bit):
+    mask_arr = []
+    str_mask = str(bin(mask)[2:])
+    for i in range(len(str_mask)):
+        mask_arr.append(int(str_mask[i]))
+    while len(mask_arr) < 16:
+        mask_arr.insert(0, 0)
+    if bit == 1:
+        return mask_arr[15] == 1
+    elif bit == 2:
+        return mask_arr[14] == 1
+    elif bit == 3:
+        return mask_arr[13] == 1
+    elif bit == 4:
+        return mask_arr[12] == 1
+    elif bit == 5:
+        return mask_arr[11] == 1
+    elif bit == 6:
+        return mask_arr[10] == 1
+    elif bit == 7:
+        return mask_arr[9] == 1
+    elif bit == 8:
+        return mask_arr[8] == 1
+    elif bit == 9:
+        return mask_arr[7] == 1
+    elif bit == 10:
+        return mask_arr[6] == 1
+    elif bit == 11:
+        return mask_arr[5] == 1
+    elif bit == 12:
+        return mask_arr[4] == 1
+    elif bit == 13:
+        return mask_arr[3] == 1
+    elif bit == 14:
+        return mask_arr[2] == 1
+    elif bit == 15:
+        return mask_arr[1] == 1
+    else:
+        return mask_arr[0] == 1
 
 
 def create_registers():

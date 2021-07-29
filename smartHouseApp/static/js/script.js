@@ -183,6 +183,33 @@ function draw() {
     }
 }
 
+let old1lightState = false;
+let old2lightState = false;
+let old3lightState = false;
+let old4lightState = false;
+let old5lightState = false;
+let old6lightState = false;
+
+function changeLightButtonState() {
+    $.ajax({
+        url: "getNewLightState",
+        method: "GET",
+        cache: false,
+        dataType: "html",
+        data: {},
+        success: function(data) {
+            let parseData = JSON.parse(data);
+            let new1lightState = parseData["light1_state"];
+            let new2lightState = parseData["light2_state"];
+            let new3lightState = parseData["light3_state"];
+            let new4lightState = parseData["light4_state"];
+            let new5lightState = parseData["light5_state"];
+            let new6lightState = parseData["light6_state"];
+            console.log("new1lightState ", new1lightState);
+        }
+    })
+}
+
 let old1Color = "32, 0, 255, 0.2";
 let old2Color = "32, 0, 255, 0.2";
 let old3Color = "32, 0, 255, 0.2";

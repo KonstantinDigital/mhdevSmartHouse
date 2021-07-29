@@ -9,5 +9,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('login/', LoginView.as_view(), name='login'),
     path('', views.index, name='index'),
-    path('getNewData', views.get_data, name='new_data')
+    path('getNewData', views.get_data, name='new_data'),
+    path('getNewLightState', views.state_of_light, name='light_state')
 ]
