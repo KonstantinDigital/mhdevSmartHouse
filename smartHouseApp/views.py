@@ -306,6 +306,12 @@ def get_data(request):
         "temperature4": temperature4.mask,
         "temperature5": temperature5.mask,
         "temperature6": temperature6.mask,
+        "light1_state": state_mask_converting(switches_state.mask, 1),
+        "light2_state": state_mask_converting(switches_state.mask, 2),
+        "light3_state": state_mask_converting(switches_state.mask, 3),
+        "light4_state": state_mask_converting(switches_state.mask, 4),
+        "light5_state": state_mask_converting(switches_state.mask, 5),
+        "light6_state": state_mask_converting(switches_state.mask, 6)
     }
     return JsonResponse(context)
 
