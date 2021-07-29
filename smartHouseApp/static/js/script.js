@@ -182,15 +182,71 @@ let light4switch = false;
 let light5switch = false;
 let light6switch = false;
 
-function onClickLightButton() {
+let lastPressedButton = 0;
+
+function onClick1LightButton() {
     if (light1switch == false) {
-        console.log("IF");
         light1switch = true;
     }
     else {
-        console.log("ELSE");
         light1switch = false;
     }
+    lastPressedButton = 1;
+    changeLightButtonState();
+}
+
+function onClick2LightButton() {
+    if (light2switch == false) {
+        light2switch = true;
+    }
+    else {
+        light2switch = false;
+    }
+    lastPressedButton = 2;
+    changeLightButtonState();
+}
+
+function onClick3LightButton() {
+    if (light3switch == false) {
+        light3switch = true;
+    }
+    else {
+        light3switch = false;
+    }
+    lastPressedButton = 3;
+    changeLightButtonState();
+}
+
+function onClick4LightButton() {
+    if (light4switch == false) {
+        light4switch = true;
+    }
+    else {
+        light4switch = false;
+    }
+    lastPressedButton = 4;
+    changeLightButtonState();
+}
+
+function onClick5LightButton() {
+    if (light5switch == false) {
+        light5switch = true;
+    }
+    else {
+        light5switch = false;
+    }
+    lastPressedButton = 5;
+    changeLightButtonState();
+}
+
+function onClick6LightButton() {
+    if (light6switch == false) {
+        light6switch = true;
+    }
+    else {
+        light6switch = false;
+    }
+    lastPressedButton = 6;
     changeLightButtonState();
 }
 
@@ -200,10 +256,36 @@ function changeLightButtonState() {
         method: "GET",
         cache: false,
         dataType: "html",
-        data: {light1switch, light2switch, light3switch, light4switch, light5switch, light6switch},
+        data: {light1switch: light1switch, light2switch: light2switch, light3switch: light3switch,
+            light4switch: light4switch, light5switch: light5switch, light6switch: light6switch},
         success: function(data) {
             let parseData = JSON.parse(data);
-            console.log(parseData["data"]);
+            let new1Color = parseData["room1_color"];
+            let new2Color = parseData["room2_color"];
+            let new3Color = parseData["room3_color"];
+            let new4Color = parseData["room4_color"];
+            let new5Color = parseData["room5_color"];
+            let new6Color = parseData["room6_color"];
+
+            if (lastPressedButton == 1){
+                lastPressedButton = 0;
+                change1Color(new1Color, light1switch);
+            } else if (lastPressedButton == 2){
+                lastPressedButton = 0;
+                change2Color(new2Color, light2switch);
+            } else if (lastPressedButton == 3){
+                lastPressedButton = 0;
+                change3Color(new3Color, light3switch);
+            } else if (lastPressedButton == 4){
+                lastPressedButton = 0;
+                change4Color(new4Color, light4switch);
+            } else if (lastPressedButton == 5){
+                lastPressedButton = 0;
+                change5Color(new5Color, light5switch);
+            } else if (lastPressedButton == 6){
+                lastPressedButton = 0;
+                change6Color(new6Color, light6switch);
+            }
         }
     })
 }
@@ -244,7 +326,7 @@ function dataReload() {
             }
             old1Color = new1Color;
             old1lightState = new1lightState;
-//            light1switch = new1lightState;
+            light1switch = new1lightState;
 
             if ((new2Color != old2Color) || (new2lightState != old2lightState)) {
                 console.log("new2Color");

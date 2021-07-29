@@ -13,7 +13,7 @@ class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
-        self.com_number = 7
+        self.com_number = 3
         self.ser.port = "COM{}".format(self.com_number)
         self.ser.baudrate = 19200
         # инициализация переменных для очереди
@@ -150,6 +150,7 @@ class ModbusRegister(Thread):
     def write_register(self):
         with modbus_master.b_semaphore:
             try:
+                print("try write register")
                 modbus_master.r_lock.acquire()
                 write_mask = 0
                 if self.cmd_light1_on:
@@ -170,6 +171,7 @@ class ModbusRegister(Thread):
                     write_mask += 128
                 self.master.execute(self.device, self.m_defines.WRITE_SINGLE_REGISTER, self.register,
                                     output_value=write_mask)
+                print("finish write register", write_mask)
             except Exception as e:
                 print("Error def write_register: " + str(e))
             finally:
@@ -317,17 +319,53 @@ def get_data(request):
 
 
 def write_switches(request):
-    switches.cmd_light1_on = bool(request.GET["light1switch"])
-    print("!!!!!", switches.cmd_light1_on)
-    switches.cmd_light2_on = bool(request.GET["light2switch"])
-    switches.cmd_light3_on = bool(request.GET["light3switch"])
-    switches.cmd_light4_on = bool(request.GET["light4switch"])
-    switches.cmd_light5_on = bool(request.GET["light5switch"])
-    switches.cmd_light6_on = bool(request.GET["light6switch"])
-    # switches.start_write_register()
+    string_cmd_light1_on = request.GET["light1switch"]
+    if string_cmd_light1_on == "true":
+        switches.cmd_light1_on = True
+    elif string_cmd_light1_on == "false":
+        switches.cmd_light1_on = False
+
+    string_cmd_light2_on = request.GET["light2switch"]
+    if string_cmd_light2_on == "true":
+        switches.cmd_light2_on = True
+    elif string_cmd_light2_on == "false":
+        switches.cmd_light2_on = False
+
+    string_cmd_light3_on = request.GET["light3switch"]
+    if string_cmd_light3_on == "true":
+        switches.cmd_light3_on = True
+    elif string_cmd_light3_on == "false":
+        switches.cmd_light3_on = False
+
+    string_cmd_light4_on = request.GET["light4switch"]
+    if string_cmd_light4_on == "true":
+        switches.cmd_light4_on = True
+    elif string_cmd_light4_on == "false":
+        switches.cmd_light4_on = False
+
+    string_cmd_light5_on = request.GET["light5switch"]
+    if string_cmd_light5_on == "true":
+        switches.cmd_light5_on = True
+    elif string_cmd_light5_on == "false":
+        switches.cmd_light5_on = False
+
+    string_cmd_light6_on = request.GET["light6switch"]
+    if string_cmd_light6_on == "true":
+        switches.cmd_light6_on = True
+    elif string_cmd_light6_on == "false":
+        switches.cmd_light6_on = False
+
+    switches.start_write_register()
+
     context = {
-        "data": switches.cmd_light1_on
+        "room1_color": change_room_color(temperature1.mask),
+        "room2_color": change_room_color(temperature2.mask),
+        "room3_color": change_room_color(temperature3.mask),
+        "room4_color": change_room_color(temperature4.mask),
+        "room5_color": change_room_color(temperature5.mask),
+        "room6_color": change_room_color(temperature6.mask),
     }
+
     return JsonResponse(context)
 
 
