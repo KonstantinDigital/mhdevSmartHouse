@@ -10,5 +10,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('', views.index, name='index'),
     path('getNewData', views.get_data, name='new_data'),
-    path('getNewLightState', views.state_of_light, name='light_state')
+    path('writeSwitchClick', views.write_switches, name='light_state')
 ]

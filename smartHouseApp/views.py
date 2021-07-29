@@ -316,6 +316,20 @@ def get_data(request):
     return JsonResponse(context)
 
 
+def write_switches(request):
+    switches.cmd_light1_on = request.GET["light1switch"]
+    switches.cmd_light2_on = request.GET["light1switch"]
+    switches.cmd_light3_on = request.GET["light1switch"]
+    switches.cmd_light4_on = request.GET["light1switch"]
+    switches.cmd_light5_on = request.GET["light1switch"]
+    switches.cmd_light6_on = request.GET["light1switch"]
+    switches.start_write_register()
+    context = {
+        "data": "write_register"
+    }
+    return JsonResponse(context)
+
+
 modbus_master = ModbusConnect()
 
 # switches = object

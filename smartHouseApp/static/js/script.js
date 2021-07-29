@@ -30,8 +30,6 @@ function draw() {
         ctx.moveTo(600, 250);
         ctx.lineTo(550, 250);
         ctx.lineTo(550, 650);
-//        ctx.moveTo(550, 250);
-//        ctx.lineTo(350, 250);
         ctx.moveTo(550, 350);
         ctx.lineTo(500, 350);
         ctx.moveTo(400, 350);
@@ -49,66 +47,27 @@ function draw() {
         //ванная - пространство комнаты 1
         ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
         ctx.fillRect(53, 53, 294, 144);
-//        for (i=0;i<10;i++){
-//            ctx.beginPath();
-//            ctx.arc(200,125,7+7*i,0,Math.PI*2,true);
-//            ctx.fill();
-//        }
 
         //прихожая - пространство комнаты 2
-//        ctx.beginPath();
-//        ctx.moveTo(350, 50);
-//        ctx.lineTo(1100, 50);
-//        ctx.lineTo(1100, 250);
-//        ctx.lineTo(550, 250);
-//        ctx.lineTo(550, 350);
-//        ctx.lineTo(350, 350);
-//        ctx.closePath();
         ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
-//        ctx.fill();
         ctx.fillRect(353, 53, 744, 194);
         ctx.fillRect(353, 247, 195, 100);
-//        for (i=0;i<10;i++){
-//            ctx.beginPath();
-//            ctx.arc(725,150,9+9*i,0,Math.PI*2,true);
-//            ctx.fill();
-//        }
 
         //детская - пространство комнаты 3
         ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
         ctx.fillRect(1103, 53, 344, 594);
-//        for (i=0;i<10;i++){
-//            ctx.beginPath();
-//            ctx.arc(1275,350,17+17*i,0,Math.PI*2,true);
-//            ctx.fill();
-//        }
 
         //туалет - пространство комнаты 4
         ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
         ctx.fillRect(53, 203, 294, 144);
-//        for (i=0;i<10;i++){
-//            ctx.beginPath();
-//            ctx.arc(200,275,7+7*i,0,Math.PI*2,true);
-//            ctx.fill();
-//        }
 
         //кухня - пространство комнаты 5
         ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
         ctx.fillRect(53, 353, 494, 294);
-//        for (i=0;i<10;i++){
-//            ctx.beginPath();
-//            ctx.arc(300,500,14+14*i,0,Math.PI*2,true);
-//            ctx.fill();
-//        }
 
         //зал - пространство комнаты 6
         ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
         ctx.fillRect(553, 253, 544, 394);
-//        for (i=0;i<10;i++){
-//            ctx.beginPath();
-//            ctx.arc(825,450,19+19*i,0,Math.PI*2,true);
-//            ctx.fill();
-//        }
 
         change1Color = function(rgba, lightState) {
             ctx.clearRect(53, 53, 294, 144);
@@ -216,22 +175,23 @@ let old4temperature = 16;
 let old5temperature = 16;
 let old6temperature = 16;
 
+let light1switch = false;
+let light2switch = false;
+let light3switch = false;
+let light4switch = false;
+let light5switch = false;
+let light6switch = false;
+
 function changeLightButtonState() {
     $.ajax({
-        url: "getNewLightState",
+        url: "writeSwitchClick",
         method: "GET",
         cache: false,
         dataType: "html",
-        data: {},
+        data: {light1switch, light2switch, light3switch, light4switch, light5switch, light6switch},
         success: function(data) {
             let parseData = JSON.parse(data);
-            let new1lightState = parseData["light1_state"];
-            let new2lightState = parseData["light2_state"];
-            let new3lightState = parseData["light3_state"];
-            let new4lightState = parseData["light4_state"];
-            let new5lightState = parseData["light5_state"];
-            let new6lightState = parseData["light6_state"];
-
+            console.log(parseData["data"]);
         }
     })
 }
@@ -272,6 +232,7 @@ function dataReload() {
             }
             old1Color = new1Color;
             old1lightState = new1lightState;
+            light1switch = new1lightState;
 
             if ((new2Color != old2Color) || (new2lightState != old2lightState)) {
                 console.log("new2Color");
@@ -279,6 +240,7 @@ function dataReload() {
             }
             old2Color = new2Color;
             old2lightState = new2lightState;
+            light2switch = new2lightState;
 
             if ((new3Color != old3Color) || (new3lightState != old3lightState)) {
                 console.log("new3Color");
@@ -286,6 +248,7 @@ function dataReload() {
             }
             old3Color = new3Color;
             old3lightState = new3lightState;
+            light3switch = new3lightState;
 
             if ((new4Color != old4Color) || (new4lightState != old4lightState)) {
                 console.log("new4Color");
@@ -293,6 +256,7 @@ function dataReload() {
             }
             old4Color = new4Color;
             old4lightState = new4lightState;
+            light4switch = new4lightState;
 
             if ((new5Color != old5Color) || (new5lightState != old5lightState)) {
                 console.log("new5Color");
@@ -300,6 +264,7 @@ function dataReload() {
             }
             old5Color = new5Color;
             old5lightState = new5lightState;
+            light5switch = new5lightState;
 
             if ((new6Color != old6Color) || (new6lightState != old6lightState)) {
                 console.log("new6Color");
@@ -307,6 +272,7 @@ function dataReload() {
             }
             old6Color = new6Color;
             old6lightState = new6lightState;
+            light6switch = new6lightState;
 
             if (new1temperature != old1temperature) changeTemperature(new1temperature, 1);
             old1temperature = new1temperature;
