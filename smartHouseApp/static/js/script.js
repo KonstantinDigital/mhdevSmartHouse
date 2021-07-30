@@ -36,6 +36,8 @@ let light4modes = "static/images/lightModeHand.png";
 let light5modes = "static/images/lightModeHand.png";
 let light6modes = "static/images/lightModeHand.png";
 
+let conditionerModes = "static/images/conditionerHandMode.png";
+
 let timerId = setTimeout(dataReload, 10000);
 
 function draw() {
@@ -757,4 +759,45 @@ $("body").on("click", "#light6sheduleMode", function () {
     let img = document.getElementById("light6modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
     light6modes = "static/images/lightModeShedule.png";
+    })
+
+
+$("#conditHandMode").hover(function () {
+    let img = document.getElementById("conditionerModeId");
+    img.setAttribute("src", "static/images/conditionerHandMode.png");
+}, function () {
+    let img = document.getElementById("conditionerModeId");
+    img.setAttribute("src", conditionerModes);
+})
+
+$("body").on("click", "#conditHandMode", function () {
+    let conditionerSp = document.getElementById("tempSP");
+    conditionerSp.setAttribute("disabled", "True");
+    conditionerSp.setAttribute("class", "switchOpacity");
+    let conditionerSwitcher = document.getElementById("conditOn");
+    conditionerSwitcher.removeAttribute("disabled");
+    conditionerSwitcher.removeAttribute("class");
+    let img = document.getElementById("conditionerModeId");
+    img.setAttribute("src", "static/images/conditionerHandMode.png");
+    conditionerModes = "static/images/conditionerHandMode.png";
+    })
+
+$("#conditSpMode").hover(function () {
+    let img = document.getElementById("conditionerModeId");
+    img.setAttribute("src", "static/images/conditionerSpMode.png");
+}, function () {
+    let img = document.getElementById("conditionerModeId");
+    img.setAttribute("src", conditionerModes);
+})
+
+$("body").on("click", "#conditSpMode", function () {
+    let conditionerSwitcher = document.getElementById("conditOn");
+    conditionerSwitcher.setAttribute("disabled", "True");
+    conditionerSwitcher.setAttribute("class", "switchOpacity");
+    let conditionerSp = document.getElementById("tempSP");
+    conditionerSp.removeAttribute("disabled");
+    conditionerSp.removeAttribute("class");
+    let img = document.getElementById("conditionerModeId");
+    img.setAttribute("src", "static/images/conditionerSpMode.png");
+    conditionerModes = "static/images/conditionerSpMode.png";
     })

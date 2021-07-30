@@ -15,7 +15,7 @@
             {% if perms.smartHouseApp.can_set_temperature %}
                 <input type="image" id="conditOn" src="static/images/white_button.png" alt="вклХолод" onclick="onClickConditionerButton()">
 <!--                <button id="conditOn">вкл&#176;</button>-->
-                <select id="tempSP">
+                <select id="tempSP" disabled="True" class="switchOpacity">
                     <option value="16">16</option>
                     <option value="17">17</option>
                     <option value="18">18</option>
@@ -32,6 +32,7 @@
                     <option value="29">29</option>
                     <option value="30">30</option>
                 </select>
+                <img id="conditionerModeId" class="conditionerMode" src="static/images/conditionerHandMode.png">
                 <input id="conditHandMode" type="radio" name="conditMode" checked>
                 <input id="conditSpMode" type="radio" name="conditMode">
                 <img id="conditionerImgId" src="static/images/conditioner.png" alt="кондиционер">

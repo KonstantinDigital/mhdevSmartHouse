@@ -96,6 +96,8 @@ h1 {
     opacity: 0.5;
 }
 
+
+
 .light1Mode {
     height: 68px;
     position: absolute;
@@ -371,26 +373,36 @@ h1 {
     margin: 0;
     width: 50px;
     height: 25px;
-    top: 530px;
+    top: 535px;
     left: 466px;
+}
+
+.conditionerMode {
+    height: 68px;
+    position: absolute;
+    margin: 0;
+    top: 466px;
+    left: 456px;
 }
 
 #conditHandMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
-    width: 30px;
+    width: 40px;
     height: 30px;
-    top: 470px;
-    left: 475px;
+    top: 469px;
+    left: 470px;
 }
 
 #conditSpMode {
     position: absolute;
+    opacity: 0;
     margin: 0;
-    width: 30px;
+    width: 40px;
     height: 30px;
-    top: 500px;
-    left: 475px;
+    top: 501px;
+    left: 470px;
 }
 
 #conditOn {
@@ -398,7 +410,7 @@ h1 {
     margin: 0;
     width: 40px;
     height: 40px;
-    top: 430px;
+    top: 426px;
     left: 470px;
 }
 
