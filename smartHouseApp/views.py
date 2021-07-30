@@ -22,7 +22,7 @@ class ModbusConnect:
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
         self.com_number = 3
         self.ser.port = "COM{}".format(self.com_number)
-        self.ser.baudrate = 9600
+        self.ser.baudrate = 115200
         # инициализация переменных для очереди
         self.q = Queue()
         self.r_lock = RLock()

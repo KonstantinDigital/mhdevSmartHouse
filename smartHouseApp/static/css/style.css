@@ -396,10 +396,18 @@ h1 {
 #conditOn {
     position: absolute;
     margin: 0;
-    width: 50px;
-    height: 25px;
-    top: 445px;
-    left: 466px;
+    width: 40px;
+    height: 40px;
+    top: 430px;
+    left: 470px;
+}
+
+#conditionerImgId {
+    position: absolute;
+    margin: 0;
+    width: 150px;
+    top: 550px;
+    left: 420px;
 }
 /* подключаю дизайнерские шрифты */
 @font-face {
