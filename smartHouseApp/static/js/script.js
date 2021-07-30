@@ -6,12 +6,12 @@ let old4lightState = false;
 let old5lightState = false;
 let old6lightState = false;
 
-let old1Color = "32, 0, 255, 0.2";
-let old2Color = "32, 0, 255, 0.2";
-let old3Color = "32, 0, 255, 0.2";
-let old4Color = "32, 0, 255, 0.2";
-let old5Color = "32, 0, 255, 0.2";
-let old6Color = "32, 0, 255, 0.2";
+let old1Color = "0, 0, 255, 0.4";
+let old2Color = "0, 0, 255, 0.4";
+let old3Color = "0, 0, 255, 0.4";
+let old4Color = "0, 0, 255, 0.4";
+let old5Color = "0, 0, 255, 0.4";
+let old6Color = "0, 0, 255, 0.4";
 
 let old1temperature = 16;
 let old2temperature = 16;
@@ -84,31 +84,32 @@ function draw() {
         ctx.stroke();
 
         //ванная - пространство комнаты 1
-        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(53, 53, 294, 144);
 
         //прихожая - пространство комнаты 2
-        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(353, 53, 744, 194);
         ctx.fillRect(353, 247, 195, 100);
 
         //детская - пространство комнаты 3
-        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(1103, 53, 344, 594);
 
         //туалет - пространство комнаты 4
-        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(53, 203, 294, 144);
 
         //кухня - пространство комнаты 5
-        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(53, 353, 494, 294);
 
         //зал - пространство комнаты 6
-        ctx.fillStyle = 'rgb(32, 0, 255, 0.2)';
+        ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(553, 253, 544, 394);
 
         change1Color = function(rgba, lightState) {
+//            console.log(1, rgba);
             ctx.clearRect(53, 53, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 53, 294, 144);
@@ -122,6 +123,7 @@ function draw() {
         }
 
         change2Color = function(rgba, lightState) {
+//            console.log(2, rgba);
             ctx.clearRect(353, 53, 744, 194);
             ctx.clearRect(353, 247, 195, 100);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -137,6 +139,7 @@ function draw() {
         }
 
         change3Color = function(rgba, lightState) {
+//            console.log(3, rgba);
             ctx.clearRect(1103, 53, 344, 594);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(1103, 53, 344, 594);
@@ -150,6 +153,7 @@ function draw() {
         }
 
         change4Color = function(rgba, lightState) {
+//            console.log(4, rgba);
             ctx.clearRect(53, 203, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 203, 294, 144);
@@ -163,6 +167,7 @@ function draw() {
         }
 
         change5Color = function(rgba, lightState) {
+//            console.log(5, rgba);
             ctx.clearRect(53, 353, 494, 294);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 353, 494, 294);
@@ -176,6 +181,7 @@ function draw() {
         }
 
         change6Color = function(rgba, lightState) {
+//            console.log(6, rgba);
             ctx.clearRect(553, 253, 544, 394);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(553, 253, 544, 394);
