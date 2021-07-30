@@ -22,7 +22,7 @@ class ModbusConnect:
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
         self.com_number = 3
         self.ser.port = "COM{}".format(self.com_number)
-        self.ser.baudrate = 19200
+        self.ser.baudrate = 9600
         # инициализация переменных для очереди
         self.q = Queue()
         self.r_lock = RLock()
@@ -254,15 +254,15 @@ def state_mask_converting(mask, bit):
 def create_registers():
     global switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5, \
         temperature6, music_volume
-    switches = ModbusRegister(512, "holding_registers")
-    switches_state = ModbusRegister(513, "input_registers")
-    temperature1 = ModbusRegister(514, "input_registers")
-    temperature2 = ModbusRegister(515, "input_registers")
-    temperature3 = ModbusRegister(516, "input_registers")
-    temperature4 = ModbusRegister(517, "input_registers")
-    temperature5 = ModbusRegister(518, "input_registers")
-    temperature6 = ModbusRegister(519, "input_registers")
-    music_volume = ModbusRegister(520, "input_registers")
+    switches = ModbusRegister(0, "holding_registers")  # 512
+    switches_state = ModbusRegister(1, "input_registers")  # 513
+    temperature1 = ModbusRegister(2, "input_registers")  # 514
+    temperature2 = ModbusRegister(3, "input_registers")  # 515
+    temperature3 = ModbusRegister(4, "input_registers")  # 516
+    temperature4 = ModbusRegister(5, "input_registers")  # 517
+    temperature5 = ModbusRegister(6, "input_registers")  # 518
+    temperature6 = ModbusRegister(7, "input_registers")  # 519
+    music_volume = ModbusRegister(8, "input_registers")  # 520
     obj_lst = [switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5,
                temperature6, music_volume]
     for obj in obj_lst:

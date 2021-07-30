@@ -13,6 +13,12 @@ h1 {
     margin: 20px 30px 30px 530px;
 }
 
+.roomTemperature {
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 24px;
+    color: Indigo;
+}
+
 .log_href {
     font-size: 20px;
     color: LightSlateGray;
