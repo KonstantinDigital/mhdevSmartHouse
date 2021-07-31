@@ -27,6 +27,8 @@ let light4switch = false;
 let light5switch = false;
 let light6switch = false;
 
+let conditionerSwitch = false;
+
 let lastPressedButton = 0;
 
 let light1modes = "static/images/lightModeHand.png";
@@ -282,14 +284,37 @@ function onClick6LightButton() {
     changeLightButtonState();
 }
 
+function onClickConditionerButton() {
+    let conditionerButtonImg = document.getElementById("conditOn");
+    if (conditionerSwitch == false) {
+        conditionerSwitch = true;
+        conditionerButtonImg.setAttribute("src", "static/images/red_button.png");
+    }
+    else {
+        conditionerSwitch = false;
+        conditionerButtonImg.setAttribute("src", "static/images/blue_button.png");
+    }
+    changeLightButtonState();
+}
+
+function conditionerButtonImgSwitcher(){
+    let conditionerButtonImg = document.getElementById("conditOn");
+    if (conditionerSwitch == false) {
+        conditionerButtonImg.setAttribute("src", "static/images/blue_button.png");
+    }
+    else {
+        conditionerButtonImg.setAttribute("src", "static/images/red_button.png");
+    }
+}
+
 function changeLightButtonState() {
     $.ajax({
         url: "writeSwitchClick",
         method: "GET",
         cache: false,
         dataType: "html",
-        data: {light1switch: light1switch, light2switch: light2switch, light3switch: light3switch,
-            light4switch: light4switch, light5switch: light5switch, light6switch: light6switch},
+        data: {light1switch: light1switch, light2switch: light2switch, light3switch: light3switch, light4switch:
+            light4switch, light5switch: light5switch, light6switch: light6switch, conditionerSwitch: conditionerSwitch},
         success: function(data) {
             let parseData = JSON.parse(data);
             let new1Color = parseData["room1_color"];
@@ -353,6 +378,13 @@ function dataReload() {
             let new4lightState = parseData["light4_state"];
             let new5lightState = parseData["light5_state"];
             let new6lightState = parseData["light6_state"];
+
+            let newConditionerState = parseData["conditioner_state"];
+
+            if (newConditionerState != conditionerSwitch) {
+                conditionerSwitch = newConditionerState;
+                conditionerButtonImgSwitcher();
+            }
 
             if ((new1Color != old1Color) || (new1lightState != old1lightState)) {
                 change1Color(new1Color, new1lightState);
@@ -775,6 +807,12 @@ $("body").on("click", "#conditHandMode", function () {
     conditionerSp.setAttribute("disabled", "True");
     conditionerSp.setAttribute("class", "switchOpacity");
     let conditionerSwitcher = document.getElementById("conditOn");
+    if (conditionerSwitch == false) {
+        conditionerSwitcher.setAttribute("src", "static/images/blue_button.png");
+    }
+    else {
+        conditionerSwitcher.setAttribute("src", "static/images/red_button.png");
+    }
     conditionerSwitcher.removeAttribute("disabled");
     conditionerSwitcher.removeAttribute("class");
     let img = document.getElementById("conditionerModeId");
@@ -792,6 +830,7 @@ $("#conditSpMode").hover(function () {
 
 $("body").on("click", "#conditSpMode", function () {
     let conditionerSwitcher = document.getElementById("conditOn");
+    conditionerSwitcher.setAttribute("src", "static/images/white_button.png");
     conditionerSwitcher.setAttribute("disabled", "True");
     conditionerSwitcher.setAttribute("class", "switchOpacity");
     let conditionerSp = document.getElementById("tempSP");

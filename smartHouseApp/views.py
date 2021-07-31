@@ -326,7 +326,8 @@ def get_data(request):
         "light3_state": state_mask_converting(switches_state.mask, 3),
         "light4_state": state_mask_converting(switches_state.mask, 4),
         "light5_state": state_mask_converting(switches_state.mask, 5),
-        "light6_state": state_mask_converting(switches_state.mask, 6)
+        "light6_state": state_mask_converting(switches_state.mask, 6),
+        "conditioner_state": state_mask_converting(switches_state.mask, 7)
     }
     return JsonResponse(context)
 
@@ -367,6 +368,12 @@ def write_switches(request):
         switches.cmd_light6_on = True
     elif string_cmd_light6_on == "false":
         switches.cmd_light6_on = False
+
+    string_cmd_conditioner_on = request.GET["conditionerSwitch"]
+    if string_cmd_conditioner_on == "true":
+        switches.cmd_conditioner_on = True
+    elif string_cmd_conditioner_on == "false":
+        switches.cmd_conditioner_on = False
 
     switches.start_write_register()
 
