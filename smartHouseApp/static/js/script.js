@@ -203,6 +203,10 @@ function draw() {
     }
 }
 
+function changeSetPoint(){
+    console.log("onchange");
+}
+
 function lightImgSwitcher(room, state){
     let lightSwitcher = document.getElementById("light" + room + "on");
     if (state == true) {
@@ -805,7 +809,7 @@ $("#conditHandMode").hover(function () {
 $("body").on("click", "#conditHandMode", function () {
     let conditionerSp = document.getElementById("tempSP");
     conditionerSp.setAttribute("disabled", "True");
-    conditionerSp.setAttribute("class", "switchOpacity");
+    conditionerSp.setAttribute("class", "selectOpacity");
     let conditionerSwitcher = document.getElementById("conditOn");
     if (conditionerSwitch == false) {
         conditionerSwitcher.setAttribute("src", "static/images/blue_button.png");

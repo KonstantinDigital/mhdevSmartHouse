@@ -368,13 +368,35 @@ h1 {
     left: 1025px;
 }
 
-#tempSP {
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 20px;
+    color: Indigo;
+    text-align-last: center;
+    border: none;
+    border-radius: 5px;
+    background-color: LightCyan;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    vertical-align: middle;
     position: absolute;
     margin: 0;
     width: 50px;
-    height: 25px;
+    height: 30px;
     top: 535px;
     left: 466px;
+}
+
+select:after{
+  content: "";
+}
+
+.selectOpacity {
+    cursor: default;
+    opacity: 0.5;
 }
 
 .conditionerMode {

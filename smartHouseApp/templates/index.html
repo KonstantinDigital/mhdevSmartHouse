@@ -14,27 +14,26 @@
         <div class="containerCanvas">
             {% if perms.smartHouseApp.can_set_temperature %}
                 <input type="image" id="conditOn" src="static/images/blue_button.png" alt="вклХолод" onclick="onClickConditionerButton()">
-<!--                <button id="conditOn">вкл&#176;</button>-->
-                <select id="tempSP" disabled="True" class="switchOpacity">
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23" selected>23</option>
-                    <option value="24">24</option>
-                    <option value="25">25</option>
-                    <option value="26">26</option>
-                    <option value="27">27</option>
-                    <option value="28">28</option>
-                    <option value="29">29</option>
-                    <option value="30">30</option>
+                <select id="tempSP" disabled="True" class="selectOpacity" onchange="changeSetPoint()">
+                    <option value="16">16&#176;C</option>
+                    <option value="17">17&#176;C</option>
+                    <option value="18">18&#176;C</option>
+                    <option value="19">19&#176;C</option>
+                    <option value="20">20&#176;C</option>
+                    <option value="21">21&#176;C</option>
+                    <option value="22">22&#176;C</option>
+                    <option value="23" selected>23&#176;C</option>
+                    <option value="24">24&#176;C</option>
+                    <option value="25">25&#176;C</option>
+                    <option value="26">26&#176;C</option>
+                    <option value="27">27&#176;C</option>
+                    <option value="28">28&#176;C</option>
+                    <option value="29">29&#176;C</option>
+                    <option value="30">30&#176;C</option>
                 </select>
                 <img id="conditionerModeId" class="conditionerMode" src="static/images/conditionerHandMode.png">
                 <input id="conditHandMode" type="radio" name="conditMode" checked>
-                <input id="conditSpMode" type="radio" name="conditMode">
+                <input id="conditSpMode" type="radio" name="conditMode" onclick="changeSetPoint()">
                 <img id="conditionerImgId" src="static/images/conditioner.png" alt="кондиционер">
             {% endif %}
 
