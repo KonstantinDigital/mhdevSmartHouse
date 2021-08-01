@@ -202,9 +202,13 @@ function draw() {
 
     }
 }
-
+let lastState = false;
 function changeSetPoint(){
     console.log("onchange");
+    if (lastState == false){
+        lastState = true;
+        requestAnimationFrame(move);
+    }
 }
 
 function lightImgSwitcher(room, state){
@@ -478,6 +482,21 @@ function roundedRect(ctx, x, y, width, height, radius) {
 function changeTemperature(temp, room) {
     let tempInRoom = document.getElementById("temp" + room + "now");
     tempInRoom.innerHTML = String(temp) + "&#176;C";
+}
+
+let stepRound = 0;
+let elem = document.getElementById("conditioner2ImgId");
+
+//var style = document.defaultView.getComputedStyle(elem, null);
+
+function move() {
+    if (conditionerSwitch == true) {
+        stepRound += 15;
+        elem.style.transform = "rotate(" + stepRound + "deg)";
+        requestAnimationFrame(move);
+    } else {
+        lastState = false;
+    }
 }
 
 
