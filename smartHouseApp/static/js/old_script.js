@@ -1,4 +1,17 @@
-let firstStart = true;
+//крайнее записанное состояние света вкл или выкл
+let old1lightState = false;
+let old2lightState = false;
+let old3lightState = false;
+let old4lightState = false;
+let old5lightState = false;
+let old6lightState = false;
+//крайний записанный цвет комнаты в rgb
+let old1Color = "0, 0, 255, 0.4";
+let old2Color = "0, 0, 255, 0.4";
+let old3Color = "0, 0, 255, 0.4";
+let old4Color = "0, 0, 255, 0.4";
+let old5Color = "0, 0, 255, 0.4";
+let old6Color = "0, 0, 255, 0.4";
 //крайняя записанная темепература
 let old1temperature = 16;
 let old2temperature = 16;
@@ -349,7 +362,6 @@ function dataReload() {
             console.log("DATA_RELOAD");
             clearTimeout(timerId);
 
-
             let parseData = JSON.parse(data);
             let new1Color = parseData["room1_color"];
             let new2Color = parseData["room2_color"];
@@ -374,60 +386,75 @@ function dataReload() {
 
             let newConditionerState = parseData["conditioner_state"];
 
-            if (firstStart == true) {
-                firstStart = false;
-                let lightSwitchArray = [new1lightState, new2lightState, new3lightState, new4lightState, new5lightState, new6lightState];
-                for(let i=0; i<6; i++){
-                    lightImgSwitcher(i+1, lightSwitchArray[i]);
-                }
-            }
-
-
             if (newConditionerState != conditionerSwitch) {
                 conditionerSwitch = newConditionerState;
                 conditionerButtonImgSwitcher();
             }
 
-            if ((new1temperature != old1temperature) || (new1lightState != light1switch)) {
+            if ((new1Color != old1Color) || (new1lightState != old1lightState)) {
                 change1Color(new1Color, new1lightState);
-                changeTemperature(new1temperature, 1);
-                old1temperature = new1temperature;
-                light1switch = new1lightState;
             }
+            old1Color = new1Color;
+            old1lightState = new1lightState;
+            light1switch = new1lightState;
 
-            if ((new2temperature != old2temperature) || (new2lightState != light2switch)) {
+            if ((new2Color != old2Color) || (new2lightState != old2lightState)) {
                 change2Color(new2Color, new2lightState);
-                changeTemperature(new2temperature, 2);
-                old2temperature = new2temperature;
-                light2switch = new2lightState;
             }
+            old2Color = new2Color;
+            old2lightState = new2lightState;
+            light2switch = new2lightState;
 
-            if ((new3temperature != old3temperature) || (new3lightState != light3switch)) {
+            if ((new3Color != old3Color) || (new3lightState != old3lightState)) {
                 change3Color(new3Color, new3lightState);
-                changeTemperature(new3temperature, 3);
-                old3temperature = new3temperature;
-                light3switch = new3lightState;
             }
+            old3Color = new3Color;
+            old3lightState = new3lightState;
+            light3switch = new3lightState;
 
-            if ((new4temperature != old4temperature) || (new4lightState != light4switch)) {
+            if ((new4Color != old4Color) || (new4lightState != old4lightState)) {
                 change4Color(new4Color, new4lightState);
-                changeTemperature(new4temperature, 4);
-                old4temperature = new4temperature;
-                light4switch = new4lightState;
             }
+            old4Color = new4Color;
+            old4lightState = new4lightState;
+            light4switch = new4lightState;
 
-            if ((new5temperature != old5temperature) || (new5lightState != light5switch)) {
+            if ((new5Color != old5Color) || (new5lightState != old5lightState)) {
                 change5Color(new5Color, new5lightState);
-                changeTemperature(new5temperature, 5);
-                old5temperature = new5temperature;
-                light5switch = new5lightState;
             }
+            old5Color = new5Color;
+            old5lightState = new5lightState;
+            light5switch = new5lightState;
 
-            if ((new6temperature != old6temperature) || (new6lightState != light6switch)) {
+            if ((new6Color != old6Color) || (new6lightState != old6lightState)) {
                 change6Color(new6Color, new6lightState);
-                changeTemperature(new6temperature, 6);
-                old6temperature = new6temperature;
-                light6switch = new6lightState;
+            }
+            old6Color = new6Color;
+            old6lightState = new6lightState;
+            light6switch = new6lightState;
+
+            if (new1temperature != old1temperature) changeTemperature(new1temperature, 1);
+            old1temperature = new1temperature;
+
+            if (new2temperature != old2temperature) changeTemperature(new2temperature, 2);
+            old2temperature = new2temperature;
+
+            if (new3temperature != old3temperature) changeTemperature(new3temperature, 3);
+            old3temperature = new3temperature;
+
+            if (new4temperature != old4temperature) changeTemperature(new4temperature, 4);
+            old4temperature = new4temperature;
+
+            if (new5temperature != old5temperature) changeTemperature(new5temperature, 5);
+            old5temperature = new5temperature;
+
+            if (new6temperature != old6temperature) changeTemperature(new6temperature, 6);
+            old6temperature = new6temperature;
+
+            let lightSwitchArray = [light1switch, light2switch, light3switch, light4switch, light5switch, light6switch];
+
+            for(let i=0; i<6; i++){
+                lightImgSwitcher(i+1, lightSwitchArray[i]);
             }
 
             timerId = setTimeout(dataReload, 10000);
