@@ -1,43 +1,43 @@
-
+//крайнее записанное состояние света вкл или выкл
 let old1lightState = false;
 let old2lightState = false;
 let old3lightState = false;
 let old4lightState = false;
 let old5lightState = false;
 let old6lightState = false;
-
+//крайний записанный цвет комнаты в rgb
 let old1Color = "0, 0, 255, 0.4";
 let old2Color = "0, 0, 255, 0.4";
 let old3Color = "0, 0, 255, 0.4";
 let old4Color = "0, 0, 255, 0.4";
 let old5Color = "0, 0, 255, 0.4";
 let old6Color = "0, 0, 255, 0.4";
-
+//крайняя записанная темепература
 let old1temperature = 16;
 let old2temperature = 16;
 let old3temperature = 16;
 let old4temperature = 16;
 let old5temperature = 16;
 let old6temperature = 16;
-
+//крайнее записанное положение выключателя света
 let light1switch = false;
 let light2switch = false;
 let light3switch = false;
 let light4switch = false;
 let light5switch = false;
 let light6switch = false;
-
+//крайнее записанное положение выключателя кондиционера
 let conditionerSwitch = false;
-
+//крайний нажатый выключатель света
 let lastPressedButton = 0;
-
+//изображение режима работы включения света
 let light1modes = "static/images/lightModeHand.png";
 let light2modes = "static/images/lightModeHand.png";
 let light3modes = "static/images/lightModeHand.png";
 let light4modes = "static/images/lightModeHand.png";
 let light5modes = "static/images/lightModeHand.png";
 let light6modes = "static/images/lightModeHand.png";
-
+//изображение режима работы включения кондиционера
 let conditionerModes = "static/images/conditionerHandMode.png";
 
 let timerId = setTimeout(dataReload, 10000);
@@ -113,7 +113,6 @@ function draw() {
         ctx.fillRect(553, 253, 544, 394);
 
         change1Color = function(rgba, lightState) {
-//            console.log(1, rgba);
             ctx.clearRect(53, 53, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 53, 294, 144);
@@ -127,7 +126,6 @@ function draw() {
         }
 
         change2Color = function(rgba, lightState) {
-//            console.log(2, rgba);
             ctx.clearRect(353, 53, 744, 194);
             ctx.clearRect(353, 247, 195, 100);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -143,7 +141,6 @@ function draw() {
         }
 
         change3Color = function(rgba, lightState) {
-//            console.log(3, rgba);
             ctx.clearRect(1103, 53, 344, 594);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(1103, 53, 344, 594);
@@ -157,7 +154,6 @@ function draw() {
         }
 
         change4Color = function(rgba, lightState) {
-//            console.log(4, rgba);
             ctx.clearRect(53, 203, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 203, 294, 144);
@@ -171,7 +167,6 @@ function draw() {
         }
 
         change5Color = function(rgba, lightState) {
-//            console.log(5, rgba);
             ctx.clearRect(53, 353, 494, 294);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 353, 494, 294);
@@ -185,7 +180,6 @@ function draw() {
         }
 
         change6Color = function(rgba, lightState) {
-//            console.log(6, rgba);
             ctx.clearRect(553, 253, 544, 394);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(553, 253, 544, 394);
@@ -198,7 +192,8 @@ function draw() {
             }
         }
 
-        dataReload();
+        clearTimeout(timerId);
+        timerId = setTimeout(dataReload);
 
     }
 }
@@ -230,6 +225,8 @@ function onClick1LightButton() {
     lightImgSwitcher(1, light1switch);
     lastPressedButton = 1;
     changeLightButtonState();
+    clearTimeout(timerId);
+    timerId = setTimeout(dataReload);
 }
 
 function onClick2LightButton() {
@@ -363,6 +360,7 @@ function dataReload() {
         dataType: "html",
         data: {},
         success: function(data) {
+            console.log("DATA_RELOAD");
             clearTimeout(timerId);
 
             let parseData = JSON.parse(data);
