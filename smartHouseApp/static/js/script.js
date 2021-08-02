@@ -39,9 +39,9 @@ let light5modes = "static/images/lightModeHand.png";
 let light6modes = "static/images/lightModeHand.png";
 //изображение режима работы включения кондиционера
 let conditionerModes = "static/images/conditionerHandMode.png";
-
+//запуск функции обновления элементов экрана с осрочкой 10 сек
 let timerId = setTimeout(dataReload, 10000);
-
+//функция отрисовки план схемы квартиры
 function draw() {
     var canvas = document.getElementById('appLayout');
     if (appLayout.getContext) {
@@ -111,7 +111,7 @@ function draw() {
         //зал - пространство комнаты 6
         ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(553, 253, 544, 394);
-
+        //изменение цвета комнаты 1
         change1Color = function(rgba, lightState) {
             ctx.clearRect(53, 53, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -124,7 +124,7 @@ function draw() {
                 }
             }
         }
-
+        //изменение цвета комнаты 2
         change2Color = function(rgba, lightState) {
             ctx.clearRect(353, 53, 744, 194);
             ctx.clearRect(353, 247, 195, 100);
@@ -139,7 +139,7 @@ function draw() {
                 }
             }
         }
-
+        //изменение цвета комнаты 3
         change3Color = function(rgba, lightState) {
             ctx.clearRect(1103, 53, 344, 594);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -152,7 +152,7 @@ function draw() {
                 }
             }
         }
-
+        //изменение цвета комнаты 4
         change4Color = function(rgba, lightState) {
             ctx.clearRect(53, 203, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -165,7 +165,7 @@ function draw() {
                 }
             }
         }
-
+        //изменение цвета комнаты 5
         change5Color = function(rgba, lightState) {
             ctx.clearRect(53, 353, 494, 294);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -178,7 +178,7 @@ function draw() {
                 }
             }
         }
-
+        //изменение цвета комнаты 6
         change6Color = function(rgba, lightState) {
             ctx.clearRect(553, 253, 544, 394);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -191,21 +191,22 @@ function draw() {
                 }
             }
         }
-
+        //сброс отсрочки запуска функции обновления элементво экран и запуск этой функции
         clearTimeout(timerId);
         timerId = setTimeout(dataReload);
-
     }
 }
-let lastState = false;
+//крайнее зафиксированное состояние кондиционера
+let lastConditionerState = false;
+//функция проверяет если кондиционер не работает то включает его и запускает вращение
 function changeSetPoint(){
     console.log("onchange");
-    if (lastState == false){
-        lastState = true;
+    if (lastConditionerState == false){
+        lastConditionerState = true;
         requestAnimationFrame(move);
     }
 }
-
+//функция меняет картинку включателя света в зависимости от его состояния
 function lightImgSwitcher(room, state){
     let lightSwitcher = document.getElementById("light" + room + "on");
     if (state == true) {
@@ -214,7 +215,7 @@ function lightImgSwitcher(room, state){
         lightSwitcher.setAttribute("src", "static/images/lightOn.png");
     }
 }
-
+//функция по клику на кнопку 1
 function onClick1LightButton() {
     if (light1switch == false) {
         light1switch = true;
@@ -225,10 +226,8 @@ function onClick1LightButton() {
     lightImgSwitcher(1, light1switch);
     lastPressedButton = 1;
     changeLightButtonState();
-    clearTimeout(timerId);
-    timerId = setTimeout(dataReload);
 }
-
+//функция по клику на кнопку 2
 function onClick2LightButton() {
     if (light2switch == false) {
         light2switch = true;
@@ -240,7 +239,7 @@ function onClick2LightButton() {
     lastPressedButton = 2;
     changeLightButtonState();
 }
-
+//функция по клику на кнопку 3
 function onClick3LightButton() {
     if (light3switch == false) {
         light3switch = true;
@@ -252,7 +251,7 @@ function onClick3LightButton() {
     lastPressedButton = 3;
     changeLightButtonState();
 }
-
+//функция по клику на кнопку 4
 function onClick4LightButton() {
     if (light4switch == false) {
         light4switch = true;
@@ -264,7 +263,7 @@ function onClick4LightButton() {
     lastPressedButton = 4;
     changeLightButtonState();
 }
-
+//функция по клику на кнопку 5
 function onClick5LightButton() {
     if (light5switch == false) {
         light5switch = true;
@@ -276,7 +275,7 @@ function onClick5LightButton() {
     lastPressedButton = 5;
     changeLightButtonState();
 }
-
+//функция по клику на кнопку 6
 function onClick6LightButton() {
     if (light6switch == false) {
         light6switch = true;
