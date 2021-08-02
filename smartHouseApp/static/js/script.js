@@ -15,6 +15,12 @@ let light5switch = false;
 let light6switch = false;
 //крайнее записанное положение выключателя кондиционера
 let conditionerSwitch = false;
+//крайнее зафиксированное состояние кондиционера
+let lastConditionerState = false;
+//начальное значение вращения лопастей
+let stepRound = 0;
+//изображение лопастей
+let conditionerImage = document.getElementById("conditioner2ImgId");
 //крайний нажатый выключатель света
 let lastPressedButton = 0;
 //изображение режима работы включения света
@@ -183,15 +189,9 @@ function draw() {
         timerId = setTimeout(dataReload);
     }
 }
-//крайнее зафиксированное состояние кондиционера
-let lastConditionerState = false;
-//функция проверяет если кондиционер не работает то включает его и запускает вращение
+//функция срабатывает при изменении выбора уставки температуры кондиционера
 function changeSetPoint(){
     console.log("onchange");
-    if (lastConditionerState == false){
-        lastConditionerState = true;
-        requestAnimationFrame(move);
-    }
 }
 //функция меняет картинку включателя света в зависимости от его состояния
 function lightImgSwitcher(room, state){
@@ -274,8 +274,12 @@ function onClick6LightButton() {
     lastPressedButton = 6;
     changeLightButtonState();
 }
-
+//функция по клику на кнопку включения кондиционера
 function onClickConditionerButton() {
+    if (lastConditionerState == false){
+        lastConditionerState = true;
+        requestAnimationFrame(runConditioner);
+    }
     let conditionerButtonImg = document.getElementById("conditOn");
     if (conditionerSwitch == false) {
         conditionerSwitch = true;
@@ -287,7 +291,7 @@ function onClickConditionerButton() {
     }
     changeLightButtonState();
 }
-
+//функция меняет изображение включенной кнопки
 function conditionerButtonImgSwitcher(){
     let conditionerButtonImg = document.getElementById("conditOn");
     if (conditionerSwitch == false) {
@@ -297,7 +301,7 @@ function conditionerButtonImgSwitcher(){
         conditionerButtonImg.setAttribute("src", "static/images/red_button.png");
     }
 }
-
+//функция отправляет на запись измененные состояния при нажатии кнопок
 function changeLightButtonState() {
     $.ajax({
         url: "writeSwitchClick",
@@ -337,7 +341,7 @@ function changeLightButtonState() {
         }
     })
 }
-
+//функция периодически обновляет переменные и при изменении их состояния меняет соответствующие элементы на экране
 function dataReload() {
     $.ajax({
         url: "getNewData",
@@ -376,7 +380,8 @@ function dataReload() {
 
             if (firstStart == true) {
                 firstStart = false;
-                let lightSwitchArray = [new1lightState, new2lightState, new3lightState, new4lightState, new5lightState, new6lightState];
+                let lightSwitchArray = [new1lightState, new2lightState, new3lightState, new4lightState, new5lightState,
+                                        new6lightState];
                 for(let i=0; i<6; i++){
                     lightImgSwitcher(i+1, lightSwitchArray[i]);
                 }
@@ -386,6 +391,7 @@ function dataReload() {
             if (newConditionerState != conditionerSwitch) {
                 conditionerSwitch = newConditionerState;
                 conditionerButtonImgSwitcher();
+                runConditioner();
             }
 
             if ((new1temperature != old1temperature) || (new1lightState != light1switch)) {
@@ -429,12 +435,11 @@ function dataReload() {
                 old6temperature = new6temperature;
                 light6switch = new6lightState;
             }
-
             timerId = setTimeout(dataReload, 10000);
         }
     })
 }
-
+//функция для отрисовки прямоугольника с закругленными углами
 function roundedRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x, y + radius);
@@ -448,24 +453,19 @@ function roundedRect(ctx, x, y, width, height, radius) {
   ctx.arcTo(x, y, x, y + radius, radius);
   ctx.stroke();
 }
-
+//функция изменяет значение температуры в комнатах
 function changeTemperature(temp, room) {
     let tempInRoom = document.getElementById("temp" + room + "now");
     tempInRoom.innerHTML = String(temp) + "&#176;C";
 }
-
-let stepRound = 0;
-let elem = document.getElementById("conditioner2ImgId");
-
-//var style = document.defaultView.getComputedStyle(elem, null);
-
-function move() {
+//функция запускает анимацию вращения лопастей кондиционера
+function runConditioner() {
     if (conditionerSwitch == true) {
         stepRound += 15;
-        elem.style.transform = "rotate(" + stepRound + "deg)";
-        requestAnimationFrame(move);
+        conditionerImage.style.transform = "rotate(" + stepRound + "deg)";
+        requestAnimationFrame(runConditioner);
     } else {
-        lastState = false;
+        lastConditionerState = false;
     }
 }
 

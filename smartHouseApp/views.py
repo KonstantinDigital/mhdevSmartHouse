@@ -8,13 +8,6 @@ import modbus_tk.defines as mb_cst
 import modbus_tk.modbus_rtu as mb_rtu
 import time
 
-# test_temp_1room = 26
-# test_temp_2room = 27
-# test_temp_3room = 28
-# test_temp_4room = 29
-# test_temp_5room = 30
-# test_temp_6room = 31
-
 
 class ModbusConnect:
     def __init__(self):
@@ -187,7 +180,6 @@ class ModbusRegister(Thread):
                 self.start_read_register()
 
 
-# Create your views here.
 @login_required(login_url="/login/")
 def index(request):
     if modbus_master.connect_modbus():
@@ -268,29 +260,6 @@ def create_registers():
     for obj in obj_lst:
         obj.setDaemon(True)
         obj.start()
-    # test_func = Thread(target=test_function, daemon=True)
-    # test_func.start()
-
-
-# def test_function():
-#     print(switches.cmd_light1_on)
-#     print(switches.cmd_light2_on)
-#     print(switches.cmd_light3_on)
-#     print(switches.cmd_light4_on)
-#     print(switches.cmd_light5_on)
-#     print(switches.cmd_light6_on)
-#     print(switches.cmd_conditioner_on)
-#     print(switches.cmd_music_on)
-#     print(switches_state.mask)
-#     print(temperature1.mask)
-#     print(temperature2.mask)
-#     print(temperature3.mask)
-#     print(temperature4.mask)
-#     print(temperature5.mask)
-#     print(temperature6.mask)
-#     print(music_volume.mask)
-#     time.sleep(2)
-#     test_function()
 
 
 def change_room_color(temp):
@@ -302,12 +271,6 @@ def change_room_color(temp):
 
 
 def get_data(request):
-    # temperature1.mask = test_temp_1room
-    # temperature2.mask = test_temp_2room
-    # temperature3.mask = test_temp_3room
-    # temperature4.mask = test_temp_4room
-    # temperature5.mask = test_temp_5room
-    # temperature6.mask = test_temp_6room
     context = {
         "room1_color": change_room_color(temperature1.mask),
         "room2_color": change_room_color(temperature2.mask),
@@ -377,13 +340,6 @@ def write_switches(request):
 
     switches.start_write_register()
 
-    # temperature1.mask = test_temp_1room
-    # temperature2.mask = test_temp_2room
-    # temperature3.mask = test_temp_3room
-    # temperature4.mask = test_temp_4room
-    # temperature5.mask = test_temp_5room
-    # temperature6.mask = test_temp_6room
-
     context = {
         "room1_color": change_room_color(temperature1.mask),
         "room2_color": change_room_color(temperature2.mask),
@@ -395,23 +351,9 @@ def write_switches(request):
     return JsonResponse(context)
 
 
-modbus_master = ModbusConnect()
-
-# switches = object
-# switches_state = object
-# temperature1 = object
-# temperature2 = object
-# temperature3 = object
-# temperature4 = object
-# temperature5 = object
-# temperature6 = object
-# music_volume = object
-
-# room_color = {16: "32, 0, 255, 0.2", 17: "0, 0, 255, 0.2", 18: "0, 57, 255, 0.2", 19: "0, 96, 255, 0.2",
-#               20: "0, 121, 255, 0.2", 21: "0, 153, 255, 0.2", 22: "0, 185, 255, 0.2", 23: "0, 204, 255, 0.2",
-#               24: "0, 255, 242, 0.2", 25: "255, 249, 0, 0.2", 26: "255, 217, 0, 0.2", 27: "255, 198, 0, 0.2",
-#               28: "255, 115, 0, 0.2", 29: "255, 70, 0, 0.2", 30: "255, 0, 0, 0.2"}
 room_color = {16: "0, 0, 255, 0.4", 17: "0, 25, 255, 0.4", 18: "0, 50, 255, 0.4", 19: "0, 75, 255, 0.4",
               20: "0, 100, 255, 0.4", 21: "0, 125, 255, 0.4", 22: "0, 150, 255, 0.4", 23: "0, 175, 255, 0.4",
               24: "0, 200, 255, 0.4", 25: "255, 200, 0, 0.4", 26: "255, 175, 0, 0.4", 27: "255, 150, 0, 0.4",
               28: "255, 100, 0, 0.4", 29: "255, 50, 0, 0.4", 30: "255, 0, 0, 0.4"}
+
+modbus_master = ModbusConnect()
