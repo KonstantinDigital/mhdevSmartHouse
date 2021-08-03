@@ -8,7 +8,7 @@ import modbus_tk.defines as mb_cst
 import modbus_tk.modbus_rtu as mb_rtu
 import time
 from pyowm import OWM
-# from datetime import timedelta, timezone
+from datetime import datetime
 from pytz import timezone
 
 
@@ -16,7 +16,7 @@ class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
-        self.com_number = 7
+        self.com_number = 5
         self.ser.port = "COM{}".format(self.com_number)
         self.ser.baudrate = 115200
         # инициализация переменных для очереди
@@ -198,10 +198,20 @@ def sunset_sunrise_owm():
     mngr = owm.weather_manager()
     observation = mngr.weather_at_place("Rostov-na-Donu, RU")
     weather = observation.weather
-    sunrise_date = weather.sunrise_time(timeformat='date')
-    sunset_date = weather.sunset_time(timeformat='date')
-
-    print("!!!!!", sunset_date(timezone('UTC')))
+    sunrise_date = weather.sunrise_time(timeformat='date').astimezone(timezone('Europe/Moscow'))
+    sunset_date = weather.sunset_time(timeformat='date').astimezone(timezone('Europe/Moscow'))
+    now_date = datetime.now()
+    now_unix = time.time()
+    sunrise_unix = weather.sunrise_time(timeformat='unix')
+    sunset_unix = weather.sunset_time(timeformat='unix')
+    sunrise_date_from_unix = datetime.fromtimestamp(weather.sunrise_time(timeformat='unix'))
+    sunset_date_from_unix = datetime.fromtimestamp(weather.sunset_time(timeformat='unix'))
+    # localize_sunrise = sunrise_date.astimezone(timezone('Europe/Moscow'))
+    print("$$$$", sunrise_date_from_unix, sunset_date_from_unix)
+    print("@@@@", sunrise_unix, sunset_unix)
+    print("!!!!", now_date, int(now_unix))
+    # conv_date = sunset_date(timezone(("UTC")))
+    # print("!!!!!", conv_date)
     # reg = owm.city_id_registry()
     # list_of_locations = reg.locations_for('Rostov-na-Donu', country='RU')
     # rostov = list_of_locations[0]
