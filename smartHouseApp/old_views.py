@@ -16,7 +16,7 @@ class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
-        self.com_number = 3
+        self.com_number = 5
         self.ser.port = "COM{}".format(self.com_number)
         self.ser.baudrate = 115200
         # инициализация переменных для очереди
@@ -193,6 +193,31 @@ def index(request):
     return render(request, "index.html")
 
 
+def sunset_sunrise_owm():
+    owm = OWM("61030a1cc48f4ccbcbaf3cd7db4c106d")
+    mngr = owm.weather_manager()
+    observation = mngr.weather_at_place("Rostov-na-Donu, RU")
+    weather = observation.weather
+    sunrise_date = weather.sunrise_time(timeformat='date').astimezone(timezone('Europe/Moscow'))
+    sunset_date = weather.sunset_time(timeformat='date').astimezone(timezone('Europe/Moscow'))
+    now_date = datetime.now()
+    now_unix = time.time()
+    sunrise_unix = weather.sunrise_time(timeformat='unix')
+    sunset_unix = weather.sunset_time(timeformat='unix')
+    sunrise_date_from_unix = datetime.fromtimestamp(weather.sunrise_time(timeformat='unix'))
+    sunset_date_from_unix = datetime.fromtimestamp(weather.sunset_time(timeformat='unix'))
+    # localize_sunrise = sunrise_date.astimezone(timezone('Europe/Moscow'))
+    print("$$$$", sunrise_date_from_unix, sunset_date_from_unix)
+    print("@@@@", sunrise_unix, sunset_unix)
+    print("!!!!", now_date, int(now_unix))
+    # conv_date = sunset_date(timezone(("UTC")))
+    # print("!!!!!", conv_date)
+    # reg = owm.city_id_registry()
+    # list_of_locations = reg.locations_for('Rostov-na-Donu', country='RU')
+    # rostov = list_of_locations[0]
+    # print(rostov.lat, rostov.lon)
+
+
 def state_of_light(request):
     context = {
         "light1_state": state_mask_converting(switches_state.mask, 1),
@@ -274,6 +299,7 @@ def change_room_color(temp):
 
 
 def get_data(request):
+    sunset_sunrise_owm()
     context = {
         "room1_color": change_room_color(temperature1.mask),
         "room2_color": change_room_color(temperature2.mask),
@@ -350,73 +376,6 @@ def write_switches(request):
         "room4_color": change_room_color(temperature4.mask),
         "room5_color": change_room_color(temperature5.mask),
         "room6_color": change_room_color(temperature6.mask),
-    }
-    return JsonResponse(context)
-
-
-def sunset_sunrise_owm(request):
-    owm1mode = request.GET["owm1mode"]
-    owm2mode = request.GET["owm2mode"]
-    owm3mode = request.GET["owm3mode"]
-    owm4mode = request.GET["owm4mode"]
-    owm5mode = request.GET["owm5mode"]
-    owm6mode = request.GET["owm6mode"]
-    owm = OWM("61030a1cc48f4ccbcbaf3cd7db4c106d")
-    mngr = owm.weather_manager()
-    observation = mngr.weather_at_place("Rostov-na-Donu, RU")
-    weather = observation.weather
-    light_on = False
-    now_unix = time.time()
-    sunrise_unix = weather.sunrise_time(timeformat='unix')
-    sunset_unix = weather.sunset_time(timeformat='unix')
-    now_date_from_unix = datetime.fromtimestamp(int(time.time()))
-    sunrise_date_from_unix = datetime.fromtimestamp(weather.sunrise_time(timeformat='unix'))
-    sunset_date_from_unix = datetime.fromtimestamp(weather.sunset_time(timeformat='unix'))
-    print("РАССВЕТ: ", sunrise_date_from_unix)
-    print("ЗАКАТ: ", sunset_date_from_unix)
-    print("СЕЙЧАС: ", now_date_from_unix)
-    if now_unix < sunrise_unix or now_unix >= sunset_unix:
-        light_on = True
-    print("ОСВЕЩЕНИЕ: ", light_on)
-
-    if owm1mode == "true" and light_on:
-        switches.cmd_light1_on = True
-    elif owm1mode == "true" and not light_on:
-        switches.cmd_light1_on = False
-
-    if owm2mode == "true" and light_on:
-        switches.cmd_light2_on = True
-    elif owm2mode == "true" and not light_on:
-        switches.cmd_light2_on = False
-
-    if owm3mode == "true" and light_on:
-        switches.cmd_light3_on = True
-    elif owm3mode == "true" and not light_on:
-        switches.cmd_light3_on = False
-
-    if owm4mode == "true" and light_on:
-        switches.cmd_light4_on = True
-    elif owm4mode == "true" and not light_on:
-        switches.cmd_light4_on = False
-
-    if owm5mode == "true" and light_on:
-        switches.cmd_light5_on = True
-    elif owm5mode == "true" and not light_on:
-        switches.cmd_light5_on = False
-
-    if owm6mode == "true" and light_on:
-        switches.cmd_light6_on = True
-    elif owm6mode == "true" and not light_on:
-        switches.cmd_light6_on = False
-
-    switches.start_write_register()
-    context = {
-        "light1_state": state_mask_converting(switches_state.mask, 1),
-        "light2_state": state_mask_converting(switches_state.mask, 2),
-        "light3_state": state_mask_converting(switches_state.mask, 3),
-        "light4_state": state_mask_converting(switches_state.mask, 4),
-        "light5_state": state_mask_converting(switches_state.mask, 5),
-        "light6_state": state_mask_converting(switches_state.mask, 6)
     }
     return JsonResponse(context)
 

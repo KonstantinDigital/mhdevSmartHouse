@@ -13,6 +13,13 @@ let light3switch = false;
 let light4switch = false;
 let light5switch = false;
 let light6switch = false;
+//состояние режима OpenWeatherMap
+let owm1mode = false;
+let owm2mode = false;
+let owm3mode = false;
+let owm4mode = false;
+let owm5mode = false;
+let owm6mode = false;
 //крайнее записанное положение выключателя кондиционера
 let conditionerSwitch = false;
 //крайнее зафиксированное состояние кондиционера
@@ -34,6 +41,9 @@ let light6modes = "static/images/lightModeHand.png";
 let conditionerModes = "static/images/conditionerHandMode.png";
 //запуск функции обновления элементов экрана с осрочкой 10 сек
 let timerId = setTimeout(dataReload, 10000);
+let owmFromButton = false;
+timerCheckOwm = setTimeout(sunsetSunriseMode, 10000);
+clearTimeout(timerCheckOwm);
 //функция отрисовки план схемы квартиры
 function draw() {
     var canvas = document.getElementById('appLayout');
@@ -341,6 +351,93 @@ function changeLightButtonState() {
         }
     })
 }
+
+function onclick1owmMode(){
+    owm1mode = true;
+    owmFromButton = true;
+    sunsetSunriseMode();
+}
+
+function onclick2owmMode(){
+    owm2mode = true;
+    owmFromButton = true;
+    sunsetSunriseMode();
+}
+
+function onclick3owmMode(){
+    owm3mode = true;
+    owmFromButton = true;
+    sunsetSunriseMode();
+}
+
+function onclick4owmMode(){
+    owm4mode = true;
+    owmFromButton = true;
+    sunsetSunriseMode();
+}
+
+function onclick5owmMode(){
+    owm5mode = true;
+    owmFromButton = true;
+    sunsetSunriseMode();
+}
+
+function onclick6owmMode(){
+    owm6mode = true;
+    owmFromButton = true;
+    sunsetSunriseMode();
+}
+
+
+function onclick1handMode(){
+    owm1mode = false;
+}
+
+function onclick2handMode(){
+    owm2mode = false;
+}
+
+function onclick3handMode(){
+    owm3mode = false;
+}
+
+function onclick4handMode(){
+    owm4mode = false;
+}
+
+function onclick5handMode(){
+    owm5mode = false;
+}
+
+function onclick6handMode(){
+    owm6mode = false;
+}
+//функция отправляет запрос на open weather map для получения данных о закате и рассвете
+function sunsetSunriseMode() {
+    $.ajax({
+        url: "writeOwmClick",
+        method: "GET",
+        cache: false,
+        dataType: "html",
+        data: {owm1mode: owm1mode, owm2mode: owm2mode, owm3mode: owm3mode, owm4mode: owm4mode, owm5mode: owm5mode, owm6mode: owm6mode},
+        success: function(data) {
+            if (owmFromButton == true) {
+                owmFromButton = false;
+                clearTimeout(timerId);
+                timerId = setTimeout(dataReload, 1000);
+            }
+            checkOwmMode();
+        }
+    })
+}
+function checkOwmMode(){
+    if ((owm1mode == true) || (owm2mode == true) || (owm3mode == true) || (owm4mode == true) || (owm5mode == true) || (owm6mode == true)) {
+        clearTimeout(timerCheckOwm);
+        timerCheckOwm = setTimeout(sunsetSunriseMode, 60000);
+    } else {
+        clearTimeout(timerCheckOwm);
+    }
+}
 //функция периодически обновляет переменные и при изменении их состояния меняет соответствующие элементы на экране
 function dataReload() {
     $.ajax({
@@ -352,7 +449,6 @@ function dataReload() {
         success: function(data) {
             console.log("DATA_RELOAD");
             clearTimeout(timerId);
-
 
             let parseData = JSON.parse(data);
             let new1Color = parseData["room1_color"];
@@ -396,6 +492,7 @@ function dataReload() {
 
             if ((new1temperature != old1temperature) || (new1lightState != light1switch)) {
                 change1Color(new1Color, new1lightState);
+                lightImgSwitcher(1, new1lightState);
                 changeTemperature(new1temperature, 1);
                 old1temperature = new1temperature;
                 light1switch = new1lightState;
@@ -403,6 +500,7 @@ function dataReload() {
 
             if ((new2temperature != old2temperature) || (new2lightState != light2switch)) {
                 change2Color(new2Color, new2lightState);
+                lightImgSwitcher(2, new2lightState);
                 changeTemperature(new2temperature, 2);
                 old2temperature = new2temperature;
                 light2switch = new2lightState;
@@ -410,6 +508,7 @@ function dataReload() {
 
             if ((new3temperature != old3temperature) || (new3lightState != light3switch)) {
                 change3Color(new3Color, new3lightState);
+                lightImgSwitcher(3, new3lightState);
                 changeTemperature(new3temperature, 3);
                 old3temperature = new3temperature;
                 light3switch = new3lightState;
@@ -417,6 +516,7 @@ function dataReload() {
 
             if ((new4temperature != old4temperature) || (new4lightState != light4switch)) {
                 change4Color(new4Color, new4lightState);
+                lightImgSwitcher(4, new4lightState);
                 changeTemperature(new4temperature, 4);
                 old4temperature = new4temperature;
                 light4switch = new4lightState;
@@ -424,6 +524,7 @@ function dataReload() {
 
             if ((new5temperature != old5temperature) || (new5lightState != light5switch)) {
                 change5Color(new5Color, new5lightState);
+                lightImgSwitcher(5, new5lightState);
                 changeTemperature(new5temperature, 5);
                 old5temperature = new5temperature;
                 light5switch = new5lightState;
@@ -431,6 +532,7 @@ function dataReload() {
 
             if ((new6temperature != old6temperature) || (new6lightState != light6switch)) {
                 change6Color(new6Color, new6lightState);
+                lightImgSwitcher(6, new6lightState);
                 changeTemperature(new6temperature, 6);
                 old6temperature = new6temperature;
                 light6switch = new6lightState;
