@@ -351,7 +351,7 @@ function changeLightButtonState() {
         }
     })
 }
-
+//функции по клику на выбор режима включения освещения "закат/рассвет"
 function onclick1owmMode(){
     owm1mode = true;
     owmFromButton = true;
@@ -388,7 +388,7 @@ function onclick6owmMode(){
     sunsetSunriseMode();
 }
 
-
+//функции по клику на выбор режима включения освещения "ручной"
 function onclick1handMode(){
     owm1mode = false;
 }
@@ -430,6 +430,7 @@ function sunsetSunriseMode() {
         }
     })
 }
+//если хотя бы один переключатель выбора режима освещения находится в режиме "закат/рассвет" то функция периодически проверяет данные по OWM
 function checkOwmMode(){
     if ((owm1mode == true) || (owm2mode == true) || (owm3mode == true) || (owm4mode == true) || (owm5mode == true) || (owm6mode == true)) {
         clearTimeout(timerCheckOwm);
