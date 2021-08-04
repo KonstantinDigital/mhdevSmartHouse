@@ -1,27 +1,34 @@
-let firstStart = true;
+let isFirstStart = true;
 //крайняя записанная темепература
-let old1temperature = 16;
-let old2temperature = 16;
-let old3temperature = 16;
-let old4temperature = 16;
-let old5temperature = 16;
-let old6temperature = 16;
+let lastTemperatureRoom1;
+let lastTemperatureRoom2;
+let lastTemperatureRoom3;
+let lastTemperatureRoom4;
+let lastTemperatureRoom5;
+let lastTemperatureRoom6;
 //крайнее записанное положение выключателя света
-let light1switch = false;
-let light2switch = false;
-let light3switch = false;
-let light4switch = false;
-let light5switch = false;
-let light6switch = false;
+let isLightSwitchOnRoom1 = false;
+let isLightSwitchOnRoom2 = false;
+let isLightSwitchOnRoom3 = false;
+let isLightSwitchOnRoom4 = false;
+let isLightSwitchOnRoom5 = false;
+let isLightSwitchOnRoom6 = false;
 //состояние режима OpenWeatherMap
-let owm1mode = false;
-let owm2mode = false;
-let owm3mode = false;
-let owm4mode = false;
-let owm5mode = false;
-let owm6mode = false;
+let isOwmModeOnRoom1 = false;
+let isOwmModeOnRoom2 = false;
+let isOwmModeOnRoom3 = false;
+let isOwmModeOnRoom4 = false;
+let isOwmModeOnRoom5 = false;
+let isOwmModeOnRoom6 = false;
+//состояние режима SheduleMode
+let isSheduleModeOnRoom1 = false;
+let isSheduleModeOnRoom2 = false;
+let isSheduleModeOnRoom3 = false;
+let isSheduleModeOnRoom4 = false;
+let isSheduleModeOnRoom5 = false;
+let isSheduleModeOnRoom6 = false;
 //крайнее записанное положение выключателя кондиционера
-let conditionerSwitch = false;
+let isConditionerSwitchOn = false;
 //крайнее зафиксированное состояние кондиционера
 let lastConditionerState = false;
 //начальное значение вращения лопастей
@@ -31,18 +38,18 @@ let conditionerImage = document.getElementById("conditioner2ImgId");
 //крайний нажатый выключатель света
 let lastPressedButton = 0;
 //изображение режима работы включения света
-let light1modes = "static/images/lightModeHand.png";
-let light2modes = "static/images/lightModeHand.png";
-let light3modes = "static/images/lightModeHand.png";
-let light4modes = "static/images/lightModeHand.png";
-let light5modes = "static/images/lightModeHand.png";
-let light6modes = "static/images/lightModeHand.png";
+let imgLightModeRoom1 = "static/images/lightModeHand.png";
+let imgLightModeRoom2 = "static/images/lightModeHand.png";
+let imgLightModeRoom3 = "static/images/lightModeHand.png";
+let imgLightModeRoom4 = "static/images/lightModeHand.png";
+let imgLightModeRoom5 = "static/images/lightModeHand.png";
+let imgLightModeRoom6 = "static/images/lightModeHand.png";
 //изображение режима работы включения кондиционера
-let conditionerModes = "static/images/conditionerHandMode.png";
+let imgConditionerMode = "static/images/conditionerHandMode.png";
 //запуск функции обновления элементов экрана с осрочкой 10 сек
-let timerId = setTimeout(dataReload, 10000);
-let owmFromButton = false;
-timerCheckOwm = setTimeout(sunsetSunriseMode, 10000);
+let timerDataReload = setTimeout(dataReload, 10000);
+let isOwmFromButton = false;
+let timerCheckOwm = setTimeout(sunsetSunriseMode, 10000);
 clearTimeout(timerCheckOwm);
 //функция отрисовки план схемы квартиры
 function draw() {
@@ -115,7 +122,7 @@ function draw() {
         ctx.fillStyle = 'rgb(0, 0, 255, 0.4)';
         ctx.fillRect(553, 253, 544, 394);
         //изменение цвета комнаты 1
-        change1Color = function(rgba, lightState) {
+        changeColorInRoom1 = function(rgba, lightState) {
             ctx.clearRect(53, 53, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 53, 294, 144);
@@ -128,7 +135,7 @@ function draw() {
             }
         }
         //изменение цвета комнаты 2
-        change2Color = function(rgba, lightState) {
+        changeColorInRoom2 = function(rgba, lightState) {
             ctx.clearRect(353, 53, 744, 194);
             ctx.clearRect(353, 247, 195, 100);
             ctx.fillStyle = 'rgb(' + rgba + ')';
@@ -143,7 +150,7 @@ function draw() {
             }
         }
         //изменение цвета комнаты 3
-        change3Color = function(rgba, lightState) {
+        changeColorInRoom3 = function(rgba, lightState) {
             ctx.clearRect(1103, 53, 344, 594);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(1103, 53, 344, 594);
@@ -156,7 +163,7 @@ function draw() {
             }
         }
         //изменение цвета комнаты 4
-        change4Color = function(rgba, lightState) {
+        changeColorInRoom4 = function(rgba, lightState) {
             ctx.clearRect(53, 203, 294, 144);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 203, 294, 144);
@@ -169,7 +176,7 @@ function draw() {
             }
         }
         //изменение цвета комнаты 5
-        change5Color = function(rgba, lightState) {
+        changeColorInRoom5 = function(rgba, lightState) {
             ctx.clearRect(53, 353, 494, 294);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(53, 353, 494, 294);
@@ -182,7 +189,7 @@ function draw() {
             }
         }
         //изменение цвета комнаты 6
-        change6Color = function(rgba, lightState) {
+        changeColorInRoom6 = function(rgba, lightState) {
             ctx.clearRect(553, 253, 544, 394);
             ctx.fillStyle = 'rgb(' + rgba + ')';
             ctx.fillRect(553, 253, 544, 394);
@@ -195,8 +202,8 @@ function draw() {
             }
         }
         //сброс отсрочки запуска функции обновления элементво экран и запуск этой функции
-        clearTimeout(timerId);
-        timerId = setTimeout(dataReload);
+        clearTimeout(timerDataReload);
+        timerDataReload = setTimeout(dataReload);
     }
 }
 //функция срабатывает при изменении выбора уставки температуры кондиционера
@@ -205,7 +212,7 @@ function changeSetPoint(){
 }
 //функция меняет картинку включателя света в зависимости от его состояния
 function lightImgSwitcher(room, state){
-    let lightSwitcher = document.getElementById("light" + room + "on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom" + room);
     if (state == true) {
         lightSwitcher.setAttribute("src", "static/images/lightOff.png");
     } else {
@@ -214,73 +221,73 @@ function lightImgSwitcher(room, state){
 }
 //функция по клику на кнопку 1
 function onClick1LightButton() {
-    if (light1switch == false) {
-        light1switch = true;
+    if (isLightSwitchOnRoom1 == false) {
+        isLightSwitchOnRoom1 = true;
     }
     else {
-        light1switch = false;
+        isLightSwitchOnRoom1 = false;
     }
-    lightImgSwitcher(1, light1switch);
+    lightImgSwitcher(1, isLightSwitchOnRoom1);
     lastPressedButton = 1;
     changeLightButtonState();
 }
 //функция по клику на кнопку 2
 function onClick2LightButton() {
-    if (light2switch == false) {
-        light2switch = true;
+    if (isLightSwitchOnRoom2 == false) {
+        isLightSwitchOnRoom2 = true;
     }
     else {
-        light2switch = false;
+        isLightSwitchOnRoom2 = false;
     }
-    lightImgSwitcher(2, light2switch);
+    lightImgSwitcher(2, isLightSwitchOnRoom2);
     lastPressedButton = 2;
     changeLightButtonState();
 }
 //функция по клику на кнопку 3
 function onClick3LightButton() {
-    if (light3switch == false) {
-        light3switch = true;
+    if (isLightSwitchOnRoom3 == false) {
+        isLightSwitchOnRoom3 = true;
     }
     else {
-        light3switch = false;
+        isLightSwitchOnRoom3 = false;
     }
-    lightImgSwitcher(3, light3switch);
+    lightImgSwitcher(3, isLightSwitchOnRoom3);
     lastPressedButton = 3;
     changeLightButtonState();
 }
 //функция по клику на кнопку 4
 function onClick4LightButton() {
-    if (light4switch == false) {
-        light4switch = true;
+    if (isLightSwitchOnRoom4 == false) {
+        isLightSwitchOnRoom4 = true;
     }
     else {
-        light4switch = false;
+        isLightSwitchOnRoom4 = false;
     }
-    lightImgSwitcher(4, light4switch);
+    lightImgSwitcher(4, isLightSwitchOnRoom4);
     lastPressedButton = 4;
     changeLightButtonState();
 }
 //функция по клику на кнопку 5
 function onClick5LightButton() {
-    if (light5switch == false) {
-        light5switch = true;
+    if (isLightSwitchOnRoom5 == false) {
+        isLightSwitchOnRoom5 = true;
     }
     else {
-        light5switch = false;
+        isLightSwitchOnRoom5 = false;
     }
-    lightImgSwitcher(5, light5switch);
+    lightImgSwitcher(5, isLightSwitchOnRoom5);
     lastPressedButton = 5;
     changeLightButtonState();
 }
 //функция по клику на кнопку 6
 function onClick6LightButton() {
-    if (light6switch == false) {
-        light6switch = true;
+    if (isLightSwitchOnRoom6 == false) {
+        isLightSwitchOnRoom6 = true;
     }
     else {
-        light6switch = false;
+        isLightSwitchOnRoom6 = false;
     }
-    lightImgSwitcher(6, light6switch);
+    lightImgSwitcher(6, isLightSwitchOnRoom6);
     lastPressedButton = 6;
     changeLightButtonState();
 }
@@ -291,12 +298,12 @@ function onClickConditionerButton() {
         requestAnimationFrame(runConditioner);
     }
     let conditionerButtonImg = document.getElementById("conditOn");
-    if (conditionerSwitch == false) {
-        conditionerSwitch = true;
+    if (isConditionerSwitchOn == false) {
+        isConditionerSwitchOn = true;
         conditionerButtonImg.setAttribute("src", "static/images/red_button.png");
     }
     else {
-        conditionerSwitch = false;
+        isConditionerSwitchOn = false;
         conditionerButtonImg.setAttribute("src", "static/images/blue_button.png");
     }
     changeLightButtonState();
@@ -304,7 +311,7 @@ function onClickConditionerButton() {
 //функция меняет изображение включенной кнопки
 function conditionerButtonImgSwitcher(){
     let conditionerButtonImg = document.getElementById("conditOn");
-    if (conditionerSwitch == false) {
+    if (isConditionerSwitchOn == false) {
         conditionerButtonImg.setAttribute("src", "static/images/blue_button.png");
     }
     else {
@@ -318,8 +325,10 @@ function changeLightButtonState() {
         method: "GET",
         cache: false,
         dataType: "html",
-        data: {light1switch: light1switch, light2switch: light2switch, light3switch: light3switch, light4switch:
-            light4switch, light5switch: light5switch, light6switch: light6switch, conditionerSwitch: conditionerSwitch},
+        data: {isLightSwitchOnRoom1: isLightSwitchOnRoom1, isLightSwitchOnRoom2: isLightSwitchOnRoom2,
+            isLightSwitchOnRoom3: isLightSwitchOnRoom3, isLightSwitchOnRoom4: isLightSwitchOnRoom4,
+            isLightSwitchOnRoom5: isLightSwitchOnRoom5, isLightSwitchOnRoom6: isLightSwitchOnRoom6,
+            isConditionerSwitchOn: isConditionerSwitchOn},
         success: function(data) {
             let parseData = JSON.parse(data);
             let new1Color = parseData["room1_color"];
@@ -331,86 +340,129 @@ function changeLightButtonState() {
 
             if (lastPressedButton == 1){
                 lastPressedButton = 0;
-                change1Color(new1Color, light1switch);
+                changeColorInRoom1(new1Color, isLightSwitchOnRoom1);
             } else if (lastPressedButton == 2){
                 lastPressedButton = 0;
-                change2Color(new2Color, light2switch);
+                changeColorInRoom2(new2Color, isLightSwitchOnRoom2);
             } else if (lastPressedButton == 3){
                 lastPressedButton = 0;
-                change3Color(new3Color, light3switch);
+                changeColorInRoom3(new3Color, isLightSwitchOnRoom3);
             } else if (lastPressedButton == 4){
                 lastPressedButton = 0;
-                change4Color(new4Color, light4switch);
+                changeColorInRoom4(new4Color, isLightSwitchOnRoom4);
             } else if (lastPressedButton == 5){
                 lastPressedButton = 0;
-                change5Color(new5Color, light5switch);
+                changeColorInRoom5(new5Color, isLightSwitchOnRoom5);
             } else if (lastPressedButton == 6){
                 lastPressedButton = 0;
-                change6Color(new6Color, light6switch);
+                changeColorInRoom6(new6Color, isLightSwitchOnRoom6);
             }
         }
     })
 }
 //функции по клику на выбор режима включения освещения "закат/рассвет"
 function onclick1owmMode(){
-    owm1mode = true;
-    owmFromButton = true;
+    isOwmModeOnRoom1 = true;
+    isOwmFromButton = true;
+    isSheduleModeOnRoom1 = false;
     sunsetSunriseMode();
 }
 
 function onclick2owmMode(){
-    owm2mode = true;
-    owmFromButton = true;
+    isOwmModeOnRoom2 = true;
+    isOwmFromButton = true;
+    isSheduleModeOnRoom2 = false;
     sunsetSunriseMode();
 }
 
 function onclick3owmMode(){
-    owm3mode = true;
-    owmFromButton = true;
+    isOwmModeOnRoom3 = true;
+    isOwmFromButton = true;
+    isSheduleModeOnRoom3 = false;
     sunsetSunriseMode();
 }
 
 function onclick4owmMode(){
-    owm4mode = true;
-    owmFromButton = true;
+    isOwmModeOnRoom4 = true;
+    isOwmFromButton = true;
+    isSheduleModeOnRoom4 = false;
     sunsetSunriseMode();
 }
 
 function onclick5owmMode(){
-    owm5mode = true;
-    owmFromButton = true;
+    isOwmModeOnRoom5 = true;
+    isOwmFromButton = true;
+    isSheduleModeOnRoom5 = false;
     sunsetSunriseMode();
 }
 
 function onclick6owmMode(){
-    owm6mode = true;
-    owmFromButton = true;
+    isOwmModeOnRoom6 = true;
+    isOwmFromButton = true;
+    isSheduleModeOnRoom6 = false;
     sunsetSunriseMode();
 }
 
 //функции по клику на выбор режима включения освещения "ручной"
 function onclick1handMode(){
-    owm1mode = false;
+    isOwmModeOnRoom1 = false;
+    isSheduleModeOnRoom1 = false;
 }
 
 function onclick2handMode(){
-    owm2mode = false;
+    isOwmModeOnRoom2 = false;
+    isSheduleModeOnRoom2 = false;
 }
 
 function onclick3handMode(){
-    owm3mode = false;
+    isOwmModeOnRoom3 = false;
+    isSheduleModeOnRoom3 = false;
 }
 
 function onclick4handMode(){
-    owm4mode = false;
+    isOwmModeOnRoom4 = false;
+    isSheduleModeOnRoom4 = false;
 }
 
 function onclick5handMode(){
-    owm5mode = false;
+    isOwmModeOnRoom5 = false;
+    isSheduleModeOnRoom5 = false;
 }
 
 function onclick6handMode(){
-    owm6mode = false;
+    isOwmModeOnRoom6 = false;
+    isSheduleModeOnRoom6 = false;
+}
+
+//функции по клику на выбор режима включения освещения "shedule"
+function onclick1sheduleMode(){
+    isSheduleModeOnRoom1 = true;
+    isOwmModeOnRoom1 = false;
+}
+
+function onclick2sheduleMode(){
+    isSheduleModeOnRoom2 = true;
+    isOwmModeOnRoom2 = false;
+}
+
+function onclick3sheduleMode(){
+    isSheduleModeOnRoom3 = true;
+    isOwmModeOnRoom3 = false;
+}
+
+function onclick4sheduleMode(){
+    isSheduleModeOnRoom4 = true;
+    isOwmModeOnRoom4 = false;
+}
+
+function onclick5sheduleMode(){
+    isSheduleModeOnRoom5 = true;
+    isOwmModeOnRoom5 = false;
+}
+
+function onclick6sheduleMode(){
+    isSheduleModeOnRoom6 = true;
+    isOwmModeOnRoom6 = false;
 }
 //функция отправляет запрос на open weather map для получения данных о закате и рассвете
 function sunsetSunriseMode() {
@@ -419,12 +471,14 @@ function sunsetSunriseMode() {
         method: "GET",
         cache: false,
         dataType: "html",
-        data: {owm1mode: owm1mode, owm2mode: owm2mode, owm3mode: owm3mode, owm4mode: owm4mode, owm5mode: owm5mode, owm6mode: owm6mode},
+        data: {isOwmModeOnRoom1: isOwmModeOnRoom1, isOwmModeOnRoom2: isOwmModeOnRoom2,
+            isOwmModeOnRoom3: isOwmModeOnRoom3, isOwmModeOnRoom4: isOwmModeOnRoom4,
+            isOwmModeOnRoom5: isOwmModeOnRoom5, isOwmModeOnRoom6: isOwmModeOnRoom6},
         success: function(data) {
-            if (owmFromButton == true) {
-                owmFromButton = false;
-                clearTimeout(timerId);
-                timerId = setTimeout(dataReload, 1000);
+            if (isOwmFromButton == true) {
+                isOwmFromButton = false;
+                clearTimeout(timerDataReload);
+                timerDataReload = setTimeout(dataReload, 1000);
             }
             checkOwmMode();
         }
@@ -432,7 +486,8 @@ function sunsetSunriseMode() {
 }
 //если хотя бы один переключатель выбора режима освещения находится в режиме "закат/рассвет" то функция периодически проверяет данные по OWM
 function checkOwmMode(){
-    if ((owm1mode == true) || (owm2mode == true) || (owm3mode == true) || (owm4mode == true) || (owm5mode == true) || (owm6mode == true)) {
+    if ((isOwmModeOnRoom1 == true) || (isOwmModeOnRoom2 == true) || (isOwmModeOnRoom3 == true) ||
+        (isOwmModeOnRoom4 == true) || (isOwmModeOnRoom5 == true) || (isOwmModeOnRoom6 == true)) {
         clearTimeout(timerCheckOwm);
         timerCheckOwm = setTimeout(sunsetSunriseMode, 60000);
     } else {
@@ -449,7 +504,7 @@ function dataReload() {
         data: {},
         success: function(data) {
             console.log("DATA_RELOAD");
-            clearTimeout(timerId);
+            clearTimeout(timerDataReload);
 
             let parseData = JSON.parse(data);
             let new1Color = parseData["room1_color"];
@@ -475,8 +530,8 @@ function dataReload() {
 
             let newConditionerState = parseData["conditioner_state"];
 
-            if (firstStart == true) {
-                firstStart = false;
+            if (isFirstStart == true) {
+                isFirstStart = false;
                 let lightSwitchArray = [new1lightState, new2lightState, new3lightState, new4lightState, new5lightState,
                                         new6lightState];
                 for(let i=0; i<6; i++){
@@ -485,60 +540,60 @@ function dataReload() {
             }
 
 
-            if (newConditionerState != conditionerSwitch) {
-                conditionerSwitch = newConditionerState;
+            if (newConditionerState != isConditionerSwitchOn) {
+                isConditionerSwitchOn = newConditionerState;
                 conditionerButtonImgSwitcher();
                 runConditioner();
             }
 
-            if ((new1temperature != old1temperature) || (new1lightState != light1switch)) {
-                change1Color(new1Color, new1lightState);
+            if ((new1temperature != lastTemperatureRoom1) || (new1lightState != isLightSwitchOnRoom1)) {
+                changeColorInRoom1(new1Color, new1lightState);
                 lightImgSwitcher(1, new1lightState);
                 changeTemperature(new1temperature, 1);
-                old1temperature = new1temperature;
-                light1switch = new1lightState;
+                lastTemperatureRoom1 = new1temperature;
+                isLightSwitchOnRoom1 = new1lightState;
             }
 
-            if ((new2temperature != old2temperature) || (new2lightState != light2switch)) {
-                change2Color(new2Color, new2lightState);
+            if ((new2temperature != lastTemperatureRoom2) || (new2lightState != isLightSwitchOnRoom2)) {
+                changeColorInRoom2(new2Color, new2lightState);
                 lightImgSwitcher(2, new2lightState);
                 changeTemperature(new2temperature, 2);
-                old2temperature = new2temperature;
-                light2switch = new2lightState;
+                lastTemperatureRoom2 = new2temperature;
+                isLightSwitchOnRoom2 = new2lightState;
             }
 
-            if ((new3temperature != old3temperature) || (new3lightState != light3switch)) {
-                change3Color(new3Color, new3lightState);
+            if ((new3temperature != lastTemperatureRoom3) || (new3lightState != isLightSwitchOnRoom3)) {
+                changeColorInRoom3(new3Color, new3lightState);
                 lightImgSwitcher(3, new3lightState);
                 changeTemperature(new3temperature, 3);
-                old3temperature = new3temperature;
-                light3switch = new3lightState;
+                lastTemperatureRoom3 = new3temperature;
+                isLightSwitchOnRoom3 = new3lightState;
             }
 
-            if ((new4temperature != old4temperature) || (new4lightState != light4switch)) {
-                change4Color(new4Color, new4lightState);
+            if ((new4temperature != lastTemperatureRoom4) || (new4lightState != isLightSwitchOnRoom4)) {
+                changeColorInRoom4(new4Color, new4lightState);
                 lightImgSwitcher(4, new4lightState);
                 changeTemperature(new4temperature, 4);
-                old4temperature = new4temperature;
-                light4switch = new4lightState;
+                lastTemperatureRoom4 = new4temperature;
+                isLightSwitchOnRoom4 = new4lightState;
             }
 
-            if ((new5temperature != old5temperature) || (new5lightState != light5switch)) {
-                change5Color(new5Color, new5lightState);
+            if ((new5temperature != lastTemperatureRoom5) || (new5lightState != isLightSwitchOnRoom5)) {
+                changeColorInRoom5(new5Color, new5lightState);
                 lightImgSwitcher(5, new5lightState);
                 changeTemperature(new5temperature, 5);
-                old5temperature = new5temperature;
-                light5switch = new5lightState;
+                lastTemperatureRoom5 = new5temperature;
+                isLightSwitchOnRoom5 = new5lightState;
             }
 
-            if ((new6temperature != old6temperature) || (new6lightState != light6switch)) {
-                change6Color(new6Color, new6lightState);
+            if ((new6temperature != lastTemperatureRoom6) || (new6lightState != isLightSwitchOnRoom6)) {
+                changeColorInRoom6(new6Color, new6lightState);
                 lightImgSwitcher(6, new6lightState);
                 changeTemperature(new6temperature, 6);
-                old6temperature = new6temperature;
-                light6switch = new6lightState;
+                lastTemperatureRoom6 = new6temperature;
+                isLightSwitchOnRoom6 = new6lightState;
             }
-            timerId = setTimeout(dataReload, 10000);
+            timerDataReload = setTimeout(dataReload, 10000);
         }
     })
 }
@@ -563,7 +618,7 @@ function changeTemperature(temp, room) {
 }
 //функция запускает анимацию вращения лопастей кондиционера
 function runConditioner() {
-    if (conditionerSwitch == true) {
+    if (isConditionerSwitchOn == true) {
         stepRound += 15;
         conditionerImage.style.transform = "rotate(" + stepRound + "deg)";
         requestAnimationFrame(runConditioner);
@@ -578,21 +633,16 @@ $("#light1handMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeHand.png");
 }, function () {
     let img = document.getElementById("light1modeId");
-    img.setAttribute("src", light1modes);
+    img.setAttribute("src", imgLightModeRoom1);
 })
 
 $("body").on("click", "#light1handMode", function () {
-    let lightSwitcher = document.getElementById("light1on");
-    if (light1switch == true) {
-        lightSwitcher.setAttribute("src", "static/images/lightOff.png");
-    } else {
-        lightSwitcher.setAttribute("src", "static/images/lightOn.png");
-    }
+    let lightSwitcher = document.getElementById("lightSwitcherRoom1");
     lightSwitcher.removeAttribute("disabled");
     lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
-    light1modes = "static/images/lightModeHand.png";
+    imgLightModeRoom1 = "static/images/lightModeHand.png";
     })
 
 $("#light1owmMode").hover(function () {
@@ -600,16 +650,16 @@ $("#light1owmMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeOWM.png");
 }, function () {
     let img = document.getElementById("light1modeId");
-    img.setAttribute("src", light1modes);
+    img.setAttribute("src", imgLightModeRoom1);
 })
 
 $("body").on("click", "#light1owmMode", function () {
-    let lightSwitcher = document.getElementById("light1on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom1");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
-    light1modes = "static/images/lightModeOWM.png";
+    imgLightModeRoom1 = "static/images/lightModeOWM.png";
     })
 
 $("#light1sheduleMode").hover(function () {
@@ -617,16 +667,16 @@ $("#light1sheduleMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeShedule.png");
 }, function () {
     let img = document.getElementById("light1modeId");
-    img.setAttribute("src", light1modes);
+    img.setAttribute("src", imgLightModeRoom1);
 })
 
 $("body").on("click", "#light1sheduleMode", function () {
-    let lightSwitcher = document.getElementById("light1on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom1");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
-    light1modes = "static/images/lightModeShedule.png";
+    imgLightModeRoom1 = "static/images/lightModeShedule.png";
     })
 
 
@@ -635,16 +685,16 @@ $("#light2handMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeHand.png");
 }, function () {
     let img = document.getElementById("light2modeId");
-    img.setAttribute("src", light2modes);
+    img.setAttribute("src", imgLightModeRoom2);
 })
 
 $("body").on("click", "#light2handMode", function () {
-    let lightSwitcher = document.getElementById("light2on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom2");
     lightSwitcher.removeAttribute("disabled");
     lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light2modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
-    light2modes = "static/images/lightModeHand.png";
+    imgLightModeRoom2 = "static/images/lightModeHand.png";
     })
 
 $("#light2owmMode").hover(function () {
@@ -652,16 +702,16 @@ $("#light2owmMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeOWM.png");
 }, function () {
     let img = document.getElementById("light2modeId");
-    img.setAttribute("src", light2modes);
+    img.setAttribute("src", imgLightModeRoom2);
 })
 
 $("body").on("click", "#light2owmMode", function () {
-    let lightSwitcher = document.getElementById("light2on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom2");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light2modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
-    light2modes = "static/images/lightModeOWM.png";
+    imgLightModeRoom2 = "static/images/lightModeOWM.png";
     })
 
 $("#light2sheduleMode").hover(function () {
@@ -669,16 +719,16 @@ $("#light2sheduleMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeShedule.png");
 }, function () {
     let img = document.getElementById("light2modeId");
-    img.setAttribute("src", light2modes);
+    img.setAttribute("src", imgLightModeRoom2);
 })
 
 $("body").on("click", "#light2sheduleMode", function () {
-    let lightSwitcher = document.getElementById("light2on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom2");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light2modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
-    light2modes = "static/images/lightModeShedule.png";
+    imgLightModeRoom2 = "static/images/lightModeShedule.png";
     })
 
 
@@ -687,16 +737,16 @@ $("#light3handMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeHand.png");
 }, function () {
     let img = document.getElementById("light3modeId");
-    img.setAttribute("src", light3modes);
+    img.setAttribute("src", imgLightModeRoom3);
 })
 
 $("body").on("click", "#light3handMode", function () {
-    let lightSwitcher = document.getElementById("light3on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom3");
     lightSwitcher.removeAttribute("disabled");
     lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light3modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
-    light3modes = "static/images/lightModeHand.png";
+    imgLightModeRoom3 = "static/images/lightModeHand.png";
     })
 
 $("#light3owmMode").hover(function () {
@@ -704,16 +754,16 @@ $("#light3owmMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeOWM.png");
 }, function () {
     let img = document.getElementById("light3modeId");
-    img.setAttribute("src", light3modes);
+    img.setAttribute("src", imgLightModeRoom3);
 })
 
 $("body").on("click", "#light3owmMode", function () {
-    let lightSwitcher = document.getElementById("light3on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom3");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light3modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
-    light3modes = "static/images/lightModeOWM.png";
+    imgLightModeRoom3 = "static/images/lightModeOWM.png";
     })
 
 $("#light3sheduleMode").hover(function () {
@@ -721,16 +771,16 @@ $("#light3sheduleMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeShedule.png");
 }, function () {
     let img = document.getElementById("light3modeId");
-    img.setAttribute("src", light3modes);
+    img.setAttribute("src", imgLightModeRoom3);
 })
 
 $("body").on("click", "#light3sheduleMode", function () {
-    let lightSwitcher = document.getElementById("light3on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom3");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light3modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
-    light3modes = "static/images/lightModeShedule.png";
+    imgLightModeRoom3 = "static/images/lightModeShedule.png";
     })
 
 
@@ -739,16 +789,16 @@ $("#light4handMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeHand.png");
 }, function () {
     let img = document.getElementById("light4modeId");
-    img.setAttribute("src", light4modes);
+    img.setAttribute("src", imgLightModeRoom4);
 })
 
 $("body").on("click", "#light4handMode", function () {
-    let lightSwitcher = document.getElementById("light4on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom4");
     lightSwitcher.removeAttribute("disabled");
     lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light4modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
-    light4modes = "static/images/lightModeHand.png";
+    imgLightModeRoom4 = "static/images/lightModeHand.png";
     })
 
 $("#light4owmMode").hover(function () {
@@ -756,16 +806,16 @@ $("#light4owmMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeOWM.png");
 }, function () {
     let img = document.getElementById("light4modeId");
-    img.setAttribute("src", light4modes);
+    img.setAttribute("src", imgLightModeRoom4);
 })
 
 $("body").on("click", "#light4owmMode", function () {
-    let lightSwitcher = document.getElementById("light4on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom4");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light4modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
-    light4modes = "static/images/lightModeOWM.png";
+    imgLightModeRoom4 = "static/images/lightModeOWM.png";
     })
 
 $("#light4sheduleMode").hover(function () {
@@ -773,16 +823,16 @@ $("#light4sheduleMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeShedule.png");
 }, function () {
     let img = document.getElementById("light4modeId");
-    img.setAttribute("src", light4modes);
+    img.setAttribute("src", imgLightModeRoom4);
 })
 
 $("body").on("click", "#light4sheduleMode", function () {
-    let lightSwitcher = document.getElementById("light4on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom4");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light4modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
-    light4modes = "static/images/lightModeShedule.png";
+    imgLightModeRoom4 = "static/images/lightModeShedule.png";
     })
 
 
@@ -791,16 +841,16 @@ $("#light5handMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeHand.png");
 }, function () {
     let img = document.getElementById("light5modeId");
-    img.setAttribute("src", light5modes);
+    img.setAttribute("src", imgLightModeRoom5);
 })
 
 $("body").on("click", "#light5handMode", function () {
-    let lightSwitcher = document.getElementById("light5on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom5");
     lightSwitcher.removeAttribute("disabled");
     lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light5modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
-    light5modes = "static/images/lightModeHand.png";
+    imgLightModeRoom5 = "static/images/lightModeHand.png";
     })
 
 $("#light5owmMode").hover(function () {
@@ -808,16 +858,16 @@ $("#light5owmMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeOWM.png");
 }, function () {
     let img = document.getElementById("light5modeId");
-    img.setAttribute("src", light5modes);
+    img.setAttribute("src", imgLightModeRoom5);
 })
 
 $("body").on("click", "#light5owmMode", function () {
-    let lightSwitcher = document.getElementById("light5on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom5");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light5modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
-    light5modes = "static/images/lightModeOWM.png";
+    imgLightModeRoom5 = "static/images/lightModeOWM.png";
     })
 
 $("#light5sheduleMode").hover(function () {
@@ -825,16 +875,16 @@ $("#light5sheduleMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeShedule.png");
 }, function () {
     let img = document.getElementById("light5modeId");
-    img.setAttribute("src", light5modes);
+    img.setAttribute("src", imgLightModeRoom5);
 })
 
 $("body").on("click", "#light5sheduleMode", function () {
-    let lightSwitcher = document.getElementById("light5on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom5");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light5modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
-    light5modes = "static/images/lightModeShedule.png";
+    imgLightModeRoom5 = "static/images/lightModeShedule.png";
     })
 
 
@@ -843,16 +893,16 @@ $("#light6handMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeHand.png");
 }, function () {
     let img = document.getElementById("light6modeId");
-    img.setAttribute("src", light6modes);
+    img.setAttribute("src", imgLightModeRoom6);
 })
 
 $("body").on("click", "#light6handMode", function () {
-    let lightSwitcher = document.getElementById("light6on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom6");
     lightSwitcher.removeAttribute("disabled");
     lightSwitcher.removeAttribute("class");
     let img = document.getElementById("light6modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
-    light6modes = "static/images/lightModeHand.png";
+    imgLightModeRoom6 = "static/images/lightModeHand.png";
     })
 
 $("#light6owmMode").hover(function () {
@@ -860,16 +910,16 @@ $("#light6owmMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeOWM.png");
 }, function () {
     let img = document.getElementById("light6modeId");
-    img.setAttribute("src", light6modes);
+    img.setAttribute("src", imgLightModeRoom6);
 })
 
 $("body").on("click", "#light6owmMode", function () {
-    let lightSwitcher = document.getElementById("light6on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom6");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light6modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
-    light6modes = "static/images/lightModeOWM.png";
+    imgLightModeRoom6 = "static/images/lightModeOWM.png";
     })
 
 $("#light6sheduleMode").hover(function () {
@@ -877,16 +927,16 @@ $("#light6sheduleMode").hover(function () {
     img.setAttribute("src", "static/images/lightModeShedule.png");
 }, function () {
     let img = document.getElementById("light6modeId");
-    img.setAttribute("src", light6modes);
+    img.setAttribute("src", imgLightModeRoom6);
 })
 
 $("body").on("click", "#light6sheduleMode", function () {
-    let lightSwitcher = document.getElementById("light6on");
+    let lightSwitcher = document.getElementById("lightSwitcherRoom6");
     lightSwitcher.setAttribute("disabled", "True");
     lightSwitcher.setAttribute("class", "switchOpacity");
     let img = document.getElementById("light6modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
-    light6modes = "static/images/lightModeShedule.png";
+    imgLightModeRoom6 = "static/images/lightModeShedule.png";
     })
 
 
@@ -895,7 +945,7 @@ $("#conditHandMode").hover(function () {
     img.setAttribute("src", "static/images/conditionerHandMode.png");
 }, function () {
     let img = document.getElementById("conditionerModeId");
-    img.setAttribute("src", conditionerModes);
+    img.setAttribute("src", imgConditionerMode);
 })
 
 $("body").on("click", "#conditHandMode", function () {
@@ -903,7 +953,7 @@ $("body").on("click", "#conditHandMode", function () {
     conditionerSp.setAttribute("disabled", "True");
     conditionerSp.setAttribute("class", "selectOpacity");
     let conditionerSwitcher = document.getElementById("conditOn");
-    if (conditionerSwitch == false) {
+    if (isConditionerSwitchOn == false) {
         conditionerSwitcher.setAttribute("src", "static/images/blue_button.png");
     }
     else {
@@ -913,7 +963,7 @@ $("body").on("click", "#conditHandMode", function () {
     conditionerSwitcher.removeAttribute("class");
     let img = document.getElementById("conditionerModeId");
     img.setAttribute("src", "static/images/conditionerHandMode.png");
-    conditionerModes = "static/images/conditionerHandMode.png";
+    imgConditionerMode = "static/images/conditionerHandMode.png";
     })
 
 $("#conditSpMode").hover(function () {
@@ -921,7 +971,7 @@ $("#conditSpMode").hover(function () {
     img.setAttribute("src", "static/images/conditionerSpMode.png");
 }, function () {
     let img = document.getElementById("conditionerModeId");
-    img.setAttribute("src", conditionerModes);
+    img.setAttribute("src", imgConditionerMode);
 })
 
 $("body").on("click", "#conditSpMode", function () {
@@ -934,5 +984,32 @@ $("body").on("click", "#conditSpMode", function () {
     conditionerSp.removeAttribute("class");
     let img = document.getElementById("conditionerModeId");
     img.setAttribute("src", "static/images/conditionerSpMode.png");
-    conditionerModes = "static/images/conditionerSpMode.png";
+    imgConditionerMode = "static/images/conditionerSpMode.png";
+    })
+
+
+
+$("body").on("click", ".lightSheduleModeClass", function () {
+    let containerSheduleMode = document.getElementById("containerSheduleLightModeId");
+    containerSheduleMode.setAttribute("class", "containerSheduleLightMode");
+    let inputSheduleLightOn = document.getElementById("sheduleLightOnId");
+    let inputSheduleLightOff = document.getElementById("sheduleLightOffId");
+    inputSheduleLightOn.removeAttribute("disabled");
+    inputSheduleLightOff.removeAttribute("disabled");
+    inputSheduleLightOn.setAttribute("class", "sheduleInput");
+    inputSheduleLightOff.setAttribute("class", "sheduleInput");
+    })
+
+$("body").on("click", ".lightNotSheduleModeClass", function () {
+    if ((isSheduleModeOnRoom1 == false) && (isSheduleModeOnRoom2 == false) && (isSheduleModeOnRoom3 == false) &&
+        (isSheduleModeOnRoom4 == false) && (isSheduleModeOnRoom5 == false) && (isSheduleModeOnRoom6 == false)) {
+            let containerSheduleMode = document.getElementById("containerSheduleLightModeId");
+            containerSheduleMode.setAttribute("class", "containerSheduleLightModeDisabled");
+            let inputSheduleLightOn = document.getElementById("sheduleLightOnId");
+            let inputSheduleLightOff = document.getElementById("sheduleLightOffId");
+            inputSheduleLightOn.setAttribute("disabled", "True");
+            inputSheduleLightOff.setAttribute("disabled", "True");
+            inputSheduleLightOn.setAttribute("class", "sheduleInputDisabled");
+            inputSheduleLightOff.setAttribute("class", "sheduleInputDisabled");
+        }
     })

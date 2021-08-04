@@ -38,56 +38,57 @@
                 <img id="conditioner2ImgId" src="static/images/air-conditioner_part2.png" alt="кондиционер">
             {% endif %}
 
-            <p class="roomTemperature" id="temp1now">16&#176;C</p>
-            <p class="roomTemperature" id="temp2now">16&#176;C</p>
-            <p class="roomTemperature" id="temp3now">16&#176;C</p>
-            <p class="roomTemperature" id="temp4now">16&#176;C</p>
-            <p class="roomTemperature" id="temp5now">16&#176;C</p>
-            <p class="roomTemperature" id="temp6now">16&#176;C</p>
+            <p class="roomTemperature" id="temp1now"></p>
+            <p class="roomTemperature" id="temp2now"></p>
+            <p class="roomTemperature" id="temp3now"></p>
+            <p class="roomTemperature" id="temp4now"></p>
+            <p class="roomTemperature" id="temp5now"></p>
+            <p class="roomTemperature" id="temp6now"></p>
 
-            <input type="image" id="light1on" src="static/images/lightOff.png" alt="вкл1" onclick="onClick1LightButton()">
-            <input type="image" id="light2on" src="static/images/lightOff.png" alt="вкл2" onclick="onClick2LightButton()">
-            <input type="image" id="light3on" src="static/images/lightOff.png" alt="вкл3" onclick="onClick3LightButton()">
-            <input type="image" id="light4on" src="static/images/lightOff.png" alt="вкл4" onclick="onClick4LightButton()">
-            <input type="image" id="light5on" src="static/images/lightOff.png" alt="вкл5" onclick="onClick5LightButton()">
-            <input type="image" id="light6on" src="static/images/lightOff.png" alt="вкл6" onclick="onClick6LightButton()">
+            <input type="image" id="lightSwitcherRoom1" src="static/images/lightOff.png" alt="вкл1" onclick="onClick1LightButton()">
+            <input type="image" id="lightSwitcherRoom2" src="static/images/lightOff.png" alt="вкл2" onclick="onClick2LightButton()">
+            <input type="image" id="lightSwitcherRoom3" src="static/images/lightOff.png" alt="вкл3" onclick="onClick3LightButton()">
+            <input type="image" id="lightSwitcherRoom4" src="static/images/lightOff.png" alt="вкл4" onclick="onClick4LightButton()">
+            <input type="image" id="lightSwitcherRoom5" src="static/images/lightOff.png" alt="вкл5" onclick="onClick5LightButton()">
+            <input type="image" id="lightSwitcherRoom6" src="static/images/lightOff.png" alt="вкл6" onclick="onClick6LightButton()">
 
             <img id="light1modeId" class="light1Mode" src="static/images/lightModeHand.png">
             <input id="light1handMode" type="radio" name="light1mode" onclick="onclick1handMode()" checked>
-            <input id="light1owmMode" type="radio" name="light1mode" onclick="onclick1owmMode()">
-            <input id="light1sheduleMode" type="radio" name="light1mode">
+            <input id="light1owmMode" class="lightOwmModeClass" type="radio" name="light1mode" onclick="onclick1owmMode()">
+            <input id="light1sheduleMode" class="lightSheduleModeClass" type="radio" name="light1mode" onclick="onclick1sheduleMode()">
 
             <img id="light2modeId" class="light2Mode" src="static/images/lightModeHand.png">
-            <input id="light2handMode" type="radio" name="light2mode" onclick="onclick2handMode()" checked>
-            <input id="light2owmMode" type="radio" name="light2mode" onclick="onclick2owmMode()">
-            <input id="light2sheduleMode" type="radio" name="light2mode">
+            <input id="light2handMode" class="lightNotSheduleModeClass" type="radio" name="light2mode" onclick="onclick2handMode()" checked>
+            <input id="light2owmMode" class="lightNotSheduleModeClass" type="radio" name="light2mode" onclick="onclick2owmMode()">
+            <input id="light2sheduleMode" class="lightSheduleModeClass" type="radio" name="light2mode" onclick="onclick2sheduleMode()">
 
             <img id="light3modeId" class="light3Mode" src="static/images/lightModeHand.png">
-            <input id="light3handMode" type="radio" name="light3mode" onclick="onclick3handMode()" checked>
-            <input id="light3owmMode" type="radio" name="light3mode" onclick="onclick3owmMode()">
-            <input id="light3sheduleMode" type="radio" name="light3mode">
+            <input id="light3handMode" class="lightNotSheduleModeClass" type="radio" name="light3mode" onclick="onclick3handMode()" checked>
+            <input id="light3owmMode" class="lightNotSheduleModeClass" type="radio" name="light3mode" onclick="onclick3owmMode()">
+            <input id="light3sheduleMode" class="lightSheduleModeClass" type="radio" name="light3mode" onclick="onclick3sheduleMode()">
 
             <img id="light4modeId" class="light4Mode" src="static/images/lightModeHand.png">
-            <input id="light4handMode" type="radio" name="light4mode" onclick="onclick4handMode()" checked>
-            <input id="light4owmMode" type="radio" name="light4mode" onclick="onclick4owmMode()">
-            <input id="light4sheduleMode" type="radio" name="light4mode">
+            <input id="light4handMode" class="lightNotSheduleModeClass" type="radio" name="light4mode" onclick="onclick4handMode()" checked>
+            <input id="light4owmMode" class="lightNotSheduleModeClass" type="radio" name="light4mode" onclick="onclick4owmMode()">
+            <input id="light4sheduleMode" class="lightSheduleModeClass" type="radio" name="light4mode" onclick="onclick4sheduleMode()">
 
             <img id="light5modeId" class="light5Mode" src="static/images/lightModeHand.png">
-            <input id="light5handMode" type="radio" name="light5mode" onclick="onclick5handMode()" checked>
-            <input id="light5owmMode" type="radio" name="light5mode" onclick="onclick5owmMode()">
-            <input id="light5sheduleMode" type="radio" name="light5mode">
+            <input id="light5handMode" class="lightNotSheduleModeClass" type="radio" name="light5mode" onclick="onclick5handMode()" checked>
+            <input id="light5owmMode" class="lightNotSheduleModeClass" type="radio" name="light5mode" onclick="onclick5owmMode()">
+            <input id="light5sheduleMode" class="lightSheduleModeClass" type="radio" name="light5mode" onclick="onclick5sheduleMode()">
 
             <img id="light6modeId" class="light6Mode" src="static/images/lightModeHand.png">
-            <input id="light6handMode" type="radio" name="light6mode" onclick="onclick6handMode()" checked>
-            <input id="light6owmMode" type="radio" name="light6mode" onclick="onclick6owmMode()">
-            <input id="light6sheduleMode" type="radio" name="light6mode">
+            <input id="light6handMode" class="lightNotSheduleModeClass" type="radio" name="light6mode" onclick="onclick6handMode()" checked>
+            <input id="light6owmMode" class="lightNotSheduleModeClass" type="radio" name="light6mode" onclick="onclick6owmMode()">
+            <input id="light6sheduleMode" class="lightSheduleModeClass" type="radio" name="light6mode" onclick="onclick6sheduleMode()">
 
             <canvas id="appLayout" width="1500" height="700">
             </canvas>
         </div>
-        <div>
-            <form>
-                <input type="datetime-local">
+        <div id="containerSheduleLightModeId" class="containerSheduleLightModeDisabled">
+            <form name="lightSheduleModeForm">
+                <input id="sheduleLightOnId" disabled="True" class="sheduleInputDisabled" type="datetime-local" name="sheduleLightOn">
+                <input id="sheduleLightOffId" disabled="True" class="sheduleInputDisabled" type="datetime-local" name="sheduleLightOff">
             </form>
         </div>
         <div>

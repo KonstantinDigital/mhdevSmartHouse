@@ -9,14 +9,13 @@ import modbus_tk.modbus_rtu as mb_rtu
 import time
 from pyowm import OWM
 from datetime import datetime
-from pytz import timezone
 
 
 class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
-        self.com_number = 5
+        self.com_number = 3
         self.ser.port = "COM{}".format(self.com_number)
         self.ser.baudrate = 115200
         # инициализация переменных для очереди
@@ -299,43 +298,43 @@ def get_data(request):
 
 
 def write_switches(request):
-    string_cmd_light1_on = request.GET["light1switch"]
+    string_cmd_light1_on = request.GET["isLightSwitchOnRoom1"]
     if string_cmd_light1_on == "true":
         switches.cmd_light1_on = True
     elif string_cmd_light1_on == "false":
         switches.cmd_light1_on = False
 
-    string_cmd_light2_on = request.GET["light2switch"]
+    string_cmd_light2_on = request.GET["isLightSwitchOnRoom2"]
     if string_cmd_light2_on == "true":
         switches.cmd_light2_on = True
     elif string_cmd_light2_on == "false":
         switches.cmd_light2_on = False
 
-    string_cmd_light3_on = request.GET["light3switch"]
+    string_cmd_light3_on = request.GET["isLightSwitchOnRoom3"]
     if string_cmd_light3_on == "true":
         switches.cmd_light3_on = True
     elif string_cmd_light3_on == "false":
         switches.cmd_light3_on = False
 
-    string_cmd_light4_on = request.GET["light4switch"]
+    string_cmd_light4_on = request.GET["isLightSwitchOnRoom4"]
     if string_cmd_light4_on == "true":
         switches.cmd_light4_on = True
     elif string_cmd_light4_on == "false":
         switches.cmd_light4_on = False
 
-    string_cmd_light5_on = request.GET["light5switch"]
+    string_cmd_light5_on = request.GET["isLightSwitchOnRoom5"]
     if string_cmd_light5_on == "true":
         switches.cmd_light5_on = True
     elif string_cmd_light5_on == "false":
         switches.cmd_light5_on = False
 
-    string_cmd_light6_on = request.GET["light6switch"]
+    string_cmd_light6_on = request.GET["isLightSwitchOnRoom6"]
     if string_cmd_light6_on == "true":
         switches.cmd_light6_on = True
     elif string_cmd_light6_on == "false":
         switches.cmd_light6_on = False
 
-    string_cmd_conditioner_on = request.GET["conditionerSwitch"]
+    string_cmd_conditioner_on = request.GET["isConditionerSwitchOn"]
     if string_cmd_conditioner_on == "true":
         switches.cmd_conditioner_on = True
     elif string_cmd_conditioner_on == "false":
@@ -355,12 +354,12 @@ def write_switches(request):
 
 
 def sunset_sunrise_owm(request):
-    owm1mode = request.GET["owm1mode"]
-    owm2mode = request.GET["owm2mode"]
-    owm3mode = request.GET["owm3mode"]
-    owm4mode = request.GET["owm4mode"]
-    owm5mode = request.GET["owm5mode"]
-    owm6mode = request.GET["owm6mode"]
+    owm1mode = request.GET["isOwmModeOnRoom1"]
+    owm2mode = request.GET["isOwmModeOnRoom2"]
+    owm3mode = request.GET["isOwmModeOnRoom3"]
+    owm4mode = request.GET["isOwmModeOnRoom4"]
+    owm5mode = request.GET["isOwmModeOnRoom5"]
+    owm6mode = request.GET["isOwmModeOnRoom6"]
     owm = OWM("61030a1cc48f4ccbcbaf3cd7db4c106d")
     mngr = owm.weather_manager()
     observation = mngr.weather_at_place("Rostov-na-Donu, RU")
