@@ -364,7 +364,6 @@ def sunset_sunrise_owm(request):
     mngr = owm.weather_manager()
     observation = mngr.weather_at_place("Rostov-na-Donu, RU")
     weather = observation.weather
-    light_on = False
     now_unix = time.time()
     sunrise_unix = weather.sunrise_time(timeformat='unix')
     sunset_unix = weather.sunset_time(timeformat='unix')
@@ -376,6 +375,8 @@ def sunset_sunrise_owm(request):
     print("СЕЙЧАС: ", now_date_from_unix)
     if now_unix < sunrise_unix or now_unix >= sunset_unix:
         light_on = True
+    else:
+        light_on = False
     print("ОСВЕЩЕНИЕ: ", light_on)
 
     if owm1mode == "true" and light_on:
@@ -427,14 +428,30 @@ def light_shedule_mode(request):
     is_shedule_mode_room4 = request.GET["isSheduleModeOnRoom4"]
     is_shedule_mode_room5 = request.GET["isSheduleModeOnRoom5"]
     is_shedule_mode_room6 = request.GET["isSheduleModeOnRoom6"]
-    str_time_to_light_on = request.GET["timeToLightOn"]
-    str_time_to_light_off = request.GET["timeToLightOff"]
-    time_to_light_on = datetime.strptime(str_time_to_light_on[:-6] + str_time_to_light_on[11:], "%Y-%m-%d%H:%M")
-    time_to_light_off = datetime.strptime(str_time_to_light_off[:-6]+str_time_to_light_off[11:], "%Y-%m-%d%H:%M")
-    unix_time_to_light_on = int(time.mktime(time_to_light_on.timetuple()))
-    unix_time_to_light_off = int(time.mktime(time_to_light_off.timetuple()))
+    time_to_light_on = None
+    time_to_light_off = None
+    try:
+        str_time_to_light_on = request.GET["timeToLightOn"]
+        time_to_light_on = datetime.strptime(str_time_to_light_on[:-6] + str_time_to_light_on[11:], "%Y-%m-%d%H:%M")
+        unix_time_to_light_on = int(time.mktime(time_to_light_on.timetuple()))
+    except ValueError:
+        unix_time_to_light_on = None
+    try:
+        str_time_to_light_off = request.GET["timeToLightOff"]
+        time_to_light_off = datetime.strptime(str_time_to_light_off[:-6] + str_time_to_light_off[11:], "%Y-%m-%d%H:%M")
+        unix_time_to_light_off = int(time.mktime(time_to_light_off.timetuple()))
+    except ValueError:
+        unix_time_to_light_off = None
     now_unix = int(time.time())
-    print(is_shedule_mode_room1, time_to_light_off, unix_time_to_light_off, now_unix)
+
+    print("ВКЛЮЧИТЬ: ", time_to_light_on)
+    print("ВЫКЛЮЧИТЬ: ", time_to_light_off)
+    print("СЕЙЧАС: ", datetime.fromtimestamp(now_unix))
+    if now_unix < unix_time_to_light_off or now_unix >= unix_time_to_light_on:
+        light_on = True
+    else:
+        light_on = False
+    print("ОСВЕЩЕНИЕ: ", light_on)
     context = {
 
     }

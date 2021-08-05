@@ -1046,10 +1046,13 @@ $("body").on("click", ".lightSheduleModeClass", function () {
     containerSheduleMode.setAttribute("class", "containerSheduleLightMode");
     let inputSheduleLightOn = document.getElementById("sheduleLightOnId");
     let inputSheduleLightOff = document.getElementById("sheduleLightOffId");
+    let sheduleSubmitButton = document.getElementById("sheduleSubmitButton");
     inputSheduleLightOn.removeAttribute("disabled");
     inputSheduleLightOff.removeAttribute("disabled");
+    sheduleSubmitButton.removeAttribute("disabled");
     inputSheduleLightOn.setAttribute("class", "sheduleInput");
     inputSheduleLightOff.setAttribute("class", "sheduleInput");
+    sheduleSubmitButton.setAttribute("class", "sheduleInput");
     })
 
 $("body").on("click", ".lightNotSheduleModeClass", function () {
@@ -1059,10 +1062,13 @@ $("body").on("click", ".lightNotSheduleModeClass", function () {
             containerSheduleMode.setAttribute("class", "containerSheduleLightModeDisabled");
             let inputSheduleLightOn = document.getElementById("sheduleLightOnId");
             let inputSheduleLightOff = document.getElementById("sheduleLightOffId");
+            let sheduleSubmitButton = document.getElementById("sheduleSubmitButton");
             inputSheduleLightOn.setAttribute("disabled", "True");
             inputSheduleLightOff.setAttribute("disabled", "True");
+            sheduleSubmitButton.setAttribute("disabled", "True");
             inputSheduleLightOn.setAttribute("class", "sheduleInputDisabled");
             inputSheduleLightOff.setAttribute("class", "sheduleInputDisabled");
+            sheduleSubmitButton.setAttribute("class", "sheduleInputDisabled");
         }
     })
 

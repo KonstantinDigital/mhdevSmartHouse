@@ -92,10 +92,11 @@
             <form class="formSheduleLightMode" name="lightSheduleModeForm">
                 <p class="labelSheduleModeLightOnOff">ВКЛЮЧИТЬ:</p>
                 <input id="sheduleLightOnId" disabled="True" class="sheduleInputDisabled" type="datetime-local"
-                       name="sheduleLightOn" onchange="onClickInputSheduleMode()">
+                       name="sheduleLightOn">
                 <p class="labelSheduleModeLightOnOff">ВЫКЛЮЧИТЬ:</p>
                 <input id="sheduleLightOffId" disabled="True" class="sheduleInputDisabled" type="datetime-local"
-                       name="sheduleLightOff" onchange="onClickInputSheduleMode()">
+                       name="sheduleLightOff">
+                <button type="button" id="sheduleSubmitButton" disabled="True" class="sheduleInputDisabled"  onclick="onClickInputSheduleMode()">Установить</button>
             </form>
         </div>
         <footer>
