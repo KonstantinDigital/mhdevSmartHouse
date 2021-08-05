@@ -32,8 +32,8 @@
                     <option value="30">30&#176;C</option>
                 </select>
                 <img id="conditionerModeId" class="conditionerMode" src="static/images/conditionerHandMode.png">
-                <input id="conditHandMode" type="radio" name="conditMode" checked>
-                <input id="conditSpMode" type="radio" name="conditMode">
+                <input id="conditHandMode" type="radio" name="conditMode" checked onclick="onClickConditionerHandMode()">
+                <input id="conditSpMode" type="radio" name="conditMode" onclick="changeSetPoint()">
                 <img id="conditionerImgId" src="static/images/air-conditioner_part1.png" alt="кондиционер">
                 <img id="conditioner2ImgId" src="static/images/air-conditioner_part2.png" alt="кондиционер">
             {% endif %}

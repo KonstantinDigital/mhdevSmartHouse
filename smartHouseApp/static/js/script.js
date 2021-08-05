@@ -29,6 +29,7 @@ let isSheduleModeOnRoom5 = false;
 let isSheduleModeOnRoom6 = false;
 //крайнее записанное положение выключателя кондиционера
 let isConditionerSwitchOn = false;
+let isConditionerSpModeOn = false;
 //крайнее зафиксированное состояние кондиционера
 let lastConditionerState = false;
 //начальное значение вращения лопастей
@@ -211,7 +212,11 @@ function draw() {
 }
 //функция срабатывает при изменении выбора уставки температуры кондиционера
 function changeSetPoint(){
-    console.log("onchange");
+    isConditionerSpModeOn = true;
+}
+
+function onClickConditionerHandMode(){
+    isConditionerSpModeOn = false;
 }
 //функция меняет картинку включателя света в зависимости от его состояния
 function lightImgSwitcher(room, state){
