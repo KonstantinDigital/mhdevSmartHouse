@@ -53,8 +53,8 @@
             <input type="image" id="lightSwitcherRoom6" src="static/images/lightOff.png" alt="вкл6" onclick="onClick6LightButton()">
 
             <img id="light1modeId" class="light1Mode" src="static/images/lightModeHand.png">
-            <input id="light1handMode" type="radio" name="light1mode" onclick="onclick1handMode()" checked>
-            <input id="light1owmMode" class="lightOwmModeClass" type="radio" name="light1mode" onclick="onclick1owmMode()">
+            <input id="light1handMode" class="lightNotSheduleModeClass" type="radio" name="light1mode" onclick="onclick1handMode()" checked>
+            <input id="light1owmMode" class="lightNotSheduleModeClass" type="radio" name="light1mode" onclick="onclick1owmMode()">
             <input id="light1sheduleMode" class="lightSheduleModeClass" type="radio" name="light1mode" onclick="onclick1sheduleMode()">
 
             <img id="light2modeId" class="light2Mode" src="static/images/lightModeHand.png">
@@ -87,7 +87,7 @@
         </div>
         <div id="containerSheduleLightModeId" class="containerSheduleLightModeDisabled">
             <div>
-                <h2 class="headerSheduleMode">Освещение по расписанию:</h2>
+                <h2 class="headerSheduleMode">Управление светом по расписанию:</h2>
             </div>
             <form class="formSheduleLightMode" name="lightSheduleModeForm">
                 <p class="labelSheduleModeLightOnOff">ВКЛЮЧИТЬ:</p>

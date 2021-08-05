@@ -541,7 +541,7 @@ function checkSheduleMode(){
     if ((isSheduleModeOnRoom1 == true) || (isSheduleModeOnRoom2 == true) || (isSheduleModeOnRoom3 == true) ||
         (isSheduleModeOnRoom4 == true) || (isSheduleModeOnRoom5 == true) || (isSheduleModeOnRoom6 == true)) {
         clearTimeout(timerCheckShedule);
-        timerCheckShedule = setTimeout(sheduleMode, 60000);
+        timerCheckShedule = setTimeout(sheduleMode, 5000);
     } else {
         clearTimeout(timerCheckShedule);
     }

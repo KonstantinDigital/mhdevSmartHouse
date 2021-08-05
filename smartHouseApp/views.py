@@ -434,26 +434,78 @@ def light_shedule_mode(request):
         str_time_to_light_on = request.GET["timeToLightOn"]
         time_to_light_on = datetime.strptime(str_time_to_light_on[:-6] + str_time_to_light_on[11:], "%Y-%m-%d%H:%M")
         unix_time_to_light_on = int(time.mktime(time_to_light_on.timetuple()))
-    except ValueError:
+    except Exception:
         unix_time_to_light_on = None
     try:
         str_time_to_light_off = request.GET["timeToLightOff"]
         time_to_light_off = datetime.strptime(str_time_to_light_off[:-6] + str_time_to_light_off[11:], "%Y-%m-%d%H:%M")
         unix_time_to_light_off = int(time.mktime(time_to_light_off.timetuple()))
-    except ValueError:
+    except Exception:
         unix_time_to_light_off = None
     now_unix = int(time.time())
-
     print("ВКЛЮЧИТЬ: ", time_to_light_on)
     print("ВЫКЛЮЧИТЬ: ", time_to_light_off)
     print("СЕЙЧАС: ", datetime.fromtimestamp(now_unix))
-    if now_unix < unix_time_to_light_off or now_unix >= unix_time_to_light_on:
+    if unix_time_to_light_on is None and unix_time_to_light_off is None:
+        light_on = False
+    elif unix_time_to_light_on is None and now_unix < unix_time_to_light_off:
+        light_on = True
+    elif unix_time_to_light_on is None and now_unix > unix_time_to_light_off:
+        light_on = False
+    elif now_unix < unix_time_to_light_on and unix_time_to_light_off is None:
+        light_on = False
+    elif now_unix > unix_time_to_light_on and unix_time_to_light_off is None:
+        light_on = True
+    elif now_unix < unix_time_to_light_on and now_unix < unix_time_to_light_off:
+        light_on = False
+    elif unix_time_to_light_on > now_unix > unix_time_to_light_off:
+        light_on = False
+    elif now_unix > unix_time_to_light_on and now_unix > unix_time_to_light_off:
+        light_on = False
+    elif unix_time_to_light_on < now_unix < unix_time_to_light_off:
         light_on = True
     else:
         light_on = False
     print("ОСВЕЩЕНИЕ: ", light_on)
-    context = {
 
+    if is_shedule_mode_room1 == "true" and light_on:
+        switches.cmd_light1_on = True
+    elif is_shedule_mode_room1 == "true" and not light_on:
+        switches.cmd_light1_on = False
+
+    if is_shedule_mode_room2 == "true" and light_on:
+        switches.cmd_light2_on = True
+    elif is_shedule_mode_room2 == "true" and not light_on:
+        switches.cmd_light2_on = False
+
+    if is_shedule_mode_room3 == "true" and light_on:
+        switches.cmd_light3_on = True
+    elif is_shedule_mode_room3 == "true" and not light_on:
+        switches.cmd_light3_on = False
+
+    if is_shedule_mode_room4 == "true" and light_on:
+        switches.cmd_light4_on = True
+    elif is_shedule_mode_room4 == "true" and not light_on:
+        switches.cmd_light4_on = False
+
+    if is_shedule_mode_room5 == "true" and light_on:
+        switches.cmd_light5_on = True
+    elif is_shedule_mode_room5 == "true" and not light_on:
+        switches.cmd_light5_on = False
+
+    if is_shedule_mode_room6 == "true" and light_on:
+        switches.cmd_light6_on = True
+    elif is_shedule_mode_room6 == "true" and not light_on:
+        switches.cmd_light6_on = False
+
+    switches.start_write_register()
+    context = {
+        "light1_state": state_mask_converting(switches_state.mask, 1),
+        "light2_state": state_mask_converting(switches_state.mask, 2),
+        "light3_state": state_mask_converting(switches_state.mask, 3),
+        "light4_state": state_mask_converting(switches_state.mask, 4),
+        "light5_state": state_mask_converting(switches_state.mask, 5),
+        "light6_state": state_mask_converting(switches_state.mask, 6)
     }
     return JsonResponse(context)
 
