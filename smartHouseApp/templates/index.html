@@ -8,9 +8,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body onload="draw()">
-        <div>
+        <header>
             <h1>Smart House</h1>
-        </div>
+        </header>
         <div class="containerCanvas">
             {% if perms.smartHouseApp.can_set_temperature %}
                 <input type="image" id="conditOn" src="static/images/blue_button.png" alt="вклХолод" onclick="onClickConditionerButton()">
@@ -86,16 +86,22 @@
             </canvas>
         </div>
         <div id="containerSheduleLightModeId" class="containerSheduleLightModeDisabled">
-            <form name="lightSheduleModeForm">
+            <div>
+                <h2 class="headerSheduleMode">Освещение по расписанию:</h2>
+            </div>
+            <form class="formSheduleLightMode" name="lightSheduleModeForm">
+                <p class="labelSheduleModeLightOnOff">ВКЛЮЧИТЬ:</p>
                 <input id="sheduleLightOnId" disabled="True" class="sheduleInputDisabled" type="datetime-local" name="sheduleLightOn">
+                <p class="labelSheduleModeLightOnOff">ВЫКЛЮЧИТЬ:</p>
                 <input id="sheduleLightOffId" disabled="True" class="sheduleInputDisabled" type="datetime-local" name="sheduleLightOff">
             </form>
         </div>
-        <div>
+        <footer>
             <a class="log_href" href="{% url 'logout' %}">
                 Log out
             </a>
-        </div>
+            <div id="current_date_time_block"></div>
+        </footer>
         <script src="{% static 'js/script.js' %}">
         </script>
     </body>
