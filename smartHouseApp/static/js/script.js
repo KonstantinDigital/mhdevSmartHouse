@@ -49,8 +49,11 @@ let imgConditionerMode = "static/images/conditionerHandMode.png";
 //запуск функции обновления элементов экрана с осрочкой 10 сек
 let timerDataReload = setTimeout(dataReload, 10000);
 let isOwmFromButton = false;
+let isSheduleFromButton = false;
 let timerCheckOwm = setTimeout(sunsetSunriseMode, 10000);
 clearTimeout(timerCheckOwm);
+let timerCheckShedule = setTimeout(sheduleMode, 10000);
+clearTimeout(timerCheckShedule);
 //функция отрисовки план схемы квартиры
 function draw() {
     var canvas = document.getElementById('appLayout');
@@ -435,34 +438,51 @@ function onclick6handMode(){
 }
 
 //функции по клику на выбор режима включения освещения "shedule"
+function onClickInputSheduleMode() {
+    isSheduleFromButton = true;
+    sheduleMode();
+}
+
 function onclick1sheduleMode(){
     isSheduleModeOnRoom1 = true;
+    isSheduleFromButton = true;
     isOwmModeOnRoom1 = false;
+    sheduleMode();
 }
 
 function onclick2sheduleMode(){
     isSheduleModeOnRoom2 = true;
+    isSheduleFromButton = true;
     isOwmModeOnRoom2 = false;
+    sheduleMode();
 }
 
 function onclick3sheduleMode(){
     isSheduleModeOnRoom3 = true;
+    isSheduleFromButton = true;
     isOwmModeOnRoom3 = false;
+    sheduleMode();
 }
 
 function onclick4sheduleMode(){
     isSheduleModeOnRoom4 = true;
+    isSheduleFromButton = true;
     isOwmModeOnRoom4 = false;
+    sheduleMode();
 }
 
 function onclick5sheduleMode(){
     isSheduleModeOnRoom5 = true;
+    isSheduleFromButton = true;
     isOwmModeOnRoom5 = false;
+    sheduleMode();
 }
 
 function onclick6sheduleMode(){
     isSheduleModeOnRoom6 = true;
+    isSheduleFromButton = true;
     isOwmModeOnRoom6 = false;
+    sheduleMode();
 }
 //функция отправляет запрос на open weather map для получения данных о закате и рассвете
 function sunsetSunriseMode() {
@@ -492,6 +512,38 @@ function checkOwmMode(){
         timerCheckOwm = setTimeout(sunsetSunriseMode, 60000);
     } else {
         clearTimeout(timerCheckOwm);
+    }
+}
+//функция отправляет запрос на open weather map для получения данных о закате и рассвете
+function sheduleMode() {
+    $.ajax({
+        url: "writeSheduleClick",
+        method: "GET",
+        cache: false,
+        dataType: "html",
+        data: {isSheduleModeOnRoom1: isSheduleModeOnRoom1, isSheduleModeOnRoom2: isSheduleModeOnRoom2,
+            isSheduleModeOnRoom3: isSheduleModeOnRoom3, isSheduleModeOnRoom4: isSheduleModeOnRoom4,
+            isSheduleModeOnRoom5: isSheduleModeOnRoom5, isSheduleModeOnRoom6: isSheduleModeOnRoom6,
+            timeToLightOn: document.lightSheduleModeForm.sheduleLightOn.value,
+            timeToLightOff: document.lightSheduleModeForm.sheduleLightOff.value},
+        success: function(data) {
+            if (isSheduleFromButton == true) {
+                isSheduleFromButton = false;
+                clearTimeout(timerDataReload);
+                timerDataReload = setTimeout(dataReload, 1000);
+            }
+            checkSheduleMode();
+        }
+    })
+}
+//если хотя бы один переключатель выбора режима освещения находится в режиме "закат/рассвет" то функция периодически проверяет данные по OWM
+function checkSheduleMode(){
+    if ((isSheduleModeOnRoom1 == true) || (isSheduleModeOnRoom2 == true) || (isSheduleModeOnRoom3 == true) ||
+        (isSheduleModeOnRoom4 == true) || (isSheduleModeOnRoom5 == true) || (isSheduleModeOnRoom6 == true)) {
+        clearTimeout(timerCheckShedule);
+        timerCheckShedule = setTimeout(sheduleMode, 60000);
+    } else {
+        clearTimeout(timerCheckShedule);
     }
 }
 //функция периодически обновляет переменные и при изменении их состояния меняет соответствующие элементы на экране

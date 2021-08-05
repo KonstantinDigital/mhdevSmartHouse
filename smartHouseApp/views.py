@@ -420,6 +420,27 @@ def sunset_sunrise_owm(request):
     return JsonResponse(context)
 
 
+def light_shedule_mode(request):
+    is_shedule_mode_room1 = request.GET["isSheduleModeOnRoom1"]
+    is_shedule_mode_room2 = request.GET["isSheduleModeOnRoom2"]
+    is_shedule_mode_room3 = request.GET["isSheduleModeOnRoom3"]
+    is_shedule_mode_room4 = request.GET["isSheduleModeOnRoom4"]
+    is_shedule_mode_room5 = request.GET["isSheduleModeOnRoom5"]
+    is_shedule_mode_room6 = request.GET["isSheduleModeOnRoom6"]
+    str_time_to_light_on = request.GET["timeToLightOn"]
+    str_time_to_light_off = request.GET["timeToLightOff"]
+    time_to_light_on = datetime.strptime(str_time_to_light_on[:-6] + str_time_to_light_on[11:], "%Y-%m-%d%H:%M")
+    time_to_light_off = datetime.strptime(str_time_to_light_off[:-6]+str_time_to_light_off[11:], "%Y-%m-%d%H:%M")
+    unix_time_to_light_on = int(time.mktime(time_to_light_on.timetuple()))
+    unix_time_to_light_off = int(time.mktime(time_to_light_off.timetuple()))
+    now_unix = int(time.time())
+    print(is_shedule_mode_room1, time_to_light_off, unix_time_to_light_off, now_unix)
+    context = {
+
+    }
+    return JsonResponse(context)
+
+
 room_color = {16: "0, 0, 255, 0.4", 17: "0, 25, 255, 0.4", 18: "0, 50, 255, 0.4", 19: "0, 75, 255, 0.4",
               20: "0, 100, 255, 0.4", 21: "0, 125, 255, 0.4", 22: "0, 150, 255, 0.4", 23: "0, 175, 255, 0.4",
               24: "0, 200, 255, 0.4", 25: "255, 200, 0, 0.4", 26: "255, 175, 0, 0.4", 27: "255, 150, 0, 0.4",
