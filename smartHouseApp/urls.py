@@ -12,5 +12,6 @@ urlpatterns = [
     path('getNewData', views.get_data, name='new_data'),
     path('writeSwitchClick', views.write_switches, name='light_state'),
     path('writeOwmClick', views.sunset_sunrise_owm, name='owm_state'),
-    path('writeSheduleClick', views.light_shedule_mode, name='shedule_mode')
+    path('writeSheduleClick', views.light_shedule_mode, name='shedule_mode'),
+    path('writeConditionerSetPoint', views.conditioner_sp_mode, name='set_point_mode')
 ]

@@ -30,6 +30,7 @@ let isSheduleModeOnRoom6 = false;
 //крайнее записанное положение выключателя кондиционера
 let isConditionerSwitchOn = false;
 let isConditionerSpModeOn = false;
+let isConditionerHandModeOn = true;
 //крайнее зафиксированное состояние кондиционера
 let lastConditionerState = false;
 //начальное значение вращения лопастей
@@ -51,10 +52,13 @@ let imgConditionerMode = "static/images/conditionerHandMode.png";
 let timerDataReload = setTimeout(dataReload, 10000);
 let isOwmFromButton = false;
 let isSheduleFromButton = false;
+let isSetPointFromButton = false;
 let timerCheckOwm = setTimeout(sunsetSunriseMode, 10000);
 clearTimeout(timerCheckOwm);
 let timerCheckShedule = setTimeout(sheduleMode, 10000);
 clearTimeout(timerCheckShedule);
+let timerCheckSetPoint = setTimeout(conditionerSetPointMode, 10000);
+clearTimeout(timerCheckSetPoint);
 //функция отрисовки план схемы квартиры
 function draw() {
     var canvas = document.getElementById('appLayout');
@@ -213,9 +217,50 @@ function draw() {
 //функция срабатывает при изменении выбора уставки температуры кондиционера
 function changeSetPoint(){
     isConditionerSpModeOn = true;
+    isSetPointFromButton = true;
+    isConditionerHandModeOn = false;
+    conditionerSetPointMode();
+}
+
+function conditionerSetPointMode(){
+    $.ajax({
+        url: "writeConditionerSetPoint",
+        method: "GET",
+        cache: false,
+        dataType: "html",
+        data: {isConditionerSpModeOn: isConditionerSpModeOn,
+                conditionerSetPoint: document.temperatureSpForm.temperatureSetPoint.value},
+        success: function(data) {
+            let parseData = JSON.parse(data);
+            let newConditionerState = parseData["conditioner_state"];
+            if (newConditionerState != isConditionerSwitchOn) {
+                isConditionerSwitchOn = newConditionerState;
+                if (isConditionerHandModeOn == true) {
+                    conditionerButtonImgSwitcher();
+                }
+                runConditioner();
+            }
+            if (isSetPointFromButton == true) {
+                isSetPointFromButton = false;
+                clearTimeout(timerDataReload);
+                timerDataReload = setTimeout(dataReload, 1000);
+            }
+            checkSetPointMode();
+        }
+    })
+}
+
+function checkSetPointMode(){
+    if (isConditionerSpModeOn == true){
+        clearTimeout(timerCheckSetPoint);
+        timerCheckSetPoint = setTimeout(conditionerSetPointMode, 5000);
+    } else {
+        clearTimeout(timerCheckSetPoint);
+    }
 }
 
 function onClickConditionerHandMode(){
+    isConditionerHandModeOn = true;
     isConditionerSpModeOn = false;
 }
 //функция меняет картинку включателя света в зависимости от его состояния
@@ -599,7 +644,9 @@ function dataReload() {
 
             if (newConditionerState != isConditionerSwitchOn) {
                 isConditionerSwitchOn = newConditionerState;
-                conditionerButtonImgSwitcher();
+                if (isConditionerHandModeOn == true) {
+                    conditionerButtonImgSwitcher();
+                }
                 runConditioner();
             }
 

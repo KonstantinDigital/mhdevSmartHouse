@@ -411,12 +411,7 @@ def sunset_sunrise_owm(request):
 
     switches.start_write_register()
     context = {
-        "light1_state": state_mask_converting(switches_state.mask, 1),
-        "light2_state": state_mask_converting(switches_state.mask, 2),
-        "light3_state": state_mask_converting(switches_state.mask, 3),
-        "light4_state": state_mask_converting(switches_state.mask, 4),
-        "light5_state": state_mask_converting(switches_state.mask, 5),
-        "light6_state": state_mask_converting(switches_state.mask, 6)
+
     }
     return JsonResponse(context)
 
@@ -500,12 +495,30 @@ def light_shedule_mode(request):
 
     switches.start_write_register()
     context = {
-        "light1_state": state_mask_converting(switches_state.mask, 1),
-        "light2_state": state_mask_converting(switches_state.mask, 2),
-        "light3_state": state_mask_converting(switches_state.mask, 3),
-        "light4_state": state_mask_converting(switches_state.mask, 4),
-        "light5_state": state_mask_converting(switches_state.mask, 5),
-        "light6_state": state_mask_converting(switches_state.mask, 6)
+
+    }
+    return JsonResponse(context)
+
+
+def conditioner_sp_mode(request):
+    is_conditioner_sp_mode = request.GET["isConditionerSpModeOn"]
+    temperature_set_point = int(request.GET["conditionerSetPoint"])
+    temperature_in_room3 = temperature3.mask
+    temperature_in_room5 = temperature5.mask
+    temperature_in_room6 = temperature6.mask
+    temperature_average = int((temperature_in_room3 + temperature_in_room5 + temperature_in_room6) / 3)
+    conditioner_switch_on = state_mask_converting(switches_state.mask, 7)
+    print("@@@@@", conditioner_switch_on)
+    if is_conditioner_sp_mode == "true":
+        if conditioner_switch_on and temperature_average < temperature_set_point - 1:
+            switches.cmd_conditioner_on = False
+        elif not conditioner_switch_on and temperature_average > temperature_set_point:
+            switches.cmd_conditioner_on = True
+    switches.start_write_register()
+    print("@@@@@", temperature_in_room3, temperature_in_room5, temperature_in_room6)
+    print("@@@@@", temperature_average, temperature_set_point, switches.cmd_conditioner_on)
+    context = {
+        "conditioner_state": switches.cmd_conditioner_on
     }
     return JsonResponse(context)
 

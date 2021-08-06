@@ -14,23 +14,25 @@
         <div class="containerCanvas">
             {% if perms.smartHouseApp.can_set_temperature %}
                 <input type="image" id="conditOn" src="static/images/blue_button.png" alt="вклХолод" onclick="onClickConditionerButton()">
-                <select id="tempSP" disabled="True" class="selectOpacity" onchange="changeSetPoint()">
-                    <option value="16">16&#176;C</option>
-                    <option value="17">17&#176;C</option>
-                    <option value="18">18&#176;C</option>
-                    <option value="19">19&#176;C</option>
-                    <option value="20">20&#176;C</option>
-                    <option value="21">21&#176;C</option>
-                    <option value="22">22&#176;C</option>
-                    <option value="23" selected>23&#176;C</option>
-                    <option value="24">24&#176;C</option>
-                    <option value="25">25&#176;C</option>
-                    <option value="26">26&#176;C</option>
-                    <option value="27">27&#176;C</option>
-                    <option value="28">28&#176;C</option>
-                    <option value="29">29&#176;C</option>
-                    <option value="30">30&#176;C</option>
-                </select>
+                <form class="formConditionerSpMode" name="temperatureSpForm">
+                    <select id="tempSP" disabled="True" class="selectOpacity" name="temperatureSetPoint" onchange="changeSetPoint()">
+                        <option value="16">16&#176;C</option>
+                        <option value="17">17&#176;C</option>
+                        <option value="18">18&#176;C</option>
+                        <option value="19">19&#176;C</option>
+                        <option value="20">20&#176;C</option>
+                        <option value="21">21&#176;C</option>
+                        <option value="22">22&#176;C</option>
+                        <option value="23" selected>23&#176;C</option>
+                        <option value="24">24&#176;C</option>
+                        <option value="25">25&#176;C</option>
+                        <option value="26">26&#176;C</option>
+                        <option value="27">27&#176;C</option>
+                        <option value="28">28&#176;C</option>
+                        <option value="29">29&#176;C</option>
+                        <option value="30">30&#176;C</option>
+                    </select>
+                </form>
                 <img id="conditionerModeId" class="conditionerMode" src="static/images/conditionerHandMode.png">
                 <input id="conditHandMode" type="radio" name="conditMode" checked onclick="onClickConditionerHandMode()">
                 <input id="conditSpMode" type="radio" name="conditMode" onclick="changeSetPoint()">
