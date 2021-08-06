@@ -641,7 +641,6 @@ function dataReload() {
                 }
             }
 
-
             if (newConditionerState != isConditionerSwitchOn) {
                 isConditionerSwitchOn = newConditionerState;
                 if (isConditionerHandModeOn == true) {
