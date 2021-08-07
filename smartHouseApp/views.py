@@ -11,6 +11,7 @@ from pyowm import OWM
 from datetime import datetime
 
 
+# обьект класса устанавливает связь с модбас устройством
 class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
@@ -45,6 +46,7 @@ class ModbusConnect:
             self.connect_modbus()
 
 
+# объект класса создает методы записи/чтения с регистрами модбас устройства
 class ModbusRegister(Thread):
     def __init__(self, register, memory_type):
         Thread.__init__(self)
@@ -70,6 +72,8 @@ class ModbusRegister(Thread):
         self.master.set_timeout(0.3)
         self.start_read_register()
 
+    # если это input регистры (входы устройства), то чтение делаем циклическим; если это holding регисры (выходы),
+    # то чтение однократно при инициализации объекта, далее чтение/запись по вызову метода
     def start_read_register(self):
         if not modbus_master.programm_stopped:
             if self.memory_type == "input_registers":
@@ -83,6 +87,7 @@ class ModbusRegister(Thread):
                 modbus_master.in_queue += 1
                 modbus_master.q.get().start()
 
+    # метод очередности чтения регистров
     def read_register(self):
         with modbus_master.b_semaphore:
             try:
@@ -96,6 +101,7 @@ class ModbusRegister(Thread):
                 modbus_master.in_queue -= 1
                 modbus_master.r_lock.release()
 
+    # метод чтения регистра
     def reading_register(self):
         if self.memory_type == "input_registers":
             self.get_data = self.master.execute(self.device, self.m_defines.READ_INPUT_REGISTERS, self.register, 1)
@@ -143,12 +149,14 @@ class ModbusRegister(Thread):
             else:
                 self.cmd_music_on = True
 
+    # метод очередности записи регисра
     def start_write_register(self):
         if not modbus_master.programm_stopped:
             modbus_master.q.put(Thread(target=self.write_register, daemon=True))
             modbus_master.in_queue += 1
             modbus_master.q.get().start()
 
+    # метод записи регистра
     def write_register(self):
         with modbus_master.b_semaphore:
             try:
@@ -182,6 +190,7 @@ class ModbusRegister(Thread):
                 self.start_read_register()
 
 
+# запуск главного окна программы ребует авторизации
 @login_required(login_url="/login/")
 def index(request):
     if modbus_master.connect_modbus():
@@ -192,6 +201,7 @@ def index(request):
     return render(request, "index.html")
 
 
+# функция возвращает состояние входов освещения
 def state_of_light(request):
     context = {
         "light1_state": state_mask_converting(switches_state.mask, 1),
@@ -204,6 +214,7 @@ def state_of_light(request):
     return JsonResponse(context)
 
 
+# функция конвертирует прочитанную маску входов из целочисленного в побитовое значение
 def state_mask_converting(mask, bit):
     mask_arr = []
     str_mask = str(bin(mask)[2:])
@@ -245,6 +256,7 @@ def state_mask_converting(mask, bit):
         return mask_arr[0] == 1
 
 
+# функция создает объекты (модбас регистры) в своих потоках
 def create_registers():
     global switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5, \
         temperature6, music_volume
@@ -264,6 +276,7 @@ def create_registers():
         obj.start()
 
 
+# функция конвертирует значение температуры в rgb цвет для окраски комнаты
 def change_room_color(temp):
     if temp < 16:
         temp = 16
@@ -272,6 +285,13 @@ def change_room_color(temp):
     return room_color[temp]
 
 
+room_color = {16: "0, 0, 255, 0.4", 17: "0, 25, 255, 0.4", 18: "0, 50, 255, 0.4", 19: "0, 75, 255, 0.4",
+              20: "0, 100, 255, 0.4", 21: "0, 125, 255, 0.4", 22: "0, 150, 255, 0.4", 23: "0, 175, 255, 0.4",
+              24: "0, 200, 255, 0.4", 25: "255, 200, 0, 0.4", 26: "255, 175, 0, 0.4", 27: "255, 150, 0, 0.4",
+              28: "255, 100, 0, 0.4", 29: "255, 50, 0, 0.4", 30: "255, 0, 0, 0.4"}
+
+
+# функция возвращает значения всех регистров (состояния входов и прочитанных темеператур)
 def get_data(request):
     context = {
         "room1_color": change_room_color(temperature1.mask),
@@ -297,6 +317,8 @@ def get_data(request):
     return JsonResponse(context)
 
 
+# функция записывает в модбас устройство новые полученные значения и возвращает новые цвета комнат исходя из полученных
+# темепратур
 def write_switches(request):
     string_cmd_light1_on = request.GET["isLightSwitchOnRoom1"]
     if string_cmd_light1_on == "true":
@@ -353,6 +375,8 @@ def write_switches(request):
     return JsonResponse(context)
 
 
+# функция получает данные по рассвету и закату в выбранном регионе с ресурса Open Weather Map, и на основе полученных
+# данных включает или выключает свет в комнатах
 def sunset_sunrise_owm(request):
     owm1mode = request.GET["isOwmModeOnRoom1"]
     owm2mode = request.GET["isOwmModeOnRoom2"]
@@ -410,12 +434,12 @@ def sunset_sunrise_owm(request):
         switches.cmd_light6_on = False
 
     switches.start_write_register()
-    context = {
-
-    }
+    context = {}
     return JsonResponse(context)
 
 
+# функция получает данные из формы включения выключения света по расписаню, и на основе полученных
+# данных включает или выключает свет в комнатах
 def light_shedule_mode(request):
     is_shedule_mode_room1 = request.GET["isSheduleModeOnRoom1"]
     is_shedule_mode_room2 = request.GET["isSheduleModeOnRoom2"]
@@ -494,12 +518,14 @@ def light_shedule_mode(request):
         switches.cmd_light6_on = False
 
     switches.start_write_register()
-    context = {
-
-    }
+    context = {}
     return JsonResponse(context)
 
 
+# функция получает данные по температурной уставке пользователя, и на основе полученных данных включает или выключает
+# кондиционер с учётом гистрезиса на выключение в 2 градуса Цельсия и гистерезиса на включение в 1 градус Цельсия - во
+# избежание дребезга контактов (постоянного включения выключения) на границе температурной уставки; среднюю температуру
+# расчитываем из текущих показаний датчиков в трех жилых комнатах (в расчет не берем туалет, ванную комнату и прихожую)
 def conditioner_sp_mode(request):
     is_conditioner_sp_mode = request.GET["isConditionerSpModeOn"]
     temperature_set_point = int(request.GET["conditionerSetPoint"])
@@ -523,9 +549,5 @@ def conditioner_sp_mode(request):
     return JsonResponse(context)
 
 
-room_color = {16: "0, 0, 255, 0.4", 17: "0, 25, 255, 0.4", 18: "0, 50, 255, 0.4", 19: "0, 75, 255, 0.4",
-              20: "0, 100, 255, 0.4", 21: "0, 125, 255, 0.4", 22: "0, 150, 255, 0.4", 23: "0, 175, 255, 0.4",
-              24: "0, 200, 255, 0.4", 25: "255, 200, 0, 0.4", 26: "255, 175, 0, 0.4", 27: "255, 150, 0, 0.4",
-              28: "255, 100, 0, 0.4", 29: "255, 50, 0, 0.4", 30: "255, 0, 0, 0.4"}
-
+# создаем подключение по модбас протоколу через интерфейс RS-485
 modbus_master = ModbusConnect()

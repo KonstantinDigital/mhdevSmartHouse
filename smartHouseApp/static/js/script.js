@@ -53,6 +53,7 @@ let timerDataReload = setTimeout(dataReload, 10000);
 let isOwmFromButton = false;
 let isSheduleFromButton = false;
 let isSetPointFromButton = false;
+//запуск функция с ajax запросами с периодичностью при необходимости
 let timerCheckOwm = setTimeout(sunsetSunriseMode, 10000);
 clearTimeout(timerCheckOwm);
 let timerCheckShedule = setTimeout(sheduleMode, 10000);
@@ -222,6 +223,7 @@ function changeSetPoint(){
     conditionerSetPointMode();
 }
 
+//функция отправляет значение уставки и получает состояние работы кондиционера
 function conditionerSetPointMode(){
     $.ajax({
         url: "writeConditionerSetPoint",
@@ -250,6 +252,7 @@ function conditionerSetPointMode(){
     })
 }
 
+//при включенном режиме уставки кондиционера функция периодически проверяет достигнута ли уставка
 function checkSetPointMode(){
     if (isConditionerSpModeOn == true){
         clearTimeout(timerCheckSetPoint);
@@ -259,10 +262,12 @@ function checkSetPointMode(){
     }
 }
 
+//при клике на ручной режим кондиционера
 function onClickConditionerHandMode(){
     isConditionerHandModeOn = true;
     isConditionerSpModeOn = false;
 }
+
 //функция меняет картинку включателя света в зависимости от его состояния
 function lightImgSwitcher(room, state){
     let lightSwitcher = document.getElementById("lightSwitcherRoom" + room);
@@ -730,7 +735,7 @@ function runConditioner() {
     }
 }
 
-
+//при наведении курсора на ручной режим света
 $("#light1handMode").hover(function () {
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeHand.png");
@@ -739,6 +744,7 @@ $("#light1handMode").hover(function () {
     img.setAttribute("src", imgLightModeRoom1);
 })
 
+//при клике на ручной режим света
 $("body").on("click", "#light1handMode", function () {
     let lightSwitcher = document.getElementById("lightSwitcherRoom1");
     lightSwitcher.removeAttribute("disabled");
@@ -748,6 +754,7 @@ $("body").on("click", "#light1handMode", function () {
     imgLightModeRoom1 = "static/images/lightModeHand.png";
     })
 
+//при наведении курсора на режим света по рассвету и закату
 $("#light1owmMode").hover(function () {
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeOWM.png");
@@ -756,6 +763,7 @@ $("#light1owmMode").hover(function () {
     img.setAttribute("src", imgLightModeRoom1);
 })
 
+//при клике на режим света по рассвету и закату
 $("body").on("click", "#light1owmMode", function () {
     let lightSwitcher = document.getElementById("lightSwitcherRoom1");
     lightSwitcher.setAttribute("disabled", "True");
@@ -765,6 +773,7 @@ $("body").on("click", "#light1owmMode", function () {
     imgLightModeRoom1 = "static/images/lightModeOWM.png";
     })
 
+//при наведении курсора на режим света по расписанию
 $("#light1sheduleMode").hover(function () {
     let img = document.getElementById("light1modeId");
     img.setAttribute("src", "static/images/lightModeShedule.png");
@@ -773,6 +782,7 @@ $("#light1sheduleMode").hover(function () {
     img.setAttribute("src", imgLightModeRoom1);
 })
 
+//при клике на режим света по расписанию
 $("body").on("click", "#light1sheduleMode", function () {
     let lightSwitcher = document.getElementById("lightSwitcherRoom1");
     lightSwitcher.setAttribute("disabled", "True");
@@ -1042,7 +1052,7 @@ $("body").on("click", "#light6sheduleMode", function () {
     imgLightModeRoom6 = "static/images/lightModeShedule.png";
     })
 
-
+//при наведении курсора на режим кондиционера ручной
 $("#conditHandMode").hover(function () {
     let img = document.getElementById("conditionerModeId");
     img.setAttribute("src", "static/images/conditionerHandMode.png");
@@ -1051,6 +1061,7 @@ $("#conditHandMode").hover(function () {
     img.setAttribute("src", imgConditionerMode);
 })
 
+//при клике на режим кондиционера ручной
 $("body").on("click", "#conditHandMode", function () {
     let conditionerSp = document.getElementById("tempSP");
     conditionerSp.setAttribute("disabled", "True");
@@ -1069,6 +1080,7 @@ $("body").on("click", "#conditHandMode", function () {
     imgConditionerMode = "static/images/conditionerHandMode.png";
     })
 
+//при наведении курсора на режим кондиционера уставка
 $("#conditSpMode").hover(function () {
     let img = document.getElementById("conditionerModeId");
     img.setAttribute("src", "static/images/conditionerSpMode.png");
@@ -1077,6 +1089,7 @@ $("#conditSpMode").hover(function () {
     img.setAttribute("src", imgConditionerMode);
 })
 
+//при клике на режим кондиционера уставка
 $("body").on("click", "#conditSpMode", function () {
     let conditionerSwitcher = document.getElementById("conditOn");
     conditionerSwitcher.setAttribute("src", "static/images/white_button.png");
@@ -1091,7 +1104,7 @@ $("body").on("click", "#conditSpMode", function () {
     })
 
 
-
+//при клике на режим света "по расписанию"
 $("body").on("click", ".lightSheduleModeClass", function () {
     let containerSheduleMode = document.getElementById("containerSheduleLightModeId");
     containerSheduleMode.setAttribute("class", "containerSheduleLightMode");
@@ -1106,6 +1119,7 @@ $("body").on("click", ".lightSheduleModeClass", function () {
     sheduleSubmitButton.setAttribute("class", "sheduleInput");
     })
 
+//при клике на любой режим света кроме "по расписанию"
 $("body").on("click", ".lightNotSheduleModeClass", function () {
     if ((isSheduleModeOnRoom1 == false) && (isSheduleModeOnRoom2 == false) && (isSheduleModeOnRoom3 == false) &&
         (isSheduleModeOnRoom4 == false) && (isSheduleModeOnRoom5 == false) && (isSheduleModeOnRoom6 == false)) {
@@ -1123,20 +1137,16 @@ $("body").on("click", ".lightNotSheduleModeClass", function () {
         }
     })
 
-/* функция добавления ведущих нулей */
-/* (если число меньше десяти, перед числом добавляем ноль) */
-function zero_first_format(value)
-{
-    if (value < 10)
-    {
+//функция добавляет нули перед числами в полученном значении текущего времени
+function zero_first_format(value){
+    if (value < 10){
         value='0'+value;
     }
     return value;
 }
 
-/* функция получения текущей даты и времени */
-function date_time()
-{
+//функция получает текущее время и форматирует полученные значения в удобный для нас формат
+function date_time(){
     var current_datetime = new Date();
     var day = zero_first_format(current_datetime.getDate());
     var month = zero_first_format(current_datetime.getMonth()+1);
@@ -1144,11 +1154,9 @@ function date_time()
     var hours = zero_first_format(current_datetime.getHours());
     var minutes = zero_first_format(current_datetime.getMinutes());
     var seconds = zero_first_format(current_datetime.getSeconds());
-
     return day+"."+month+"."+year+" "+hours+":"+minutes+":"+seconds;
 }
-/* каждую секунду получаем текущую дату и время */
-/* и вставляем значение в блок с id "current_date_time_block2" */
+//функция каждую секунду обновляет текущее время в окне браузера
 setInterval(function () {
     document.getElementById('current_date_time_block').innerHTML = date_time();
 }, 1000);

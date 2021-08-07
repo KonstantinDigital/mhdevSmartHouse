@@ -1,6 +1,6 @@
 {% load static %}
 body {
-    height: 135vh;
+    height: auto;
     background: linear-gradient(to bottom, DeepSkyBlue, DarkBlue);
 }
 
@@ -563,7 +563,6 @@ footer {
     color: PowderBlue;
 }
 
-/* подключаю дизайнерские шрифты */
 @font-face {
   font-family: "Accuratist";
   src: url("../fonts/Accuratist.ttf");
