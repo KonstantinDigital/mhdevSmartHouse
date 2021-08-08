@@ -66,7 +66,6 @@ class ModbusRegister(Thread):
             self.cmd_light5_on = False
             self.cmd_light6_on = False
             self.cmd_conditioner_on = False
-            self.cmd_music_on = False
 
     def run(self):
         self.master.set_timeout(0.3)
@@ -144,10 +143,6 @@ class ModbusRegister(Thread):
                 self.cmd_conditioner_on = False
             else:
                 self.cmd_conditioner_on = True
-            if mask_arr[8] == 0:
-                self.cmd_music_on = False
-            else:
-                self.cmd_music_on = True
 
     # метод очередности записи регисра
     def start_write_register(self):
@@ -177,8 +172,6 @@ class ModbusRegister(Thread):
                     write_mask += 32
                 if self.cmd_conditioner_on:
                     write_mask += 64
-                if self.cmd_music_on:
-                    write_mask += 128
                 self.master.execute(self.device, self.m_defines.WRITE_SINGLE_REGISTER, self.register,
                                     output_value=write_mask)
                 print("finish write register", write_mask)
@@ -186,16 +179,19 @@ class ModbusRegister(Thread):
                 print("Error def write_register: " + str(e))
             finally:
                 f = open(log_file, encoding="utf-8", mode="a")
-                f.write("".join("\n" + str(datetime.fromtimestamp(int(time.time()))) + " Свет в комнате 1: " +
-                                str(self.cmd_light1_on) + "; Свет в комнате 2: " + str(self.cmd_light2_on) +
-                                " Свет в комнате 3: " + str(self.cmd_light3_on) + "; Свет в комнате 4: " +
-                                str(self.cmd_light4_on)))
+                f.write("".join("\n" + str(datetime.fromtimestamp(int(time.time()))) + ": Свет в комнате 1 - " +
+                                str(self.cmd_light1_on) + "; Свет в комнате 2 - " + str(self.cmd_light2_on) +
+                                "; Свет в комнате 3 - " + str(self.cmd_light3_on) + "; Свет в комнате 4 - " +
+                                str(self.cmd_light4_on) + "; Свет в комнате 5 - " + str(self.cmd_light5_on) +
+                                "; Свет в комнате 6 - " + str(self.cmd_light6_on) + "; Кондиционер - " +
+                                str(self.cmd_conditioner_on)))
+                f.close()
                 modbus_master.in_queue -= 1
                 modbus_master.r_lock.release()
                 self.start_read_register()
 
 
-# запуск главного окна программы ребует авторизации
+# запуск главного окна программы требует авторизации
 @login_required(login_url="/login/")
 def index(request):
     if modbus_master.connect_modbus():
@@ -264,7 +260,7 @@ def state_mask_converting(mask, bit):
 # функция создает объекты (модбас регистры) в своих потоках
 def create_registers():
     global switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5, \
-        temperature6, music_volume
+        temperature6
     switches = ModbusRegister(0, "holding_registers")  # 512
     switches_state = ModbusRegister(1, "input_registers")  # 513
     temperature1 = ModbusRegister(2, "input_registers")  # 514
@@ -273,9 +269,8 @@ def create_registers():
     temperature4 = ModbusRegister(5, "input_registers")  # 517
     temperature5 = ModbusRegister(6, "input_registers")  # 518
     temperature6 = ModbusRegister(7, "input_registers")  # 519
-    music_volume = ModbusRegister(8, "input_registers")  # 520
     obj_lst = [switches, switches_state, temperature1, temperature2, temperature3, temperature4, temperature5,
-               temperature6, music_volume]
+               temperature6]
     for obj in obj_lst:
         obj.setDaemon(True)
         obj.start()
@@ -408,6 +403,13 @@ def sunset_sunrise_owm(request):
         light_on = False
     print("ОСВЕЩЕНИЕ: ", light_on)
 
+    f = open(log_file, encoding="utf-8", mode="a")
+    f.write("".join("\n" + str(datetime.fromtimestamp(int(time.time()))) + ": РАССВЕТ - " +
+                    str(sunrise_date_from_unix) + "; ЗАКАТ - " + str(sunset_date_from_unix) +
+                    "; СЕЙЧАС - " + str(now_date_from_unix) + "; ОСВЕЩЕНИЕ - " +
+                    str(light_on)))
+    f.close()
+
     if owm1mode == "true" and light_on:
         switches.cmd_light1_on = True
     elif owm1mode == "true" and not light_on:
@@ -492,6 +494,13 @@ def light_shedule_mode(request):
         light_on = False
     print("ОСВЕЩЕНИЕ: ", light_on)
 
+    f = open(log_file, encoding="utf-8", mode="a")
+    f.write("".join("\n" + str(datetime.fromtimestamp(int(time.time()))) + ": ВКЛЮЧИТЬ - " +
+                    str(time_to_light_on) + "; ВЫКЛЮЧИТЬ - " + str(time_to_light_off) +
+                    "; СЕЙЧАС - " + str(datetime.fromtimestamp(now_unix)) + "; ОСВЕЩЕНИЕ - " +
+                    str(light_on)))
+    f.close()
+
     if is_shedule_mode_room1 == "true" and light_on:
         switches.cmd_light1_on = True
     elif is_shedule_mode_room1 == "true" and not light_on:
@@ -548,6 +557,13 @@ def conditioner_sp_mode(request):
     switches.start_write_register()
     print("@@@@@", temperature_in_room3, temperature_in_room5, temperature_in_room6)
     print("@@@@@", temperature_average, temperature_set_point, switches.cmd_conditioner_on)
+    f = open(log_file, encoding="utf-8", mode="a")
+    f.write("".join("\n" + str(datetime.fromtimestamp(int(time.time()))) + ": Т комната 3 - " +
+                    str(temperature_in_room3) + "; Т комната 5 - " + str(temperature_in_room5) +
+                    "; Т комната 6 - " + str(temperature_in_room6) + "; Средняя Т - " +
+                    str(temperature_average) + "; Уставка - " + str(temperature_set_point) +
+                    "; Кондиционер - " + str(switches.cmd_conditioner_on)))
+    f.close()
     context = {
         "conditioner_state": switches.cmd_conditioner_on
     }
