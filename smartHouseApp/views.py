@@ -185,6 +185,11 @@ class ModbusRegister(Thread):
             except Exception as e:
                 print("Error def write_register: " + str(e))
             finally:
+                f = open(log_file, encoding="utf-8", mode="a")
+                f.write("".join("\n" + str(datetime.fromtimestamp(int(time.time()))) + " Свет в комнате 1: " +
+                                str(self.cmd_light1_on) + "; Свет в комнате 2: " + str(self.cmd_light2_on) +
+                                " Свет в комнате 3: " + str(self.cmd_light3_on) + "; Свет в комнате 4: " +
+                                str(self.cmd_light4_on)))
                 modbus_master.in_queue -= 1
                 modbus_master.r_lock.release()
                 self.start_read_register()
@@ -549,5 +554,6 @@ def conditioner_sp_mode(request):
     return JsonResponse(context)
 
 
+log_file = "C:\\smart_house_log.txt"
 # создаем подключение по модбас протоколу через интерфейс RS-485
 modbus_master = ModbusConnect()
