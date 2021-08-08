@@ -66,6 +66,7 @@ class ModbusRegister(Thread):
             self.cmd_light5_on = False
             self.cmd_light6_on = False
             self.cmd_conditioner_on = False
+            self.test_switch_on = False
 
     def run(self):
         self.master.set_timeout(0.3)
@@ -143,6 +144,10 @@ class ModbusRegister(Thread):
                 self.cmd_conditioner_on = False
             else:
                 self.cmd_conditioner_on = True
+            if mask_arr[8] == 0:
+                self.test_switch_on = False
+            else:
+                self.test_switch_on = True
 
     # метод очередности записи регисра
     def start_write_register(self):
@@ -174,7 +179,7 @@ class ModbusRegister(Thread):
                     write_mask += 64
                 self.master.execute(self.device, self.m_defines.WRITE_SINGLE_REGISTER, self.register,
                                     output_value=write_mask)
-                print("finish write register", write_mask)
+                print("finish write register")
             except Exception as e:
                 print("Error def write_register: " + str(e))
             finally:
