@@ -16,7 +16,7 @@ class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
-        self.com_number = 3
+        self.com_number = 4
         self.ser.port = "COM{}".format(self.com_number)
         self.ser.baudrate = 115200
         # инициализация переменных для очереди
