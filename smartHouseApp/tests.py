@@ -61,11 +61,11 @@ class ProjectTestCase(TestCase):
         test_write.setDaemon(True)
         test_write.start()
         test_write.reading_register()
-        test_write.test_switch_on = False
+        test_write.test_switch_on = True
         test_write.write_register()
         test_write.reading_register()
         data = test_write.test_switch_on
-        self.assertEqual(data, True)
+        self.assertTrue(data)
 
     def test_mask_converting(self):
         """Проверяем работу нашего конвертора битовых масок
