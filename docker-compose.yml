@@ -5,7 +5,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     privileged: true
     devices:
-      - "COM5:COM5"
+      - "COM4:COM4"
     environment:
       - TZ=Europe/Moscow
     restart: always
