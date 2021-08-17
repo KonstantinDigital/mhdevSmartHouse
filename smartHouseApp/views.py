@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 import serial
+import serial.tools.list_ports
 from threading import Thread, RLock, BoundedSemaphore
 from queue import Queue
 import modbus_tk.defines as mb_cst
@@ -16,7 +17,7 @@ class ModbusConnect:
     def __init__(self):
         # инициализация переменных для подключения modbus
         self.ser = serial.Serial(parity=serial.PARITY_NONE, stopbits=1, bytesize=8, timeout=1)
-        self.com_number = 4
+        self.com_number = 5
         self.ser.port = "COM{}".format(self.com_number)
         self.ser.baudrate = 115200
         # инициализация переменных для очереди
@@ -32,6 +33,9 @@ class ModbusConnect:
         try:
             # если порт не открыт, то подключаемся
             if not self.ser.is_open and self.attempt < 5:
+                ports = serial.tools.list_ports.comports(include_links=True)
+                for port in ports:
+                    print(port)
                 self.ser.open()
                 self.attempt = 0
                 return True

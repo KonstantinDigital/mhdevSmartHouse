@@ -104,3 +104,6 @@ OpenWeatherMap
 
 
 pip install django-crispy-forms
+
+docker build -t web-smart .
+docker run --rm --name web -p 8000:8000 web-smart
