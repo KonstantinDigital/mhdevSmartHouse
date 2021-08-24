@@ -26,6 +26,7 @@ services:
       - "/dev/ttyS1:/dev/ttyS1"
       - "/dev/ttyS2:/dev/ttyS2"
       - "/dev/ttyS3:/dev/ttyS3"
+      - "COM3:COM3"
     environment:
       - TZ=Europe/Moscow
     restart: always
